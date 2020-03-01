@@ -59,3 +59,78 @@ export interface ICompetitionsState {
     competitions: ICompetition[];
     competition: ICompetition
 }
+
+export interface IBirthSertificate {
+    id: number;
+    series: string;
+    number: string;
+    place_of_issue: string;
+    date_of_issue: Date
+}
+
+export interface ICircle {
+    id: number;
+    stage: number;
+    circle_num: number;
+    circle_name: string;
+    sportsman: number;
+    time_of_finish: Date;
+    points: number;
+    place: number;
+}
+
+export interface IPassport {
+    id: number;
+    series: string;
+    number: string;
+    place_of_issue: string;
+    organization_of_issue: string;
+    code_of_organization: string;
+    date_of_issue: Date;
+}
+
+export interface IPaymentParticipant {
+    id: number;
+    sportsman: number;
+    competition: number;
+    payment_amount: number;
+    payment_date: Date;
+    payment_type: string;
+}
+
+export interface IRegisteredSportsman {
+    id: number;
+    sportsman: number;
+    user: number;
+}
+
+export interface IResult {
+    id: number;
+    sportsman: number;
+    competition: number;
+    points: number;
+    place: number;
+}
+
+export interface ISportsman {
+    id: number;
+    name: string;
+    surname: string;
+    birthday: Date;
+    pass: number;
+    birth_sertificate: number;
+    rank: string;
+    team: string;
+    SI_chip: string;
+}
+
+export interface IStage {
+    id: number;
+    result: number;
+    stage_num: number;
+    stage_name: string;
+    distance: number;
+    sportsman: number;
+    points: number;
+    place: number;
+}

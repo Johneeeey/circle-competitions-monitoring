@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using circle_competitions_monitoring.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace circle_competitions
 {
@@ -20,6 +22,9 @@ namespace circle_competitions
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection= Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(connection));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the React files will be served from this directory
