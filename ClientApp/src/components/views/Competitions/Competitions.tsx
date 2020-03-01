@@ -4,7 +4,7 @@ class Competitions extends Component{
     render() {
         return (
             <div>
-                Соревнования
+                Соревнования!!!
             </div>
         )
     }
