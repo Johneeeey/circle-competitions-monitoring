@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace circle_competitions
+namespace circle_competitions_monitoring
 {
     public class Program
     {

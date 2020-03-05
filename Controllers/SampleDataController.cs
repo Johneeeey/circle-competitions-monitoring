@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using circle_competitions_monitoring.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace circle_competitions.Controllers {
+namespace circle_competitions_monitoring.Controllers {
     [Route ("api/[controller]")]
     public class SampleDataController : Controller {
         private static string[] Summaries = new [] {
