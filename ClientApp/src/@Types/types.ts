@@ -8,6 +8,12 @@ export interface IUser {
     role: number;
 }
 
+export interface IUserState{
+    user: IUser | null,
+    token: string,
+    isFetching: boolean
+}
+
 export interface IRole {
     id: number;
     name: string;

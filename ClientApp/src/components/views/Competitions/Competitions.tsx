@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { IUser } from '../../../@Types/types';
 
-class Competitions extends Component{
+interface CompetitionsProps {
+    user: IUser
+}
+
+class Competitions extends Component<CompetitionsProps, {}>{
     render() {
+        console.log(this.props.user)
         return (
             <div>
                 Соревнования!!!
@@ -10,4 +17,8 @@ class Competitions extends Component{
     }
 }
 
-export default Competitions;
+const mapStateToProps = (state: any) => {
+    return { user: state.user }
+}
+
+export default connect(mapStateToProps)(Competitions);

@@ -21,6 +21,13 @@ namespace circle_competitions_monitoring.Controllers
             this.db = context;
         }
 
+        [Authorize]
+        public User GetUser()
+        {
+            User user = db.Users.FirstOrDefault(u => u.id == int.Parse(User.Identity.Name));
+            return user;
+        }
+
         public async Task Authorize(string login, string password)
         {
             ClaimsIdentity identity = GetIdentity(login, password);

@@ -1,0 +1,23 @@
+.header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #d5edf2;
+    .account-controls {
+        float: right;
+        margin-right: 2%;
+        margin-top: 7px;
+    }
+    .btn {
+        height: 36px;
+        width: 80px;
+        background-color: #00d19d;
+        &:hover {
+            background-color: #00bf90;
+        }
+    }
+    .registrate {
+        margin-left: 5px;
+    }
+}
