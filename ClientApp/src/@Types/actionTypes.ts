@@ -27,10 +27,15 @@ export type CompetitionsActionTypes = GetCompetitionsAction
 /* USER */
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const RESPONSE_LOGIN = 'RESOPONSE_LOGIN';
+export const SET_ERROR_LOGIN = 'SET_ERROR_LOGIN';
 export const LOGOUT = 'LOGOUT';
 
 interface RequestLogin {
     type: typeof REQUEST_LOGIN
+}
+
+interface ErrorRequestLogin{
+    type: typeof SET_ERROR_LOGIN
 }
 
 interface ResponseLogin {
@@ -45,5 +50,6 @@ interface Logout{
 
 export type UserActionTypes =
     RequestLogin |
+    ErrorRequestLogin |
     ResponseLogin |
     Logout;

@@ -8,7 +8,6 @@ interface CompetitionsProps {
 
 class Competitions extends Component<CompetitionsProps, {}>{
     render() {
-        console.log(this.props.user)
         return (
             <div>
                 Соревнования!!!

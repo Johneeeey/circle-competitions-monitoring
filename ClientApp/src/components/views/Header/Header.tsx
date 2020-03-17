@@ -6,9 +6,10 @@ import { connect } from 'react-redux';
 import './Header.scss';
 
 interface headerProps {
-    user: IUser,
-    showLoginForm: boolean,
-    changeShowLoginFormStatus: ()=>void
+    user: IUser;
+    showLoginForm: boolean;
+    changeShowLoginFormStatus: () => void;
+    changeShowRegFormStatus: () => void;
 }
 
 class Header extends Component<headerProps, {}>{
@@ -22,9 +23,13 @@ class Header extends Component<headerProps, {}>{
                     <div className="account-controls">
                         <button className="btn login"
                             onClick={() => this.props.changeShowLoginFormStatus()}>
-                            Login
+                            Войти
                         </button>
-                        <button className="btn registrate">Registrate</button>
+                        <button
+                            className="btn registrate"
+                            onClick={()=>this.props.changeShowRegFormStatus()}>
+                            Зарегистрироваться
+                        </button>
                     </div>
                     : null
                 }

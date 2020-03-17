@@ -11,7 +11,8 @@ export interface IUser {
 export interface IUserState{
     user: IUser | null,
     token: string,
-    isFetching: boolean
+    isFetching: boolean,
+    loginError: boolean
 }
 
 export interface IRole {

@@ -1,28 +1,27 @@
-.login-container {
+.registrate-container {
     position: absolute;
     z-index: 99;
     width: 100%;
     height: 100%;
     background-color: rgba($color: #000000, $alpha: 0.18);
-    .login-form {
+    .registrate-form {
         box-sizing: border-box;
-        background-color: white;
+        background-color: #fff;
         border-radius: 4px;
         width: 100%;
         max-width: 400px;
-        height: 270px;
+        height: 500px;
         margin-left: 40%;
         margin-top: 150px;
         padding-top: 30px;
         .btn-close {
             float: right;
-            margin-top: -22.5px; //из-за паддинга login-form кнопка смещается. Это призвано, чтобы вернуть ее на место
+            margin-top: -22.5px;
             margin-right: 1.5%;
         }
-        .login-controls {
-            width: 100%;
+        .registrate-controls {
             box-sizing: border-box;
-            float: left;
+            width: 100%;
             p {
                 text-align: left;
                 padding-left: 5%;
@@ -32,16 +31,15 @@
                 width: 90%;
             }
         }
-        .login {
-            width: 90%;
-            height: 36px;
-            margin-top: 20px;
-            margin-left: 5%;
-            float: left;
-            background-color: #00d19d;
-            &:hover {
-                background-color: #00bf90;
-            }
+    }
+    .registrate {
+        width: 90%;
+        margin-left: 5px;
+        margin-top: 30px;
+        height: 36px;
+        background-color: #00d19d;
+        &:hover {
+            background-color: #00bf90;
         }
     }
 }
