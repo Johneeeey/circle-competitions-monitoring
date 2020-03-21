@@ -27,12 +27,12 @@ const setErrorLogin = () => ({
 export function loginUser(login: string, password: string) {
     return function (dispatch: Dispatch) {
         dispatch(requestLogin());
-        return fetch('/Account/Authorize', {
+        return fetch(`/Account/Authorize?login=${login}&password=${password}`, {
             method: 'POST',
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
             },
-            body: JSON.stringify({ login, password })
         })
             .then(response => response.json())
             .then(data => dispatch(responseLogin(data.User, data.access_token)))

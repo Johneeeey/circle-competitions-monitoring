@@ -9,10 +9,10 @@ namespace circle_competitions_monitoring.Models {
         public DbSet<Payment_Participant> Payment_Participants { get; set; }
         public DbSet<Registered_Sportsman> Registered_Sportsmen { get; set; }
         public DbSet<Result> Results { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<Role> Role { get; set; }
         public DbSet<Sportsman> Sportsmen { get; set; }
         public DbSet<Stage> Stages { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
 
         public DataContext (DbContextOptions<DataContext> options) : base (options) { }
     }
