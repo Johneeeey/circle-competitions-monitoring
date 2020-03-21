@@ -4,54 +4,45 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using circle_competitions_monitoring.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using circle_competitions_monitoring.Models;
 
-namespace circle_competitions_monitoring.Controllers
-{
-    public class AccountController : Controller
-    {
+namespace circle_competitions_monitoring.Controllers {
+    public class AccountController : Controller {
         private DataContext db;
-        public AccountController(DataContext context)
-        {
+        public AccountController (DataContext context) {
             this.db = context;
         }
 
         [Authorize]
-        public User GetUser()
-        {
-            User user = db.Users.FirstOrDefault(u => u.id == int.Parse(User.Identity.Name));
+        public User GetUser () {
+            User user = db.User.FirstOrDefault (u => u.id == int.Parse (User.Identity.Name));
             return user;
         }
 
         [HttpPost]
-        public async Task Authorize(string login, string password)
-        {
-            ClaimsIdentity identity = GetIdentity(login, password);
-            if (identity == null)
-            {
+        public async Task Authorize (string login, string password) {
+            ClaimsIdentity identity = GetIdentity (login, password);
+            if (identity == null) {
                 Response.StatusCode = 404;
                 return;
-            }
-            else
-            {
+            } else {
                 DateTime now = DateTime.UtcNow;
-                JwtSecurityToken jwt = new JwtSecurityToken(
+                JwtSecurityToken jwt = new JwtSecurityToken (
                     issuer: AuthOptions.ISSUER,
                     audience: AuthOptions.AUDIENCE,
                     notBefore: now,
                     claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                var response = new
-                {
+                    expires: now.Add (TimeSpan.FromMinutes (AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials (AuthOptions.GetSymmetricSecurityKey (), SecurityAlgorithms.HmacSha256));
+                var encodedJwt = new JwtSecurityTokenHandler ().WriteToken (jwt);
+                var response = new {
                     access_token = encodedJwt,
-                    User = db.Users.FirstOrDefault(u => u.id == Convert.ToInt32(identity.Name))
+                    User = db.User.FirstOrDefault (u => u.id == Convert.ToInt32 (identity.Name))
                     // User = new User
                     // {
                     //     login = login,
@@ -64,46 +55,42 @@ namespace circle_competitions_monitoring.Controllers
                     // }
                 };
                 Response.ContentType = "application/json";
-                await Response.WriteAsync(
-                    JsonConvert.SerializeObject(
+                await Response.WriteAsync (
+                    JsonConvert.SerializeObject (
                         response,
-                        new JsonSerializerSettings
-                        {
+                        new JsonSerializerSettings {
                             Formatting = Formatting.Indented
                         })
-                    );
+                );
             }
         }
 
         [HttpPost]
-        public async Task Registrate([FromBody] User user)
-        {
-            db.Users.Add(user);
-            db.SaveChanges();
-            var identity = NewIdentity(user);
+        public async Task Registrate ([FromBody] User user) {
+            db.User.Add (user);
+            db.SaveChanges ();
+            var identity = NewIdentity (user);
             var now = DateTime.Now;
-            var jwt = new JwtSecurityToken(
+            var jwt = new JwtSecurityToken (
                 issuer: AuthOptions.ISSUER,
                 audience: AuthOptions.AUDIENCE,
                 notBefore: now,
                 claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
+                expires: now.Add (TimeSpan.FromMinutes (AuthOptions.LIFETIME)),
+                signingCredentials: new SigningCredentials (AuthOptions.GetSymmetricSecurityKey (), SecurityAlgorithms.HmacSha256)
             );
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            var response = new
-            {
+            var encodedJwt = new JwtSecurityTokenHandler ().WriteToken (jwt);
+            var response = new {
                 access_token = encodedJwt,
                 user = user
             };
             Response.ContentType = "application/json";
-            await Response.WriteAsync(
-                JsonConvert.SerializeObject(response,
-                new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            await Response.WriteAsync (
+                JsonConvert.SerializeObject (response,
+                    new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
-        private ClaimsIdentity GetIdentity(string login, string password)
-        {
-            User user = db.Users.FirstOrDefault(u => u.login == login && u.password == password);
+        private ClaimsIdentity GetIdentity (string login, string password) {
+            User user = db.User.FirstOrDefault (u => u.login == login && u.password == password);
             // User user = new User
             // {
             //     login = login,
@@ -116,21 +103,19 @@ namespace circle_competitions_monitoring.Controllers
             // };
             if (user == null)
                 return null;
-            else
-            {
-                Role role = db.Roles.FirstOrDefault(r => r.id == user.role);
+            else {
+                Role role = db.Role.FirstOrDefault (r => r.id == user.role);
                 // Role role = new Role
                 // {
                 //     id = 1,
                 //     name = "Admin"
                 // };
-                var Claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.id.ToString())
+                var Claims = new List<Claim> {
+                    new Claim (ClaimsIdentity.DefaultNameClaimType, user.id.ToString ())
                 };
-                Claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, role.name));
+                Claims.Add (new Claim (ClaimsIdentity.DefaultRoleClaimType, role.name));
                 ClaimsIdentity claimsIdentity =
-                    new ClaimsIdentity(
+                    new ClaimsIdentity (
                         Claims,
                         "Token",
                         ClaimsIdentity.DefaultNameClaimType,
@@ -139,14 +124,13 @@ namespace circle_competitions_monitoring.Controllers
                 return claimsIdentity;
             }
         }
-        private ClaimsIdentity NewIdentity(User user)
-        {
-            var Claims = new List<Claim>{
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.id.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, 2.ToString())
+        private ClaimsIdentity NewIdentity (User user) {
+            var Claims = new List<Claim> {
+                new Claim (ClaimsIdentity.DefaultNameClaimType, user.id.ToString ()),
+                new Claim (ClaimsIdentity.DefaultRoleClaimType, 2. ToString ())
             };
             ClaimsIdentity claimsIdentity =
-            new ClaimsIdentity(Claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                new ClaimsIdentity (Claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             return claimsIdentity;
         }
     }
