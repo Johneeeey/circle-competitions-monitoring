@@ -19,6 +19,7 @@ namespace circle_competitions_monitoring.Controllers {
         }
 
         [Authorize]
+        [HttpPost]
         public User GetUser () {
             User user = db.User.FirstOrDefault (u => u.id == int.Parse (User.Identity.Name));
             return user;

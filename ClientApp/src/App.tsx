@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Dispatch } from 'redux';
 import logo from './logo.svg';
 import './App.css';
 import { connect, ConnectedProps } from 'react-redux';
 import { Redirect, Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { getUserByToken } from './actions/UserActions';
 
-
+import Loader from './components/widgets/Loader/Loader';
 import Competitions from './components/views/Competitions/Competitions'
 import Header from './components/views/Header/Header';
 import Login from './components/views/Login/Login';
@@ -17,19 +19,36 @@ interface appComponentState {
   showLoginForm: boolean;
   showRegForm: boolean;
 }
+interface appComponentProps {
+  isUserFetching: boolean;
+  isCompetitionFetching: boolean;
+  getUserByToken: () => void;
+}
 
-class App extends Component<{}, appComponentState> {
-  constructor(props: any) {
+class App extends Component<appComponentProps, appComponentState> {
+  constructor(props: appComponentProps) {
     super(props);
     this.state = {
       showLoginForm: false,
       showRegForm: false
     }
   }
+  componentDidMount() {
+    if (localStorage.getItem('access_token')) {
+      this.props.getUserByToken();
+    }
+  }
+  
   render() {
     return (
       <Router>
         <div className="App">
+          {
+            this.props.isCompetitionFetching
+              || this.props.isUserFetching ?
+              <Loader />
+              : null
+          }
           <Header
             showLoginForm={this.state.showLoginForm}
             changeShowLoginFormStatus={() => this.setState({ showLoginForm: true })}
@@ -59,4 +78,13 @@ class App extends Component<{}, appComponentState> {
   }
 }
 
-export default App;
+const mapStateToProps = (state: any) => ({
+  isUserFetching: state.user.isFetching,
+  isCompetitionFetching: state.competition.isFetching
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  getUserByToken: () => dispatch(getUserByToken() as any)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

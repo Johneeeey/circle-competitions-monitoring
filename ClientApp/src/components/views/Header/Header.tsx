@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { IUser } from '../../../@Types/types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { logout } from '../../../actions/UserActions';
 
 
 import './Header.scss';
@@ -10,6 +12,7 @@ interface headerProps {
     showLoginForm: boolean;
     changeShowLoginFormStatus: () => void;
     changeShowRegFormStatus: () => void;
+    logout: () => void;
 }
 
 class Header extends Component<headerProps, {}>{
@@ -27,11 +30,15 @@ class Header extends Component<headerProps, {}>{
                         </button>
                         <button
                             className="btn registrate"
-                            onClick={()=>this.props.changeShowRegFormStatus()}>
+                            onClick={() => this.props.changeShowRegFormStatus()}>
                             Зарегистрироваться
                         </button>
                     </div>
-                    : null
+                    :
+                    <button className="btn logout"
+                        onClick={() => this.props.logout()}>
+                        Выйти
+                    </button>
                 }
             </div>
         )
@@ -42,4 +49,8 @@ const mapStateToProps = (state: any) => {
     return { user: state.user.user }
 }
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    logout: () => dispatch(logout())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
