@@ -1,3 +1,7 @@
+*{
+  outline: 0;
+  box-shadow: 0;
+}
 .App {
   text-align: center;
 }
