@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { logout } from '../../../actions/UserActions';
 
+import Navbar from './Navbar/index';
 
 import './Header.scss';
 
@@ -22,24 +23,27 @@ class Header extends Component<headerProps, {}>{
     render() {
         return (
             <div className='header'>
-                {!this.props.user ?
-                    <div className="account-controls">
-                        <button className="btn login"
-                            onClick={() => this.props.changeShowLoginFormStatus()}>
-                            Войти
+                <Navbar />
+                <div className="account-controls">
+                    {!this.props.user ?
+                        <div>
+                            <button className="btn login"
+                                onClick={() => this.props.changeShowLoginFormStatus()}>
+                                Войти
+                            </button>
+                            <button
+                                className="btn registrate"
+                                onClick={() => this.props.changeShowRegFormStatus()}>
+                                Зарегистрироваться
+                            </button>
+                        </div>
+                        :
+                        <button className="btn logout"
+                            onClick={() => this.props.logout()}>
+                            Выйти
                         </button>
-                        <button
-                            className="btn registrate"
-                            onClick={() => this.props.changeShowRegFormStatus()}>
-                            Зарегистрироваться
-                        </button>
-                    </div>
-                    :
-                    <button className="btn logout"
-                        onClick={() => this.props.logout()}>
-                        Выйти
-                    </button>
-                }
+                    }
+                </div>
             </div>
         )
     }

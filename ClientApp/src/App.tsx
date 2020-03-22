@@ -6,10 +6,11 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Redirect, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { getUserByToken } from './actions/UserActions';
 
-import Loader from './components/widgets/Loader/Loader';
-import Competitions from './components/views/Competitions/Competitions'
-import Header from './components/views/Header/Header';
-import Login from './components/views/Login/Login';
+import Loader from './components/widgets/Loader';
+import Competitions from './components/views/Competitions';
+import Results from './components/views/Results';
+import Header from './components/views/Header';
+import Login from './components/views/Login';
 import Registrate from './components/views/Registrate';
 
 import './styles/_buttons.scss';
@@ -38,7 +39,7 @@ class App extends Component<appComponentProps, appComponentState> {
       this.props.getUserByToken();
     }
   }
-  
+
   render() {
     return (
       <Router>
@@ -69,6 +70,11 @@ class App extends Component<appComponentProps, appComponentState> {
                 exact
                 path="/"
                 component={Competitions}
+              />
+              <Route
+                exact
+                path="/results"
+                component={Results}
               />
             </Switch>
           </main>

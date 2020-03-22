@@ -8,25 +8,22 @@
         float: right;
         margin-right: 1%;
         margin-top: 7px;
-    }
-    .btn {
-        height: 36px;
-        background-color: #00d19d;
-        &:hover {
-            background-color: #00bf90;
+        .btn {
+            height: 36px;
+            background-color: #00d19d;
+            &:hover {
+                background-color: #00bf90;
+            }
         }
-    }
-    .login {
-        width: 80px;
-    }
-    .registrate {
-        width: 150px;
-        margin-left: 5px;
-    }
-    .logout {
-        width: 80px;
-        float: right;
-        margin-right: 1%;
-        margin-top: 7px;
+        .login {
+            width: 80px;
+        }
+        .registrate {
+            width: 150px;
+            margin-left: 5px;
+        }
+        .logout {
+            width: 80px;
+        }
     }
 }
