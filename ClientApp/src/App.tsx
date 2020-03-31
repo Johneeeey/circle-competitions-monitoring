@@ -15,6 +15,7 @@ import Registrate from './components/views/Registrate';
 
 import './styles/_buttons.scss';
 import './styles/_style.scss';
+import { IUser } from './@Types/types';
 
 interface appComponentState {
   showLoginForm: boolean;
@@ -23,6 +24,7 @@ interface appComponentState {
 interface appComponentProps {
   isUserFetching: boolean;
   isCompetitionFetching: boolean;
+  user: IUser;
   getUserByToken: () => void;
 }
 
@@ -45,8 +47,8 @@ class App extends Component<appComponentProps, appComponentState> {
       <Router>
         <div className="App">
           {
-            this.props.isCompetitionFetching
-              || this.props.isUserFetching ?
+            (this.props.isCompetitionFetching
+              || this.props.isUserFetching) && !this.props.user ?
               <Loader />
               : null
           }
@@ -86,7 +88,8 @@ class App extends Component<appComponentProps, appComponentState> {
 
 const mapStateToProps = (state: any) => ({
   isUserFetching: state.user.isFetching,
-  isCompetitionFetching: state.competition.isFetching
+  isCompetitionFetching: state.competition.isFetching,
+  user: state.user.user
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
