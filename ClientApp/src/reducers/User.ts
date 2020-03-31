@@ -4,7 +4,6 @@ import { IUserState } from '../@Types/types';
 export const UserState: IUserState = {
     isFetching: false,
     user: null,
-    token: "",
     loginError: false
 };
 
@@ -21,7 +20,6 @@ export function UserReducer(state = UserState, action: UserActionTypes): IUserSt
         case RESPONSE_LOGIN:
             return Object.assign({}, state, {
                 user: action.user,
-                token: action.token,
                 isFetching: false,
                 loginError: false
             });

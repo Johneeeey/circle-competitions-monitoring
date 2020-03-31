@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { IUser } from '../../../@Types/types';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { logout } from '../../../actions/UserActions';
 
+import Navbar from './Navbar/index';
 
 import './Header.scss';
 
@@ -10,6 +13,7 @@ interface headerProps {
     showLoginForm: boolean;
     changeShowLoginFormStatus: () => void;
     changeShowRegFormStatus: () => void;
+    logout: () => void;
 }
 
 class Header extends Component<headerProps, {}>{
@@ -19,20 +23,27 @@ class Header extends Component<headerProps, {}>{
     render() {
         return (
             <div className='header'>
-                {!this.props.user ?
-                    <div className="account-controls">
-                        <button className="btn login"
-                            onClick={() => this.props.changeShowLoginFormStatus()}>
-                            Войти
+                <Navbar />
+                <div className="account-controls">
+                    {!this.props.user ?
+                        <div>
+                            <button className="btn login"
+                                onClick={() => this.props.changeShowLoginFormStatus()}>
+                                Войти
+                            </button>
+                            <button
+                                className="btn registrate"
+                                onClick={() => this.props.changeShowRegFormStatus()}>
+                                Зарегистрироваться
+                            </button>
+                        </div>
+                        :
+                        <button className="btn logout"
+                            onClick={() => this.props.logout()}>
+                            Выйти
                         </button>
-                        <button
-                            className="btn registrate"
-                            onClick={()=>this.props.changeShowRegFormStatus()}>
-                            Зарегистрироваться
-                        </button>
-                    </div>
-                    : null
-                }
+                    }
+                </div>
             </div>
         )
     }
@@ -42,4 +53,8 @@ const mapStateToProps = (state: any) => {
     return { user: state.user.user }
 }
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    logout: () => dispatch(logout())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

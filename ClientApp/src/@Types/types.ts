@@ -10,7 +10,6 @@ export interface IUser {
 
 export interface IUserState{
     user: IUser | null,
-    token: string,
     isFetching: boolean,
     loginError: boolean
 }

@@ -37,6 +37,7 @@ class Login extends Component<loginProps, loginState>{
 
     login() {
         this.props.login(this.state.login, this.state.password);
+        this.props.close();
     }
 
     render() {
