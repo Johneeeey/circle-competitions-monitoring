@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IUser } from '../../../@Types/types';
 
+import Filter from '../Filter';
+
 interface CompetitionsProps {
     user: IUser
 }
@@ -9,7 +11,8 @@ interface CompetitionsProps {
 class Competitions extends Component<CompetitionsProps, {}>{
     render() {
         return (
-            <div>
+            <div className="competitions-container">
+                <Filter />
                 Соревнования!!!
             </div>
         )

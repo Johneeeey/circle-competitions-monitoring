@@ -5,6 +5,7 @@ import './App.css';
 import { connect, ConnectedProps } from 'react-redux';
 import { Redirect, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { getUserByToken } from './actions/UserActions';
+import { GetCompetitionTypes } from './actions/FilterActions';
 
 import Loader from './components/widgets/Loader';
 import Competitions from './components/views/Competitions';
@@ -22,8 +23,11 @@ interface appComponentState {
 }
 interface appComponentProps {
   isUserFetching: boolean;
+  selectedType: number;
   isCompetitionFetching: boolean;
+  areTypesFetching: boolean;
   getUserByToken: () => void;
+  getCompetitionTypes: () => void;
 }
 
 class App extends Component<appComponentProps, appComponentState> {
@@ -35,18 +39,22 @@ class App extends Component<appComponentProps, appComponentState> {
     }
   }
   componentDidMount() {
+    this.props.getCompetitionTypes();
     if (localStorage.getItem('access_token')) {
       this.props.getUserByToken();
     }
   }
 
   render() {
+    console.log(this.props.selectedType);
+    
     return (
       <Router>
         <div className="App">
           {
             this.props.isCompetitionFetching
-              || this.props.isUserFetching ?
+              || this.props.isUserFetching
+              || this.props.areTypesFetching ?
               <Loader />
               : null
           }
@@ -86,11 +94,14 @@ class App extends Component<appComponentProps, appComponentState> {
 
 const mapStateToProps = (state: any) => ({
   isUserFetching: state.user.isFetching,
-  isCompetitionFetching: state.competition.isFetching
+  selectedType: state.filter.selectedType,
+  isCompetitionFetching: state.competition.isFetching,
+  areTypesFetching: state.filter.isFetching
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  getUserByToken: () => dispatch(getUserByToken() as any)
+  getUserByToken: () => dispatch(getUserByToken() as any),
+  getCompetitionTypes: () => dispatch(GetCompetitionTypes() as any)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

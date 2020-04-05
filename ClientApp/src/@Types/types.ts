@@ -140,3 +140,10 @@ export interface IStage {
     points: number;
     place: number;
 }
+
+export interface IFilterState{
+    isFetching: boolean;
+    types: ICompetitionType[];
+    search: string;
+    selectedType: number | null;
+}
