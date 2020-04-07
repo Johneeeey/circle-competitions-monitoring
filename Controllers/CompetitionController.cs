@@ -26,5 +26,9 @@ namespace circle_competitions_monitoring.Controllers
         {
             return db.Competition_Type.ToList();
         }
+        public List<Competition> GetCompetitions()
+        {
+            return db.Competition.ToList();
+        }
     }
 }

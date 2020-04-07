@@ -3,24 +3,27 @@
     height: 100%;
     width: 50%;
     margin-left: 1%;
+    padding: 0 !important;
     background-color: transparent;
     a:nth-child(odd) {
-        .btn {
+        .nav-btn {
             border-right: 1px solid black;
             border-left: 1px solid black;
         }
     }
     a:nth-child(even) {
-        .btn {
+        margin-right: auto;
+        .nav-btn {
             border-right: 1px solid black;
         }
     }
-    .btn {
+    .nav-btn {
         background-color: transparent !important;
         float: left;
-        height: 100% !important;
+        height: 50px !important;
         width: 20%;
         min-width: 150px;
+        border: none;
         border-radius: 0 !important;
         transform: skew(-25deg, 0);
         font-size: 16px !important;

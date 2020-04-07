@@ -1,0 +1,15 @@
+.competitions-list{
+    width: 70%;
+    height: 500px;
+    float: left;
+    margin-top: 10px;
+    table{
+        width: 100%;
+        thead{
+            height: 40px;
+            tr,td{
+                height: 40px;
+            }
+        }
+    }
+}

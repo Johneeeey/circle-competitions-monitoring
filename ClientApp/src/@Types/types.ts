@@ -63,7 +63,6 @@ export interface ICompetitionType {
 export interface ICompetitionsState {
     isFetching: boolean;
     competitions: ICompetition[];
-    competition: ICompetition
 }
 
 export interface IBirthSertificate {

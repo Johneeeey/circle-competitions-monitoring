@@ -3,8 +3,7 @@ import { ICompetition, Competition, ICompetitionsState } from '../@Types/types';
 
 export const CompetitionState: ICompetitionsState = {
     isFetching: false,
-    competitions: [],
-    competition: new Competition()
+    competitions: []
 };
 
 export function CompetitionReducer(state=CompetitionState, action: CompetitionsActionTypes): ICompetitionsState{
