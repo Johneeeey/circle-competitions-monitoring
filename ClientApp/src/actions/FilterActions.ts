@@ -48,7 +48,10 @@ export function GetCompetitionTypes() {
             }
         })
             .then(res => res.json())
-            .then((types: ICompetitionType[]) => dispatch(receiveTypes(types)))
+            .then((types: ICompetitionType[]) => {
+                types.unshift({ id: 0, name: 'Все' });
+                dispatch(receiveTypes(types))
+            })
             .catch(err => console.log(err));
     }
 }

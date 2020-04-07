@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { IUser, ICompetition, ICompetitionsState } from '../../../@Types/types';
+import { IUser, ICompetition, ICompetitionsState, ICompetitionType } from '../../../@Types/types';
 
 import Filter from '../Filter';
 import CompetitionsList from './CompetitionsList';
@@ -8,6 +8,7 @@ import CompetitionsList from './CompetitionsList';
 interface CompetitionsProps {
     user: IUser;
     competitions: ICompetition[];
+    competitionTypes: ICompetitionType[];
     selectedCompetitions: ICompetition
 }
 interface CompetitionsState {
@@ -26,7 +27,9 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
             <div className="competitions-container">
                 <Filter />
                 <CompetitionsList
+                    user={this.props.user}
                     competitions={this.props.competitions}
+                    competitionTypes={this.props.competitionTypes}
                     selectedCompetitionId={this.state.selectedCompetition} />
             </div>
         )
@@ -34,8 +37,9 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
 }
 
 const mapStateToProps = (state: any) => ({
-    user: state.user,
-    competitions: state.competition.competitions
+    user: state.user.user,
+    competitions: state.competition.competitions,
+    competitionTypes: state.filter.types
 })
 
 export default connect(mapStateToProps)(Competitions);

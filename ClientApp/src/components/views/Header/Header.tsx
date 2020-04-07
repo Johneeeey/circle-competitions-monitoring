@@ -39,7 +39,11 @@ class Header extends Component<headerProps, {}>{
                         </div>
                         :
                         <button className="btn logout"
-                            onClick={() => this.props.logout()}>
+                            onClick={() => {
+                                if (window.confirm("Вы уверены?")) {
+                                    this.props.logout()
+                                }
+                            }}>
                             Выйти
                         </button>
                     }
