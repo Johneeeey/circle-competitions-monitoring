@@ -27,11 +27,7 @@ interface appComponentProps {
   isUserFetching: boolean;
   selectedType: number;
   isCompetitionFetching: boolean;
-<<<<<<< HEAD
-  user: IUser;
-=======
   areTypesFetching: boolean;
->>>>>>> develop
   getUserByToken: () => void;
   getCompetitionTypes: () => void;
   getCompetitions: () => void;
@@ -58,14 +54,9 @@ class App extends Component<appComponentProps, appComponentState> {
       <Router>
         <div className="App">
           {
-<<<<<<< HEAD
-            (this.props.isCompetitionFetching
-              || this.props.isUserFetching) && !this.props.user ?
-=======
             this.props.isCompetitionFetching
               || this.props.isUserFetching
               || this.props.areTypesFetching ?
->>>>>>> develop
               <Loader />
               : null
           }
@@ -105,14 +96,9 @@ class App extends Component<appComponentProps, appComponentState> {
 
 const mapStateToProps = (state: any) => ({
   isUserFetching: state.user.isFetching,
-<<<<<<< HEAD
-  isCompetitionFetching: state.competition.isFetching,
-  user: state.user.user
-=======
   selectedType: state.filter.selectedType,
   isCompetitionFetching: state.competition.isFetching,
   areTypesFetching: state.filter.isFetching
->>>>>>> develop
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
