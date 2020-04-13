@@ -27,7 +27,7 @@ class Registrate extends Component<registrateProps, registrateState>{
                 e_mail: "",
                 login: "",
                 password: "",
-                role: 2
+                role: 1
             },
             isFormValid: false,
             isSecondPasswordCorrect: true
