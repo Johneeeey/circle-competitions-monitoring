@@ -3,8 +3,8 @@ import { IUser } from '../../../@Types/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { logout } from '../../../actions/UserActions';
-
-import Navbar from './Navbar/index';
+import { Link } from "react-router-dom";
+import { Navbar, Nav } from 'react-bootstrap';
 
 import './Header.scss';
 
@@ -22,29 +22,43 @@ class Header extends Component<headerProps, {}>{
     }
     render() {
         return (
-            <div className='header'>
-                <Navbar />
-                <div className="account-controls">
-                    {!this.props.user ?
-                        <div>
-                            <button className="btn login"
-                                onClick={() => this.props.changeShowLoginFormStatus()}>
-                                Войти
-                            </button>
+            <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Link to="/"
+                            className="nav-link">Соревнования</Link>
+                        <Link to="/results"
+                            className="nav-link">Результаты</Link>
+                    </Nav>
+                    <Nav>
+                        {!this.props.user ?
+                            <div>
+                                <button
+                                    className="btn"
+                                    onClick={() => this.props.changeShowLoginFormStatus()}>
+                                    Войти
+                                </button>
+                                <button
+                                    className="btn"
+                                    onClick={() => this.props.changeShowRegFormStatus()}>
+                                    Зарегистрироваться
+                                </button>
+                            </div>
+                            :
                             <button
-                                className="btn registrate"
-                                onClick={() => this.props.changeShowRegFormStatus()}>
-                                Зарегистрироваться
+                                className="btn"
+                                onClick={() => {
+                                    if (window.confirm("Вы уверены?")) {
+                                        this.props.logout()
+                                    }
+                                }}>
+                                Выйти
                             </button>
-                        </div>
-                        :
-                        <button className="btn logout"
-                            onClick={() => this.props.logout()}>
-                            Выйти
-                        </button>
-                    }
-                </div>
-            </div>
+                        }
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
         )
     }
 }

@@ -19,16 +19,15 @@ function receiveCompetitions(competitions: ICompetition) {
     };
 }
 
-export function fetchCompetitions(token: string) {
+export function fetchCompetitions() {
     return function (dispatch: Dispatch) {
         dispatch(requestCompetitions());
         return (async () => {
-            const GetCompetitionsRequest = await fetch('', {
+            const GetCompetitionsRequest = await fetch('/Competition/GetCompetitions', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Content-Type': 'application/json'
                 }
             });
             const response = await GetCompetitionsRequest.json();

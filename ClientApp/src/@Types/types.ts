@@ -21,6 +21,7 @@ export interface IRole {
 
 export interface ICompetition {
     id: number;
+    title: string;
     date_of_start: Date;
     date_of_end: Date;
     type: number;
@@ -39,6 +40,7 @@ export interface ICompetition {
 
 export class Competition implements ICompetition {
     id = 0;
+    title = "";
     date_of_start = new Date();
     date_of_end = new Date();
     type = 0;
@@ -63,7 +65,6 @@ export interface ICompetitionType {
 export interface ICompetitionsState {
     isFetching: boolean;
     competitions: ICompetition[];
-    competition: ICompetition
 }
 
 export interface IBirthSertificate {
@@ -139,4 +140,11 @@ export interface IStage {
     sportsman: number;
     points: number;
     place: number;
+}
+
+export interface IFilterState{
+    isFetching: boolean;
+    types: ICompetitionType[];
+    search: string;
+    selectedType: number | null;
 }

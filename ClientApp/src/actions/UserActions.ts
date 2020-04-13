@@ -47,6 +47,7 @@ export function getUserByToken() {
             .catch(error => {
                 console.log(error);
                 localStorage.removeItem('access_token');
+                dispatch(setErrorLogin());
             })
     }
 }
