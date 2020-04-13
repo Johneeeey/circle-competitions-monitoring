@@ -10,32 +10,21 @@
     .type-filter{
         font-family: 'Arial';
         font-size: 18px;
-        margin-left: 10px;
         label{
             margin-top:10px;
             height: 20px;
         }
         .type-select{
-            margin-left: 6px;
-            margin-top: 5px;
             height: 30px;
-            border: 1px solid #d5edf2;
-            border-radius: 4px;
-            color: rgba($color: #000000, $alpha: 0.75)
+            width: 200px;
+            margin-left: 5px;
         }
     }
     .search-block{
         margin-left: 6px;
         input{
-            height: 29px;
+            height: 30px;
             width: 100%;
-            max-width: 200px;
-            border: 1px solid #d5edf2;
-            border-radius: 4px;
-            padding-top: 0;
-            padding-bottom: 0;
-            padding-left: 10px;
-            font-size: 14px;
         }
     }
 }

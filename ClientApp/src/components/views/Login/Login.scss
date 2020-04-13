@@ -3,6 +3,7 @@
     z-index: 99;
     width: 100%;
     height: 100%;
+    top: 0;
     background-color: rgba($color: #000000, $alpha: 0.18);
     .login-form {
         box-sizing: border-box;
@@ -10,7 +11,7 @@
         border-radius: 4px;
         width: 100%;
         max-width: 400px;
-        height: 270px;
+        height: 220px;
         margin-left: 40%;
         margin-top: 150px;
         padding-top: 30px;
@@ -26,10 +27,14 @@
             p {
                 text-align: left;
                 padding-left: 5%;
-                margin-bottom: 2px;
+                margin-top: 5px;
+                margin-bottom: 0px;
             }
             .inp-base {
+                margin-top:0px;
+                margin-left: 5%;
                 width: 90%;
+                height: 30px;
             }
         }
         .login {

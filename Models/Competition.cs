@@ -2,6 +2,7 @@ using System;
 namespace circle_competitions_monitoring.Models {
     public class Competition {
         public int id { get; set; }
+        public string title { get; set; }
         public DateTime date_of_start { get; set; }
         public DateTime date_of_end { get; set; }
         public byte type { get; set; }

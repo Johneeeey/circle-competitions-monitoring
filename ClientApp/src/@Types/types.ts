@@ -21,6 +21,7 @@ export interface IRole {
 
 export interface ICompetition {
     id: number;
+    title: string;
     date_of_start: Date;
     date_of_end: Date;
     type: number;
@@ -39,6 +40,7 @@ export interface ICompetition {
 
 export class Competition implements ICompetition {
     id = 0;
+    title = "";
     date_of_start = new Date();
     date_of_end = new Date();
     type = 0;

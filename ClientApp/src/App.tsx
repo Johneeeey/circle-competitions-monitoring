@@ -73,7 +73,7 @@ class App extends Component<appComponentProps, appComponentState> {
               close={() => this.setState({ showRegForm: false })} />
             : null
           }
-          <main>
+          <main className="container">
             <Switch>
               <Route
                 exact

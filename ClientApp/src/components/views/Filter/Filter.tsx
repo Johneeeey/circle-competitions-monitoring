@@ -40,7 +40,7 @@ class Filter extends Component<FilterProps> {
                 <div className="type-filter">
                     <label htmlFor="type-select">Тип</label>
                     <select id="type-select"
-                        className="type-select"
+                        className="type-select form-control"
                         onChange={this.handleTypeChange}
                         value={selectedValue}
                     >
@@ -49,6 +49,7 @@ class Filter extends Component<FilterProps> {
                 </div>
                 <div className="search-block">
                     <input
+                        className="form-control"
                         type="text"
                         name="search"
                         id="search"

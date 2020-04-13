@@ -77,7 +77,7 @@ class Registrate extends Component<registrateProps, registrateState>{
                     <div className="registrate-controls">
                         <p>Имя</p>
                         <input type="text"
-                            className="inp-base"
+                            className="inp-base form-control"
                             maxLength={50}
                             onChange={e => {
                                 e.persist();
@@ -91,7 +91,7 @@ class Registrate extends Component<registrateProps, registrateState>{
                             }} />
                         <p>Фамилия</p>
                         <input type="text"
-                            className="inp-base"
+                            className="inp-base form-control"
                             maxLength={50}
                             onChange={e => {
                                 e.persist()
@@ -105,7 +105,7 @@ class Registrate extends Component<registrateProps, registrateState>{
                             }} />
                         <p>Электронная поча</p>
                         <input type="text"
-                            className="inp-base"
+                            className="inp-base form-control"
                             maxLength={50}
                             onChange={e => {
                                 e.persist()
@@ -119,7 +119,7 @@ class Registrate extends Component<registrateProps, registrateState>{
                             }} />
                         <p>Логин</p>
                         <input type="text"
-                            className="inp-base"
+                            className="inp-base form-control"
                             maxLength={50}
                             onChange={e => {
                                 e.persist()
@@ -133,7 +133,7 @@ class Registrate extends Component<registrateProps, registrateState>{
                             }} />
                         <p>Пароль</p>
                         <input type="password"
-                            className="inp-base"
+                            className="inp-base form-control"
                             maxLength={50}
                             onChange={e => {
                                 e.persist()
@@ -151,8 +151,8 @@ class Registrate extends Component<registrateProps, registrateState>{
                         <p>Подтвердите пароль</p>
                         <input type="password"
                             className={this.state.isSecondPasswordCorrect ?
-                                'inp-base'
-                                : 'inp-base error'}
+                                'inp-base form-control'
+                                : 'inp-base form-control error'}
                             onChange={this.submitPassword} />
                     </div>
                     <button className="btn registrate"

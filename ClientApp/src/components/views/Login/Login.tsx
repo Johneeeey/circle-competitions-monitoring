@@ -51,7 +51,7 @@ class Login extends Component<loginProps, loginState>{
                         <p>Логин</p>
                         <input type="text"
                             name="login"
-                            className="inp-base"
+                            className="inp-base form-control"
                             autoComplete="on"
                             onChange={e => {
                                 this.setState({
@@ -61,7 +61,7 @@ class Login extends Component<loginProps, loginState>{
                         <p>Пароль</p>
                         <input type="password"
                             name="password"
-                            className="inp-base"
+                            className="inp-base form-control"
                             autoComplete="off"
                             onChange={e => {
                                 this.setState({
