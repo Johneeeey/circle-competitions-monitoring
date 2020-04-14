@@ -2,8 +2,7 @@ import {
     REQUEST_LOGIN,
     SET_ERROR_LOGIN,
     RESPONSE_LOGIN,
-    LOGOUT,
-    UserActionTypes
+    LOGOUT
 } from '../@Types/actionTypes';
 import { IUser } from '../@Types/types';
 import { Dispatch } from 'redux';

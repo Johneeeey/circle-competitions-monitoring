@@ -74,7 +74,7 @@ class App extends Component<appComponentProps, appComponentState> {
               close={() => this.setState({ showRegForm: false })} />
             : null
           }
-          <main className="container">
+          <main className="container-fluid">
             <Switch>
               <Route
                 exact

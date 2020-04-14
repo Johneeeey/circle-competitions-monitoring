@@ -1,4 +1,10 @@
-import { UserActionTypes, RESPONSE_LOGIN, REQUEST_LOGIN, LOGOUT, SET_ERROR_LOGIN } from '../@Types/actionTypes';
+import {
+    UserActionTypes,
+    RESPONSE_LOGIN,
+    REQUEST_LOGIN,
+    LOGOUT,
+    SET_ERROR_LOGIN
+} from '../@Types/actionTypes';
 import { IUserState } from '../@Types/types';
 
 export const UserState: IUserState = {

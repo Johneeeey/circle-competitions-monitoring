@@ -44,16 +44,6 @@ namespace circle_competitions_monitoring.Controllers {
                 var response = new {
                     access_token = encodedJwt,
                     User = db.User.FirstOrDefault (u => u.id == Convert.ToInt32 (identity.Name))
-                    // User = new User
-                    // {
-                    //     login = login,
-                    //     password = password,
-                    //     e_mail = "mail@mail.ru",
-                    //     id = 1,
-                    //     name = "Nikita",
-                    //     role = 1,
-                    //     surname = "Gerasimov"
-                    // }
                 };
                 Response.ContentType = "application/json";
                 await Response.WriteAsync (
@@ -92,25 +82,10 @@ namespace circle_competitions_monitoring.Controllers {
         }
         private ClaimsIdentity GetIdentity (string login, string password) {
             User user = db.User.FirstOrDefault (u => u.login == login && u.password == password);
-            // User user = new User
-            // {
-            //     login = login,
-            //     password = password,
-            //     e_mail = "mail@mail.ru",
-            //     id = 1,
-            //     name = "Nikita",
-            //     role = 1,
-            //     surname = "Gerasimov"
-            // };
             if (user == null)
                 return null;
             else {
                 Role role = db.Role.FirstOrDefault (r => r.id == user.role);
-                // Role role = new Role
-                // {
-                //     id = 1,
-                //     name = "Admin"
-                // };
                 var Claims = new List<Claim> {
                     new Claim (ClaimsIdentity.DefaultNameClaimType, user.id.ToString ())
                 };

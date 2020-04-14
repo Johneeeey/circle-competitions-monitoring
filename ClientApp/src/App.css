@@ -1,4 +1,4 @@
-*{
+* {
   outline: 0;
   box-shadow: 0;
 }
@@ -41,6 +41,8 @@
   }
 }
 
-main{
+main {
   margin-top: 5px;
+  padding-left: 5% !important;
+  padding-right: 5% !important;
 }
