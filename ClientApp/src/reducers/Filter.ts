@@ -1,5 +1,11 @@
 import { IFilterState } from '../@Types/types';
-import { FilterActionTypes, RECEIVE_TYPES, REQUEST_TYPES, CHANGE_SEARCH, CHANGE_TYPE } from '../@Types/actionTypes';
+import {
+    FilterActionTypes,
+    RECEIVE_TYPES,
+    REQUEST_TYPES,
+    CHANGE_SEARCH,
+    CHANGE_TYPE
+} from '../@Types/actionTypes';
 
 export const FilterState: IFilterState = {
     isFetching: false,

@@ -1,8 +1,29 @@
-.competition-detail{
+.competition-detail {
     height: 450px;
     width: 28%;
     float: left;
     margin-top: 10px;
     margin-left: 2%;
     border: 1px solid black;
+    h4{
+        text-align: left;
+    }
+    .table {
+        * {
+            border: none;
+            text-align: left;
+        }
+        tbody {
+            tr {
+                height: 15px;
+                font-size: 12px;
+                td {
+                    padding: 0;
+                    &:first-child {
+                        color: rgba(0, 0, 0, 0.55);
+                    }
+                }
+            }
+        }
+    }
 }

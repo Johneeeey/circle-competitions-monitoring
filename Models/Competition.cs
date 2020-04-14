@@ -8,6 +8,7 @@ namespace circle_competitions_monitoring.Models {
         public byte type { get; set; }
         public decimal lng { get; set; }
         public decimal lat { get; set; }
+        public string city { get; set; }
         public string street { get; set; }
         public string house_num { get; set; }
         public string building { get; set; }
