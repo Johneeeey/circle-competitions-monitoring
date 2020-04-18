@@ -10,6 +10,8 @@ interface CompetitionsProps {
     user: IUser;
     competitions: ICompetition[];
     competitionTypes: ICompetitionType[];
+    searchString: string;
+    selectedType: number | null;
 }
 interface CompetitionsState {
     selectedCompetition: ICompetition | null;
@@ -21,7 +23,13 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
         this.state = {
             selectedCompetition: null
         }
-        this.handleChangeCompetition=this.handleChangeCompetition.bind(this);
+        this.handleChangeCompetition = this.handleChangeCompetition.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+            selectedCompetition: this.props.competitions[0] || new Competition()
+        })
     }
 
     componentDidUpdate(prevProps: CompetitionsProps, prevState: CompetitionsState) {
@@ -38,18 +46,29 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
     }
 
     render() {
-        const competition = this.state.selectedCompetition;
+        const selectedCompetition = this.state.selectedCompetition;
+        let competitions = this.props.competitions;
+        const type = this.props.selectedType;
+        const search = this.props.searchString;
+        if (type || search.length > 0) {
+            if (type) {
+                competitions = competitions.filter(c => c.type === type);
+            }
+            if (search.length > 0) {
+                competitions = competitions.filter(c => c.title.search(search) !== -1);
+            }
+        }
         return (
             <div className="competitions-container">
                 <Filter />
                 <CompetitionsList
                     user={this.props.user}
-                    competitions={this.props.competitions}
+                    competitions={competitions}
                     competitionTypes={this.props.competitionTypes}
-                    selectedCompetitionId={competition ? competition.id : 0}
+                    selectedCompetitionId={selectedCompetition ? selectedCompetition.id : 0}
                     changeCompetition={this.handleChangeCompetition} />
                 <CompetitionDetail
-                    competition={competition ? competition : new Competition()}
+                    competition={selectedCompetition ? selectedCompetition : new Competition()}
                 />
             </div>
         )
@@ -59,7 +78,9 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
 const mapStateToProps = (state: any) => ({
     user: state.user.user,
     competitions: state.competition.competitions,
-    competitionTypes: state.filter.types
+    competitionTypes: state.filter.types,
+    searchString: state.filter.search,
+    selectedType: state.filter.selectedType
 })
 
 export default connect(mapStateToProps)(Competitions);

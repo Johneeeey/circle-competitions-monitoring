@@ -1,24 +1,49 @@
 import React, { Component } from 'react';
-import { ICompetition, ICompetitionType } from '../../../../@Types/types';
+import { ICompetition, ICompetitionType, IUser } from '../../../../@Types/types';
 import { connect } from 'react-redux';
 import DateService from '../../../../services/dateService';
-
 import './CompetitionDetail.scss';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+
 
 interface DetailProps {
+    user: IUser;
     competition: ICompetition;
     types: ICompetitionType[];
 }
 
 class CompetitionDetail extends Component<DetailProps> {
     render() {
+        const user = this.props.user;
         const start = DateService.GetShortDate(this.props.competition.date_of_start);
         const end = DateService.GetShortDate(this.props.competition.date_of_end);
         const competition = this.props.competition;
         return (
             <div className="competition-detail">
                 <h4>{competition.title}</h4>
-                <table className="table">
+                {user && user.role === 2 ?
+                    <a href="#"
+                        title="Изменить информацию">
+                        <button className="info-link" />
+                    </a>
+                    : null
+                }
+                <div className="map-block">
+                    <Map
+                        center={[competition.lng, competition.lat]}
+                        zoom={11}>
+                        <TileLayer
+                            url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://osm.org/copyright">Сopyright</a>'
+                        />
+                        <Marker position={[competition.lng, competition.lat]}>
+                            <Popup>
+                                <span>{competition.summary_addr}</span>
+                            </Popup>
+                        </Marker>
+                    </Map>
+                </div>
+                <table>
                     <tbody>
                         <tr>
                             <td>Тип соревнования</td>
@@ -59,13 +84,18 @@ class CompetitionDetail extends Component<DetailProps> {
 
                     </tbody>
                 </table>
+                {user ?
+                    <button className="btn btn-light">Зарегистрировать участника</button>
+                    : null
+                }
             </div>
         )
     }
 }
 
 const mapStateToProps = (state: any) => ({
-    types: state.filter.types
+    types: state.filter.types,
+    user: state.user.user
 })
 
 export default connect(mapStateToProps)(CompetitionDetail);

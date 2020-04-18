@@ -4,26 +4,64 @@
     float: left;
     margin-top: 10px;
     margin-left: 2%;
-    border: 1px solid black;
-    h4{
+    padding: 0.5% 1% 0 1%;
+    border: 1px solid #dee2e6;
+    h4 {
         text-align: left;
+        float: left;
     }
-    .table {
-        * {
+    a {
+        .info-link {
+            height: 20px;
+            width: 20px;
+            float: right;
+            margin-top: 5px;
             border: none;
+            box-shadow: none;
+            background-color: transparent;
+            background-image: url("../../../../content/img/info.svg");
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            background-position: center;
+            &:hover {
+                background-image: url("../../../../content/img/info-dark.svg");
+            }
+        }
+    }
+    table {
+        float: left;
+        margin-top: 10px;
+        width: 100%;
+        * {
             text-align: left;
         }
         tbody {
             tr {
                 height: 15px;
                 font-size: 12px;
+                border-bottom: 1px solid rgba($color: #000000, $alpha: 0.2);
                 td {
                     padding: 0;
                     &:first-child {
                         color: rgba(0, 0, 0, 0.55);
+                        width: 110px !important;
                     }
                 }
             }
         }
+    }
+    .map-block {
+        float: left;
+        width: 100%;
+        max-width: 335px;
+        height: 150px;
+        .leaflet-container {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .btn {
+        margin-top: 10px;
+        float: left;
     }
 }
