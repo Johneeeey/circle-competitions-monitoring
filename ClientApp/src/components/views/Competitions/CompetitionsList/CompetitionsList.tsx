@@ -48,11 +48,6 @@ class CompetitionsList extends Component<ListProps>{
                         {this.renRows()}
                     </tbody>
                 </table>
-                {this.props.user && this.props.user.role === 2 ?
-                    <button className="btn btn-success">
-                        Добавить
-                    </button>
-                    : null}
             </div>
         )
     }
