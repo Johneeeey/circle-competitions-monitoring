@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ICompetition, IUser, ICompetitionType } from '../../../../@Types/types';
+import DateService from '../../../../services/dateService';
 
 import './CompetitionsList.scss';
 
@@ -20,9 +21,10 @@ class CompetitionsList extends Component<ListProps>{
                 <tr key={i}
                     className={c.id === this.props.selectedCompetitionId ? "table-row table-active" : "table-row"}
                     onClick={e => this.props.changeCompetition(c.id)}>
+                    <td>{c.title}</td>
                     <td>{this.props.competitionTypes.find(cT => c.type === cT.id)?.name}</td>
-                    <td>{c.date_of_start}</td>
-                    <td>{c.date_of_end}</td>
+                    <td>{DateService.GetShortDateTime(c.date_of_start)}</td>
+                    <td>{DateService.GetShortDateTime(c.date_of_end)}</td>
                     <td>{c.city}</td>
                 </tr>)
         })
@@ -35,6 +37,7 @@ class CompetitionsList extends Component<ListProps>{
                 <table className="table table-bordered table-hover">
                     <thead>
                         <tr>
+                            <th>Название</th>
                             <th>Тип</th>
                             <th>Начало</th>
                             <th>Конец</th>

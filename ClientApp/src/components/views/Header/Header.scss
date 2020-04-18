@@ -1,32 +1,7 @@
-.header {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 50px;
-    background-color: #d5edf2;
-    *{
-        font-size: 14px !important;
-    }
-    .account-controls {
-        float: right;
-        margin-right: 1%;
-        margin-top: 7px;
-        .btn {
-            height: 36px;
-            background-color: #00d19d;
-            &:hover {
-                background-color: #00bf90;
-            }
-        }
-        .login {
-            width: 80px;
-        }
-        .registrate {
-            width: 150px;
-            margin-left: 5px;
-        }
-        .logout {
-            width: 80px;
+.navbar-light {
+    .navbar-nav {
+        .nav-link {
+            cursor: pointer;
         }
     }
 }

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { ICompetition, ICompetitionType } from '../../../../@Types/types';
 import { connect } from 'react-redux';
 import DateService from '../../../../services/dateService';
-
 import './CompetitionDetail.scss';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+
 
 interface DetailProps {
     competition: ICompetition;
@@ -18,6 +19,21 @@ class CompetitionDetail extends Component<DetailProps> {
         return (
             <div className="competition-detail">
                 <h4>{competition.title}</h4>
+                <div className="map-block">
+                    <Map
+                        center={[competition.lng, competition.lat]}
+                        zoom={11}>
+                        <TileLayer
+                            url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://osm.org/copyright">Сopyright</a>'
+                        />
+                        <Marker position={[competition.lng, competition.lat]}>
+                            <Popup>
+                                <span>{competition.summary_addr}</span>
+                            </Popup>
+                        </Marker>
+                    </Map>
+                </div>
                 <table className="table">
                     <tbody>
                         <tr>
