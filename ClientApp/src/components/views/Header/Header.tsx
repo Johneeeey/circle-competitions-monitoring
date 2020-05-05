@@ -17,9 +17,6 @@ interface headerProps {
 }
 
 class Header extends Component<headerProps, {}>{
-    constructor(props: headerProps) {
-        super(props);
-    }
     render() {
         return (
             <Navbar collapseOnSelect expand="lg" bg="light" variant="light">

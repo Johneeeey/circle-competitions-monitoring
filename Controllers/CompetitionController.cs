@@ -13,22 +13,38 @@ using Newtonsoft.Json;
 
 namespace circle_competitions_monitoring.Controllers
 {
-    public class CompetitionController: Controller
+    public class CompetitionController : Controller
     {
         private DataContext db;
         public CompetitionController(DataContext context)
         {
-            this.db=context;
+            this.db = context;
         }
-        
+
         [HttpGet]
         public List<Competition_type> GetCompetitionTypes()
         {
             return db.Competition_Type.ToList();
         }
+        [HttpGet]
         public List<Competition> GetCompetitions()
         {
             return db.Competition.ToList();
+        }
+        [HttpPost]
+        [Authorize]
+        public Competition SaveCompetition([FromBody]Competition competition)
+        {
+            if (competition.id == 0)
+            {
+                db.Competition.Add(competition);
+            }
+            else
+            {
+                db.Update(competition);
+            }
+            db.SaveChanges();
+            return competition;
         }
     }
 }
