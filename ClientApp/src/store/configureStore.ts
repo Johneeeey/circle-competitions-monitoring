@@ -1,5 +1,5 @@
-import { CompetitionState, CompetitionReducer } from '../reducers/Competition';
-import { UserState, UserReducer } from '../reducers/User';
+import { CompetitionReducer } from '../reducers/Competition';
+import { UserReducer } from '../reducers/User';
 import { FilterReducer } from '../reducers/Filter';
 import { combineReducers } from 'redux';
 

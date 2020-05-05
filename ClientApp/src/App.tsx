@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
-import logo from './logo.svg';
 import './App.css';
-import { connect, ConnectedProps } from 'react-redux';
-import { Redirect, Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { connect } from 'react-redux';
+import {  Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { getUserByToken } from './actions/UserActions';
 import { GetCompetitionTypes } from './actions/FilterActions';
 import { fetchCompetitions } from './actions/CompetitionsActions';
 
 import Loader from './components/widgets/Loader';
 import Competitions from './components/views/Competitions';
+import CompetitionInfo from './components/views/CompetitionInfo';
 import Results from './components/views/Results';
 import Header from './components/views/Header';
 import Login from './components/views/Login';
@@ -79,6 +79,10 @@ class App extends Component<appComponentProps, appComponentState> {
                 exact
                 path="/"
                 component={Competitions}
+              />
+              <Route
+                path="/competitions/:id"
+                component={CompetitionInfo}
               />
               <Route
                 exact

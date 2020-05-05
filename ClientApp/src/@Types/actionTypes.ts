@@ -1,14 +1,20 @@
 import { ICompetition, IUser, ICompetitionType } from "./types";
 
 /* COMPETITIONS */
-export const GET_COMPETITIONS = 'GET_COMPETITIONS';
+export const GET_COMPETITION = 'GET_COMPETITION';
+export const SAVE_COMPETITION = 'SAVE_COMPETITION';
 export const REQUEST_COMPETITIONS = 'REQUEST_COMPETITIONS';
 export const RECEIVE_COMPETITIONS = 'RECEIVE_COMPETITIONS';
 
 interface GetCompetitionsAction {
-    type: typeof GET_COMPETITIONS,
+    type: typeof GET_COMPETITION,
     payload: number
 };
+
+interface SaveCompetitionAction {
+    type: typeof SAVE_COMPETITION,
+    payload: ICompetition
+}
 
 interface RequestCompetitionsAction {
     type: typeof REQUEST_COMPETITIONS
@@ -21,13 +27,15 @@ interface ReceiveCompetitionsAction {
 
 export type CompetitionsActionTypes = GetCompetitionsAction
     | RequestCompetitionsAction
-    | ReceiveCompetitionsAction;
+    | ReceiveCompetitionsAction
+    | SaveCompetitionAction;
 
 
 /* USER */
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const RESPONSE_LOGIN = 'RESOPONSE_LOGIN';
 export const SET_ERROR_LOGIN = 'SET_ERROR_LOGIN';
+export const CANT_GET_USER = 'CANT_GET_USER';
 export const LOGOUT = 'LOGOUT';
 
 interface RequestLogin {
@@ -36,6 +44,10 @@ interface RequestLogin {
 
 interface ErrorRequestLogin {
     type: typeof SET_ERROR_LOGIN
+}
+
+interface CantGetUser {
+    type: typeof CANT_GET_USER
 }
 
 interface ResponseLogin {
@@ -52,6 +64,7 @@ export type UserActionTypes =
     RequestLogin |
     ErrorRequestLogin |
     ResponseLogin |
+    CantGetUser |
     Logout;
 
 /**FILTER **/

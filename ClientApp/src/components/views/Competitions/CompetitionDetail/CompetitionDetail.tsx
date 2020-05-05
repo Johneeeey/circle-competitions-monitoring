@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { ICompetition, ICompetitionType, IUser } from '../../../../@Types/types';
 import { connect } from 'react-redux';
-import DateService from '../../../../services/dateService';
+import DateService from '../../../../helpers/dateService';
 import './CompetitionDetail.scss';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Link } from "react-router-dom";
 
 
 interface DetailProps {
@@ -22,10 +23,11 @@ class CompetitionDetail extends Component<DetailProps> {
             <div className="competition-detail">
                 <h4>{competition.title}</h4>
                 {user && user.role === 2 ?
-                    <a href="#"
+                    <Link
+                        to={`/competitions/${competition.id}`}
                         title="Изменить информацию">
                         <button className="info-link" />
-                    </a>
+                    </Link>
                     : null
                 }
                 <div className="map-block">

@@ -3,7 +3,8 @@ import {
     RESPONSE_LOGIN,
     REQUEST_LOGIN,
     LOGOUT,
-    SET_ERROR_LOGIN
+    SET_ERROR_LOGIN,
+    CANT_GET_USER
 } from '../@Types/actionTypes';
 import { IUserState } from '../@Types/types';
 
@@ -21,8 +22,14 @@ export function UserReducer(state = UserState, action: UserActionTypes): IUserSt
             });
         case SET_ERROR_LOGIN:
             return Object.assign({}, state, {
-                loginError: true
-            })
+                loginError: true,
+                isFetching: false
+            });
+        case CANT_GET_USER:
+            return Object.assign({}, state,{
+                loginError: false,
+                isFetching: false
+            });
         case RESPONSE_LOGIN:
             return Object.assign({}, state, {
                 user: action.user,

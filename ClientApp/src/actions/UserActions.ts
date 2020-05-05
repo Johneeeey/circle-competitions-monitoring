@@ -2,6 +2,7 @@ import {
     REQUEST_LOGIN,
     SET_ERROR_LOGIN,
     RESPONSE_LOGIN,
+    CANT_GET_USER,
     LOGOUT
 } from '../@Types/actionTypes';
 import { IUser } from '../@Types/types';
@@ -18,6 +19,10 @@ const responseLogin = (user: IUser) => ({
 
 const setErrorLogin = () => ({
     type: SET_ERROR_LOGIN
+})
+
+const cantGetUser = () => ({
+    type: CANT_GET_USER
 })
 
 export const logout = () => {
@@ -46,7 +51,7 @@ export function getUserByToken() {
             .catch(error => {
                 console.log(error);
                 localStorage.removeItem('access_token');
-                dispatch(setErrorLogin());
+                dispatch(cantGetUser());
             })
     }
 }

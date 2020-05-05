@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { IUser, ICompetition, ICompetitionsState, ICompetitionType, Competition } from '../../../@Types/types';
+import { IUser, ICompetition, ICompetitionType, Competition } from '../../../@Types/types';
 
 import Filter from '../Filter';
 import CompetitionsList from './CompetitionsList';

@@ -1,5 +1,5 @@
 import {
-    GET_COMPETITIONS,
+    SAVE_COMPETITION,
     RECEIVE_COMPETITIONS,
     REQUEST_COMPETITIONS
 } from '../@Types/actionTypes';
@@ -19,6 +19,13 @@ function receiveCompetitions(competitions: ICompetition) {
     };
 }
 
+function saveCompetition(competition: ICompetition) {
+    return {
+        type: SAVE_COMPETITION,
+        payload: competition
+    }
+}
+
 export function fetchCompetitions() {
     return function (dispatch: Dispatch) {
         dispatch(requestCompetitions());
@@ -36,5 +43,12 @@ export function fetchCompetitions() {
             .then(data =>
                 dispatch(receiveCompetitions(data))
             )
+    }
+}
+
+export function SaveCompetition(competition: ICompetition) {
+    return function (dispatch: Dispatch) {
+        dispatch(requestCompetitions());
+        dispatch(saveCompetition(competition));
     }
 }
