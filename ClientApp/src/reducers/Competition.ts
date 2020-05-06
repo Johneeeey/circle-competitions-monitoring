@@ -5,7 +5,7 @@ import {
     RECEIVE_COMPETITIONS
 } from '../@Types/actionTypes';
 import {
-    ICompetitionsState
+    ICompetitionsState, Competition
 } from '../@Types/types';
 
 export const CompetitionState: ICompetitionsState = {
@@ -31,13 +31,15 @@ export function CompetitionReducer(state = CompetitionState, action: Competition
                     competitions: [...state.competitions, action.payload]
                 })
             } else {
-                state.competitions.forEach(c => {
-                    if (c.id === action.payload.id) {
-                        c = action.payload;
-                    }
-                })
+                const competitions = [...state.competitions];
+                const id = competitions.indexOf(competitions.find(c => c.id === action.payload.id) as Competition);
+                let item = competitions[id];
+                item = action.payload;
+                competitions[id] = item;
+                console.log(competitions)
                 return Object.assign({}, state, {
-                    isFetching: false
+                    isFetching: false,
+                    competitions: competitions
                 })
             }
         default:

@@ -24,6 +24,7 @@ interface InfoState {
     prevStateCompetition: ICompetition;
     readOnly: boolean;
     redirect: boolean;
+    mapCenter: [number, number];
 }
 
 class CompetitionInfo extends Component<InfoProps, InfoState> {
@@ -33,7 +34,8 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
             competition: new Competition(),
             prevStateCompetition: new Competition(),
             redirect: false,
-            readOnly: true
+            readOnly: true,
+            mapCenter: [0, 0]
         }
         this.handleChangeTitle = this.handleChangeTitle.bind(this);
         this.handleChangeType = this.handleChangeType.bind(this);
@@ -47,19 +49,22 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         this.handleChangeAgeLimit = this.handleChangeAgeLimit.bind(this);
         this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
         this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
+        this.handleChangeLatLng = this.handleChangeLatLng.bind(this);
         this.handleChangeReadOnly = this.handleChangeReadOnly.bind(this);
         this.save = this.save.bind(this);
         this.backup = this.backup.bind(this);
     }
     componentDidMount() {
         const id = Number(this.props.match.params.id);
+        const competition = this.props.competitions.find(c => c.id === id) || new Competition();
         this.setState({
             competition: JSON.parse(
-                JSON.stringify(this.props.competitions.find(c => c.id === id) || new Competition())
+                JSON.stringify(competition)
             ),
             prevStateCompetition: JSON.parse(
-                JSON.stringify(this.props.competitions.find(c => c.id === id) || new Competition())
-            )
+                JSON.stringify(competition)
+            ),
+            mapCenter: [competition.lat, competition.lng]
         })
     }
     componentDidUpdate(prevProps: InfoProps, prevState: InfoState) {
@@ -69,7 +74,8 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
             || prevState.prevStateCompetition.id !== comp.id) {
             this.setState({
                 competition: JSON.parse(JSON.stringify(comp)),
-                prevStateCompetition: JSON.parse(JSON.stringify(comp))
+                prevStateCompetition: JSON.parse(JSON.stringify(comp)),
+                mapCenter: [comp.lat, comp.lng]
             })
         }
     }
@@ -136,6 +142,12 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         competition.date_of_end = date;
         this.setState({ competition });
     }
+    handleChangeLatLng(latlng: [number, number]) {
+        const competition = this.state.competition;
+        competition.lat = latlng[0];
+        competition.lng = latlng[1];
+        this.setState({ competition });
+    }
     handleChangeReadOnly() {
         if (!this.state.readOnly) {
             if (window.confirm("Все изменения будут утеряны. Продолжить?")) {
@@ -195,6 +207,9 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                     />
                     <InfoMap
                         competition={competition}
+                        draggable={!readOnly}
+                        mapCenter={this.state.mapCenter}
+                        handleChangeLatLng={this.handleChangeLatLng}
                     />
                 </div>
             </div>
