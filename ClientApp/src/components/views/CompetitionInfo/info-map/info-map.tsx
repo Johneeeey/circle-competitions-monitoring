@@ -26,8 +26,8 @@ class InfoMap extends Component<MapProps, MapState> {
         super(props);
         this.state = {
             marker: {
-                lat: 0,
-                lng: 0
+                lat: 56.12909762217289,
+                lng: 40.40531158447266
             }
         }
     }
@@ -35,9 +35,8 @@ class InfoMap extends Component<MapProps, MapState> {
     componentDidMount() {
         this.setState({
             marker: {
-                lat: this.props.competition.lat,
-                lng: this.props.competition.lng
-            }
+                lat: this.props.competition.lat === 0 ? 56.12909762217289: this.props.competition.lat,
+                lng: this.props.competition.lng === 0 ? 40.40531158447266 : this.props.competition.lng            }
         })
     }
 
@@ -45,8 +44,8 @@ class InfoMap extends Component<MapProps, MapState> {
         if (prevProps.competition.id !== this.props.competition.id) {
             this.setState({
                 marker: {
-                    lat: this.props.competition.lat,
-                    lng: this.props.competition.lng
+                    lat: this.props.competition.lat === 0 ? 56.12909762217289 : this.props.competition.lat,
+                    lng: this.props.competition.lng === 0 ? 40.40531158447266 : this.props.competition.lng     
                 }
             })
         }

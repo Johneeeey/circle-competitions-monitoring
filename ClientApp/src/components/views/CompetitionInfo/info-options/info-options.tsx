@@ -25,6 +25,8 @@ interface OptionsProps {
     handleChangeReadOnly: () => void;
     save: () => void;
     backup: () => void;
+    errorMsg: string;
+    isValid: boolean;
 }
 interface OptionsState {
     redirect: boolean;
@@ -170,7 +172,8 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
                         className="form-control"
                         id="fee"
                         readOnly={readOnly}
-                        value={competition.entry_fee || ""}
+                        value={competition.entry_fee || 0}
+                        min={0}
                         placeholder="Взнос"
                         onChange={this.props.handleChangeEntryFee} />
                 </div>
@@ -181,15 +184,18 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
                         className="form-control"
                         id="age"
                         readOnly={readOnly}
-                        value={competition.age_limit || ""}
+                        value={competition.age_limit || 0}
+                        min={0}
                         placeholder="Возраст"
                         onChange={this.props.handleChangeAgeLimit} />
                 </div>
                 {!readOnly &&
                     <div className="btn-container">
                         <button
+                            title={this.props.errorMsg}
                             className="btn btn-info"
                             onClick={() => this.props.save()}
+                            disabled={!this.props.isValid}
                         >
                             Сохранить
                         </button>

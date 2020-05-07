@@ -5,6 +5,9 @@ import { IUser, ICompetition, ICompetitionType, Competition } from '../../../@Ty
 import Filter from '../Filter';
 import CompetitionsList from './CompetitionsList';
 import CompetitionDetail from './CompetitionDetail';
+import { Link } from 'react-router-dom';
+
+import './Competitions.scss';
 
 interface CompetitionsProps {
     user: IUser;
@@ -50,6 +53,7 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
         let competitions = this.props.competitions;
         const type = this.props.selectedType;
         const search = this.props.searchString;
+        const user = this.props.user;
         if (type || search.length > 0) {
             if (type) {
                 competitions = competitions.filter(c => c.type === type);
@@ -61,6 +65,14 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
         return (
             <div className="competitions-container">
                 <Filter />
+                {user && user.role === 2 ?
+                    <Link
+                        className="link"
+                        to={`/competitions/${0}`}
+                        title="Изменить информацию">
+                        <button className="btn btn-success">Добавить соревнование</button>
+                    </Link>
+                    : null}
                 <CompetitionsList
                     user={this.props.user}
                     competitions={competitions}

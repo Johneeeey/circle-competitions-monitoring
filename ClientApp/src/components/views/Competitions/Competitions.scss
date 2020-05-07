@@ -1,3 +1,12 @@
 .competitions-container{
     width: 100%;
+    .link{
+        height: 30px;
+        margin-top: 20px;
+        float: left;
+        .btn{
+            height: 100%;
+            padding-top: 1%;
+        }
+    }
 }
