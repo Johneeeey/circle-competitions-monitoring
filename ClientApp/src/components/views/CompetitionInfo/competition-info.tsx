@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
-import { ICompetition, ICompetitionType, Competition } from '../../../@Types/types';
+import { ICompetition, ICompetitionType, Competition, IUser } from '../../../@Types/types';
 import { connect } from 'react-redux';
 import InfoOptions from './info-options';
 import InfoMap from './info-map';
@@ -15,6 +15,7 @@ interface MatchParams {
 }
 
 interface InfoProps extends RouteComponentProps<MatchParams> {
+    user: IUser;
     types: ICompetitionType[];
     competitions: ICompetition[];
     saveCompetition: (competition: ICompetition) => void;
@@ -232,8 +233,9 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
     render() {
         const competition = this.state.competition;
         const readOnly = this.state.readOnly;
+        const user = this.props.user;
         let selectedType = this.props.types.find(t => t.id === competition.type)?.name;
-        if (this.state.redirect) {
+        if (this.state.redirect || (!user || user.role !== 2)) {
             return <Redirect to='/' />
         }
         return (
@@ -275,6 +277,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
 }
 
 const mapStateToProps = (state: any) => ({
+    user: state.user.user,
     types: state.filter.types,
     competitions: state.competition.competitions
 })
