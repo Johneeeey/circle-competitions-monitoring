@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { IUser, ICompetition, ICompetitionType, Competition } from '../../../@Types/types';
+import { Link } from 'react-router-dom';
 
 import Filter from '../Filter';
 import CompetitionsList from './CompetitionsList';
 import CompetitionDetail from './CompetitionDetail';
-import { Link } from 'react-router-dom';
 
 import './Competitions.scss';
 

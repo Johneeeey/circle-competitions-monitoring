@@ -8,7 +8,7 @@ export interface IUser {
     role: number;
 }
 
-export interface IUserState{
+export interface IUserState {
     user: IUser | null,
     isFetching: boolean,
     loginError: boolean
@@ -131,6 +131,18 @@ export interface ISportsman {
     SI_chip: string;
 }
 
+export class Sportsman implements ISportsman {
+    id = 0;
+    name = "";
+    surname = "";
+    birthday = new Date();
+    pass = 0;
+    birth_sertificate = 0;
+    rank = "";
+    team = "";
+    SI_chip = "";
+}
+
 export interface IStage {
     id: number;
     result: number;
@@ -142,7 +154,7 @@ export interface IStage {
     place: number;
 }
 
-export interface IFilterState{
+export interface IFilterState {
     isFetching: boolean;
     types: ICompetitionType[];
     search: string;

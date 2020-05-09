@@ -1,0 +1,45 @@
+@import "../../../styles/variables";
+
+.sportsman-registration-container {
+    .reg-body {
+        max-height: 650px;
+        height: 500px;
+        border: 2px solid $border-grey;
+        border-radius: 5px;
+        padding: 0 2%;
+        overflow-y: auto;
+        .body-header {
+            width: 98%;
+            height: 25px;
+            margin-top: 5px;
+            text-align: left;
+        }
+        .add-sportsman {
+            cursor: pointer;
+            float: left;
+            width: 98%;
+            height: 40px;
+            margin-top: 10px;
+            border: 1px solid $border-grey;
+            border-radius: 2px;
+            color: $text-grey;
+            display: flex;
+            &:hover {
+                border-color: $blue;
+                color: $blue;
+                span {
+                    background-image: url("../../../content/img/add-icon.png");
+                }
+            }
+            span {
+                margin-top: auto;
+                margin-bottom: auto;
+                background-image: url("../../../content/img/add-icon-grey.png");
+                background-size: 25px 25px;
+                background-repeat: no-repeat;
+                background-position: 10px center;
+                padding-left: 40px;
+            }
+        }
+    }
+}

@@ -87,7 +87,10 @@ class CompetitionDetail extends Component<DetailProps> {
                     </tbody>
                 </table>
                 {user ?
-                    <button className="btn btn-light">Зарегистрировать участника</button>
+                    <Link
+                        to="/registrate-sportsman">
+                        <button className="btn btn-light">Зарегистрировать участника</button>
+                    </Link>
                     : null
                 }
             </div>
