@@ -8,7 +8,7 @@ export interface IUser {
     role: number;
 }
 
-export interface IUserState{
+export interface IUserState {
     user: IUser | null,
     isFetching: boolean,
     loginError: boolean
@@ -75,6 +75,14 @@ export interface IBirthSertificate {
     date_of_issue: Date
 }
 
+export class BirthSertificate implements IBirthSertificate {
+    id = 0;
+    series = "";
+    number = "";
+    place_of_issue = "";
+    date_of_issue = new Date();
+}
+
 export interface ICircle {
     id: number;
     stage: number;
@@ -94,6 +102,16 @@ export interface IPassport {
     organization_of_issue: string;
     code_of_organization: string;
     date_of_issue: Date;
+}
+
+export class Passport implements IPassport {
+    id = 0;
+    series = "";
+    number = "";
+    place_of_issue = "";
+    organization_of_issue = "";
+    code_of_organization = "";
+    date_of_issue = new Date();
 }
 
 export interface IPaymentParticipant {
@@ -123,12 +141,31 @@ export interface ISportsman {
     id: number;
     name: string;
     surname: string;
+    patronymic: string;
     birthday: Date;
     pass: number;
     birth_sertificate: number;
     rank: string;
     team: string;
     SI_chip: string;
+}
+
+export class Sportsman implements ISportsman {
+    id = 0;
+    name = "";
+    surname = "";
+    patronymic = "";
+    birthday = new Date();
+    pass = 0;
+    birth_sertificate = 0;
+    rank = "";
+    team = "";
+    SI_chip = "";
+}
+export interface ISportsmenListItem {
+    sportsman: ISportsman,
+    pass: IPassport | null,
+    birthSertificate: IBirthSertificate | null
 }
 
 export interface IStage {
@@ -142,7 +179,7 @@ export interface IStage {
     place: number;
 }
 
-export interface IFilterState{
+export interface IFilterState {
     isFetching: boolean;
     types: ICompetitionType[];
     search: string;

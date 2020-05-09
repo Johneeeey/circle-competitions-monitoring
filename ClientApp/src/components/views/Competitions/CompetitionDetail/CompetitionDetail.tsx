@@ -32,13 +32,13 @@ class CompetitionDetail extends Component<DetailProps> {
                 }
                 <div className="map-block">
                     <Map
-                        center={[competition.lng, competition.lat]}
+                        center={[competition.lat, competition.lng]}
                         zoom={11}>
                         <TileLayer
                             url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
                             attribution='&copy; <a href="https://osm.org/copyright">Сopyright</a>'
                         />
-                        <Marker position={[competition.lng, competition.lat]}>
+                        <Marker position={[competition.lat, competition.lng]}>
                             <Popup>
                                 <span>{competition.summary_addr}</span>
                             </Popup>
@@ -87,7 +87,10 @@ class CompetitionDetail extends Component<DetailProps> {
                     </tbody>
                 </table>
                 {user ?
-                    <button className="btn btn-light">Зарегистрировать участника</button>
+                    <Link
+                        to="/registrate-sportsman">
+                        <button className="btn btn-light">Зарегистрировать участника</button>
+                    </Link>
                     : null
                 }
             </div>
