@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 interface PickerProps {
     secondField: boolean;
     value: Date;
-    secondValue: Date;
+    secondValue?: Date;
     changeDate: (date: Date) => void;
     changeSecondDate?: (date: Date) => void;
     readOnly?: boolean;
@@ -53,7 +53,7 @@ class DateTimePicker extends Component<PickerProps, PickerState> {
                         }}
                         selectsStart
                         startDate={this.props.value}
-                        endDate={this.props.secondField ? new Date(this.props.secondValue) : undefined}
+                        endDate={this.props.secondField ? this.props.secondValue || new Date() : undefined}
                     />
                 }
                 {this.props.secondField ?
@@ -66,13 +66,13 @@ class DateTimePicker extends Component<PickerProps, PickerState> {
                             type="text"
                             id="secondDate"
                             autoComplete="off"
-                            value={DateService.GetDateForPicker(this.props.secondValue)}
+                            value={DateService.GetDateForPicker(this.props.secondValue || new Date())}
                             readOnly
                         /> :
                         <DatePicker
                             dateFormat="dd/MM/yyyy"
                             className="form-control picker"
-                            selected={new Date(this.props.secondValue)}
+                            selected={new Date(this.props.secondValue || new Date())}
                             onChange={date => {
                                 if (!date) {
                                     date = new Date();
@@ -83,7 +83,7 @@ class DateTimePicker extends Component<PickerProps, PickerState> {
                             }}
                             selectsEnd
                             startDate={new Date(this.props.value)}
-                            endDate={new Date(this.props.secondValue)}
+                            endDate={new Date(this.props.secondValue || new Date())}
                             minDate={new Date(this.props.value)}
                         />
                     : null}
