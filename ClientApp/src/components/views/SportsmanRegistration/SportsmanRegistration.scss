@@ -1,6 +1,10 @@
 @import "../../../styles/variables";
 
 .sportsman-registration-container {
+    .form-control{
+        outline: none !important;
+        box-shadow: none !important;
+    }
     .reg-body {
         max-height: 650px;
         height: 500px;
@@ -40,6 +44,11 @@
                 background-position: 10px center;
                 padding-left: 40px;
             }
+        }
+        .btn{
+            float: right;
+            margin-right: 2%;
+            margin-top: 10px;
         }
     }
 }

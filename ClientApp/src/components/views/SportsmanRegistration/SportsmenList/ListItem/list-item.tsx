@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { ISportsman, IPassport, IBirthSertificate } from '../../../../../@Types/types';
+import { ISportsman, IPassport, IBirthSertificate, ICompetition, Passport, BirthSertificate } from '../../../../../@Types/types';
 import DateTimePicker from '../../../../widgets/DateTimePicker';
 
 import './ListItem.scss';
 
 interface Props {
+    competition: ICompetition;
     sportsman: ISportsman;
     passport: IPassport | null;
-    birhSertificate: IBirthSertificate | null;
+    birthSertificate: IBirthSertificate | null;
     index: number;
     deleteItem: (index: number) => void;
     nameChangeHangler: (id: number, value: string) => void;
@@ -26,26 +27,247 @@ interface Props {
     birthSertNumberChangeHangler: (id: number, value: string) => void;
     birthSertPlaceChangeHangler: (id: number, value: string) => void;
     birthSertDateChangeHangler: (id: number, value: Date) => void;
+    validationStatusChangeHandler: (val: boolean) => void;
+    docTypeChangeHandler: (id: number, value: number) => void;
 }
 interface State {
     docType: number;
+    sportsman: ISportsman;
+    passport: IPassport | null;
+    birthSertificate: IBirthSertificate | null;
+    nameError: boolean
+    surnameError: boolean
+    patronymicError: boolean
+    birthdayError: boolean
+    rankError: boolean
+    teamError: boolean
+    passSeriesError: boolean
+    passNumError: boolean
+    passPlaceError: boolean
+    passOrgError: boolean
+    passOrgCodeError: boolean
+    passDateError: boolean
+    birthSertSeriesError: boolean
+    birthSertNumError: boolean
+    birthSertPlaceError: boolean
+    birthSertDateError: boolean
 }
 
 class ListItem extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            docType: 0
+            docType: 0,
+            sportsman: JSON.parse(JSON.stringify(props.sportsman)),
+            passport: JSON.parse(JSON.stringify(props.passport)),
+            birthSertificate: JSON.parse(JSON.stringify(props.birthSertificate)),
+            nameError: false,
+            surnameError: false,
+            patronymicError: false,
+            birthdayError: false,
+            rankError: false,
+            teamError: false,
+            passDateError: false,
+            passNumError: false,
+            passOrgCodeError: false,
+            passOrgError: false,
+            passPlaceError: false,
+            passSeriesError: false,
+            birthSertDateError: false,
+            birthSertNumError: false,
+            birthSertPlaceError: false,
+            birthSertSeriesError: false
         }
         this.changeDocTypeHandler = this.changeDocTypeHandler.bind(this);
+        this.validation = this.validation.bind(this);
     }
+    componentDidMount() {
+        this.setState({
+            sportsman: JSON.parse(JSON.stringify(this.props.sportsman)),
+            passport: JSON.parse(JSON.stringify(this.props.passport)),
+            birthSertificate: JSON.parse(JSON.stringify(this.props.birthSertificate))
+        }, () => this.validation());
+    }
+    componentDidUpdate(prevProps: Props, prevState: State) {
+        if (JSON.stringify(prevProps.sportsman) !== JSON.stringify(this.props.sportsman)
+            || JSON.stringify(prevProps.passport) !== JSON.stringify(this.props.passport)
+            || JSON.stringify(prevProps.birthSertificate) !== JSON.stringify(this.props.birthSertificate)) {
+            this.setState({
+                sportsman: JSON.parse(JSON.stringify(this.props.sportsman)),
+                passport: JSON.parse(JSON.stringify(this.props.passport)),
+                birthSertificate: JSON.parse(JSON.stringify(this.props.birthSertificate))
+            }, () => this.validation());
+        }
+    }
+
+    validation() {
+        let nameError: boolean = false;
+        let surnameError: boolean = false;
+        let patronymicError: boolean = false;
+        let birthdayError: boolean = false;
+        let rankError: boolean = false;
+        let teamError: boolean = false;
+        let passDateError: boolean = false;
+        let passNumError: boolean = false;
+        let passOrgCodeError: boolean = false;
+        let passOrgError: boolean = false;
+        let passPlaceError: boolean = false;
+        let passSeriesError: boolean = false;
+        let birthSertDateError: boolean = false;
+        let birthSertNumError: boolean = false;
+        let birthSertPlaceError: boolean = false;
+        let birthSertSeriesError: boolean = false;
+        let formStatus: boolean = true;
+        const sportsman = this.state.sportsman;
+        const pass = this.state.passport;
+        const birthSert = this.state.birthSertificate;
+        const competition = this.props.competition;
+        const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        const formatWithSpace = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        const nums = /^\d+$/;
+        if ((sportsman.name.length > 0 && sportsman.name.length < 2)
+            || format.test(sportsman.name)
+            || nums.test(sportsman.name)) {
+            nameError = true;
+            formStatus = false;
+        } else if (sportsman.name.length === 0) {
+            formStatus = false;
+        }
+        if ((sportsman.surname.length > 0 && sportsman.surname.length < 2)
+            || format.test(sportsman.surname)
+            || nums.test(sportsman.surname)) {
+            surnameError = true;
+            formStatus = false;
+        } else if (sportsman.surname.length === 0) {
+            formStatus = false;
+        }
+        if ((sportsman.patronymic.length > 0 && sportsman.patronymic.length < 2)
+            || format.test(sportsman.patronymic)
+            || nums.test(sportsman.patronymic)) {
+            patronymicError = true;
+            formStatus = false;
+        } else if (sportsman.patronymic.length === 0) {
+            formStatus = false;
+        }
+        if (formatWithSpace.test(sportsman.rank)) {
+            rankError = true;
+            formStatus = false;
+        } else if (sportsman.rank.length === 0) {
+            formStatus = false;
+        }
+        if (formatWithSpace.test(sportsman.team)) {
+            teamError = true;
+            formStatus = false;
+        } else if (sportsman.team.length === 0) {
+            formStatus = false;
+        }
+        if (this.calculateAge(sportsman.birthday) < competition.age_limit) {
+            birthdayError = true;
+            formStatus = false;
+        }
+        if (pass) {
+            if (pass.date_of_issue < sportsman.birthday) {
+                passDateError = true;
+                formStatus = false;
+            }
+            if ((pass.series.length > 0 && pass.series.length < 4) || (pass.series.length > 0 && !nums.test(pass.series))) {
+                passSeriesError = true;
+                formStatus = false;
+            } else if (pass.series.length === 0) {
+                formStatus = false;
+            }
+            if ((pass.number.length > 0 && pass.number.length < 6) || (pass.number.length > 0 && !nums.test(pass.number))) {
+                passNumError = true;
+                formStatus = false;
+            } else if (pass.number.length === 0) {
+                formStatus = false;
+            }
+            if (pass.code_of_organization.length > 0 && pass.code_of_organization.length < 7) {
+                passOrgCodeError = true;
+                formStatus = false;
+            } else if (pass.code_of_organization.length === 0) {
+                formStatus = false;
+            }
+            if (formatWithSpace.test(pass.organization_of_issue)
+                || nums.test(pass.organization_of_issue)
+                || (pass.organization_of_issue.length > 0 && pass.organization_of_issue.length < 10)) {
+                passOrgError = true;
+                formStatus = false;
+            } else if (pass.organization_of_issue.length === 0) {
+                formStatus = false;
+            }
+            if ((pass.place_of_issue.length > 0 && pass.place_of_issue.length < 3)
+                || nums.test(pass.place_of_issue)
+                || formatWithSpace.test(pass.place_of_issue)) {
+                passPlaceError = true;
+                formStatus = false;
+            } else if (pass.place_of_issue.length === 0) {
+                formStatus = false;
+            }
+        } else if (birthSert) {
+            if (birthSert.date_of_issue < sportsman.birthday) {
+                birthSertDateError = true;
+                formStatus = false;
+            }
+            if (birthSert.series.length > 0 && birthSert.series.length < 5) {
+                birthSertSeriesError = true;
+                formStatus = false;
+            } else if (birthSert.series.length === 0) {
+                formStatus = false;
+            }
+            if ((birthSert.number.length > 0 && !nums.test(birthSert.number)) || (birthSert.number.length > 0 && birthSert.number.length < 10)) {
+                birthSertNumError = true;
+                formStatus = false;
+            } else if (birthSert.number.length === 0) {
+                formStatus = false;
+            }
+            if ((birthSert.place_of_issue.length > 0 && birthSert.place_of_issue.length < 3)
+                || nums.test(birthSert.place_of_issue)
+                || formatWithSpace.test(birthSert.place_of_issue)) {
+                birthSertPlaceError = true;
+                formStatus = false;
+            } else if (birthSert.place_of_issue.length === 0) {
+                formStatus = false;
+            }
+        }
+        this.setState({
+            nameError,
+            surnameError,
+            patronymicError,
+            birthdayError,
+            rankError,
+            teamError,
+            passDateError,
+            passNumError,
+            passOrgCodeError,
+            passOrgError,
+            passPlaceError,
+            passSeriesError,
+            birthSertDateError,
+            birthSertNumError,
+            birthSertPlaceError,
+            birthSertSeriesError
+        }, () => this.props.validationStatusChangeHandler(formStatus));
+    }
+
+    calculateAge(birthday: Date) {
+        if (!birthday.getTime)
+            return 0;
+        let ageDifMs = Date.now() - birthday.getTime();
+        let ageDate = new Date(ageDifMs); // miliseconds from epoch
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
     changeDocTypeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
-        this.setState({ docType: Number(event.target.value) })
+        this.setState({ docType: Number(event.target.value) }, () => {
+            this.props.docTypeChangeHandler(this.props.index, this.state.docType)
+        })
     }
+
     render() {
-        const sportsman = this.props.sportsman;
-        const pass = this.props.passport;
-        const birthSert = this.props.birhSertificate;
+        const sportsman = this.state.sportsman;
+        const pass = this.state.passport;
+        const birthSert = this.state.birthSertificate;
         const index = this.props.index;
         return (
             <div className="list-item">
@@ -55,7 +277,7 @@ class ListItem extends Component<Props, State> {
                         <label htmlFor="surname">Фамилия</label>
                         <input
                             value={sportsman.surname}
-                            className="form-control"
+                            className={this.state.surnameError ? "form-control border border-danger" : "form-control"}
                             type="text"
                             name="surname"
                             id="surname"
@@ -66,7 +288,7 @@ class ListItem extends Component<Props, State> {
                         <label htmlFor="name">Имя</label>
                         <input
                             value={sportsman.name}
-                            className="form-control"
+                            className={this.state.nameError ? "form-control border border-danger" : "form-control"}
                             type="text"
                             name="name"
                             id="name"
@@ -77,7 +299,7 @@ class ListItem extends Component<Props, State> {
                         <label htmlFor="patronymic">Отчество</label>
                         <input
                             value={sportsman.patronymic}
-                            className="form-control"
+                            className={this.state.patronymicError ? "form-control border border-danger" : "form-control"}
                             type="text"
                             name="patronymic"
                             id="patronymic"
@@ -109,7 +331,7 @@ class ListItem extends Component<Props, State> {
                             <div className="series">
                                 <label htmlFor="series">Серия</label>
                                 <input
-                                    className="form-control"
+                                    className={this.state.passSeriesError ? "form-control border border-danger" : "form-control"}
                                     value={pass?.series}
                                     type="text"
                                     name="series"
@@ -120,7 +342,7 @@ class ListItem extends Component<Props, State> {
                             <div className="number">
                                 <label htmlFor="number">Номер</label>
                                 <input
-                                    className="form-control"
+                                    className={this.state.passNumError ? "form-control border border-danger" : "form-control"}
                                     value={pass?.number}
                                     type="text"
                                     name="number"
@@ -131,7 +353,7 @@ class ListItem extends Component<Props, State> {
                             <div className="issuePlace">
                                 <label htmlFor="issuePlace">Место выдачи</label>
                                 <input
-                                    className="form-control"
+                                    className={this.state.passPlaceError ? "form-control border border-danger" : "form-control"}
                                     value={pass?.place_of_issue}
                                     type="text"
                                     name="issuePlace"
@@ -142,7 +364,7 @@ class ListItem extends Component<Props, State> {
                             <div className="issueOrg">
                                 <label htmlFor="issueOrg">Организация выдачи</label>
                                 <input
-                                    className="form-control"
+                                    className={this.state.passOrgError ? "form-control border border-danger" : "form-control"}
                                     value={pass?.organization_of_issue}
                                     type="text"
                                     name="issueOrg"
@@ -159,7 +381,7 @@ class ListItem extends Component<Props, State> {
                             <div className="orgCode">
                                 <label htmlFor="orgCode">Код организации</label>
                                 <input
-                                    className="form-control"
+                                    className={this.state.passOrgCodeError ? "form-control border border-danger" : "form-control"}
                                     value={pass?.code_of_organization}
                                     type="text"
                                     name="orgCode"
@@ -173,7 +395,7 @@ class ListItem extends Component<Props, State> {
                             <div className="series">
                                 <label htmlFor="series">Серия</label>
                                 <input
-                                    className="form-control"
+                                    className={this.state.birthSertSeriesError ? "form-control border border-danger" : "form-control"}
                                     value={birthSert?.series}
                                     type="text"
                                     name="series"
@@ -184,7 +406,7 @@ class ListItem extends Component<Props, State> {
                             <div className="number">
                                 <label htmlFor="number">Номер</label>
                                 <input
-                                    className="form-control"
+                                    className={this.state.birthSertNumError ? "form-control border border-danger" : "form-control"}
                                     value={birthSert?.number}
                                     type="text"
                                     name="number"
@@ -195,7 +417,7 @@ class ListItem extends Component<Props, State> {
                             <div className="issuePlace">
                                 <label htmlFor="issuePlace">Место выдачи</label>
                                 <input
-                                    className="form-control"
+                                    className={this.state.birthSertPlaceError ? "form-control border border-danger" : "form-control"}
                                     value={birthSert?.place_of_issue}
                                     type="text"
                                     name="issuePlace"
@@ -207,7 +429,7 @@ class ListItem extends Component<Props, State> {
                                 readOnly={false}
                                 value={birthSert?.date_of_issue || new Date()}
                                 secondField={false}
-                                changeDate={(date: Date) => this.props.birthSertDateChangeHangler(index,date)}
+                                changeDate={(date: Date) => this.props.birthSertDateChangeHangler(index, date)}
                             />
                         </div>
                     }
@@ -217,7 +439,7 @@ class ListItem extends Component<Props, State> {
                         <label htmlFor="rank">Спортивный разряд</label>
                         <input
                             value={sportsman.rank}
-                            className="form-control"
+                            className={this.state.rankError ? "form-control border border-danger" : "form-control"}
                             type="text"
                             name="rank"
                             id="rank"
@@ -228,7 +450,7 @@ class ListItem extends Component<Props, State> {
                         <label htmlFor="rank">Команда</label>
                         <input
                             value={sportsman.team}
-                            className="form-control"
+                            className={this.state.teamError ? "form-control border border-danger" : "form-control"}
                             type="text"
                             name="team"
                             id="team"
