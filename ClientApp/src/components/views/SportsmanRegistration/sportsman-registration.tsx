@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
-import { IUser, ISportsman, Sportsman, IPassport, IBirthSertificate, ISportsmenListItem, Passport, BirthSertificate } from '../../../@Types/types';
+import { IUser, ISportsman, Sportsman, IPassport, IBirthSertificate, ISportsmenListItem, Passport, BirthSertificate, ICompetition, Competition } from '../../../@Types/types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect, RouteComponentProps } from 'react-router';
 
 import SportsmenList from './SportsmenList';
 
 import './SportsmanRegistration.scss';
 
-
-interface IProps {
+interface MatchParams {
+    id?: string
+}
+interface IProps extends RouteComponentProps<MatchParams> {
     user: IUser;
+    competitions: ICompetition[];
 }
 interface IState {
     sportsmen: ISportsmenListItem[];
+    competition: ICompetition;
+    areFromsValid: boolean;
 }
 
 class SportsmanRegistration extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
+            competition: new Competition(),
             sportsmen:
                 [
                     {
                         sportsman: new Sportsman(),
-                        pass: null,
+                        pass: new Passport(),
                         birthSertificate: null
                     }
-                ]
+                ],
+            areFromsValid: false
         }
         this.addSportsman = this.addSportsman.bind(this);
         this.deleteSportsman = this.deleteSportsman.bind(this);
@@ -46,7 +53,23 @@ class SportsmanRegistration extends Component<IProps, IState> {
         this.birthSertNumberChangeHangler = this.birthSertNumberChangeHangler.bind(this);
         this.birthSertPlaceChangeHangler = this.birthSertPlaceChangeHangler.bind(this);
         this.birthSertDateChangeHangler = this.birthSertDateChangeHangler.bind(this);
+        this.validationStatusChangeHandler = this.validationStatusChangeHandler.bind(this);
+        this.docTypeChangeHandler = this.docTypeChangeHandler.bind(this);
     }
+    componentDidMount() {
+        const id = Number(this.props.match.params.id);
+        const competition = this.props.competitions.find(c => c.id === id) || new Competition();
+        this.setState({ competition: JSON.parse(JSON.stringify(competition)) });
+    }
+    componentDidUpdate(prevProps: IProps, prevState: IState) {
+        const id = Number(this.props.match.params.id);
+        const comp = this.props.competitions.find(c => c.id === id) || new Competition();
+        if (prevProps.competitions.length !== this.props.competitions.length) {
+            this.setState({ competition: JSON.parse(JSON.stringify(comp)) });
+        }
+    }
+
+
     addSportsman() {
         const sportsmen = this.state.sportsmen;
         sportsmen.push({
@@ -212,6 +235,21 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].birthSertificate = birthSertificate;
         this.setState({ sportsmen });
     }
+    docTypeChangeHandler(id: number, value: number) {
+        const sportsmen = this.state.sportsmen;
+        if (value === 0) {
+            sportsmen[id].pass = new Passport();
+            sportsmen[id].birthSertificate = null;
+        } else if (value === 1) {
+            sportsmen[id].pass = null;
+            sportsmen[id].birthSertificate = new BirthSertificate();
+        }
+        this.setState({ sportsmen });
+    }
+
+    validationStatusChangeHandler(val: boolean) {
+        this.setState({ areFromsValid: val })
+    }
 
     render() {
         const user = this.props.user;
@@ -226,6 +264,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
                         <h4>Заполните форму</h4>
                     </div>
                     <SportsmenList
+                        competition={this.state.competition}
                         sportsmen={sportsmen}
                         deleteSportsman={this.deleteSportsman}
                         nameChangeHangler={this.nameChangeHangler}
@@ -244,11 +283,19 @@ class SportsmanRegistration extends Component<IProps, IState> {
                         birthSertNumberChangeHangler={this.birthSertNumberChangeHangler}
                         birthSertPlaceChangeHangler={this.birthSertPlaceChangeHangler}
                         birthSertDateChangeHangler={this.birthSertDateChangeHangler}
+                        validationStatusChangeHandler={this.validationStatusChangeHandler}
+                        docTypeChangeHandler={this.docTypeChangeHandler}
                     />
                     <div className="add-sportsman"
                         onClick={this.addSportsman}>
                         <span>Добавить спортсмена</span>
                     </div>
+                    <button
+                        className={this.state.areFromsValid ? "btn btn-primary" : "btn btn-secondary"}
+                        disabled={!this.state.areFromsValid}
+                    >
+                        Сохранить
+                    </button>
                 </div>
             </div>
         )
@@ -256,7 +303,8 @@ class SportsmanRegistration extends Component<IProps, IState> {
 }
 
 const mapStateToProps = (state: any) => ({
-    user: state.user.user
+    user: state.user.user,
+    competitions: state.competition.competitions
 })
 
 export default connect(mapStateToProps)(SportsmanRegistration);

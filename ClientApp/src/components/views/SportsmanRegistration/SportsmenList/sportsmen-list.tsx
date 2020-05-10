@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { ISportsman, ISportsmenListItem } from '../../../../@Types/types';
+import { ISportsman, ISportsmenListItem, ICompetition } from '../../../../@Types/types';
 
 import ListItem from './ListItem';
 
 import './SportsmenList.scss';
 
 interface Props {
+    competition: ICompetition;
     sportsmen: ISportsmenListItem[];
     deleteSportsman: (index: number) => void;
     nameChangeHangler: (id: number, value: string) => void;
@@ -24,21 +25,24 @@ interface Props {
     birthSertNumberChangeHangler: (id: number, value: string) => void;
     birthSertPlaceChangeHangler: (id: number, value: string) => void;
     birthSertDateChangeHangler: (id: number, value: Date) => void;
+    validationStatusChangeHandler: (val: boolean) => void;
+    docTypeChangeHandler: (id: number, value: number) => void;
 }
 
 class SportsmenList extends Component<Props> {
     render() {
-        const sportsmen = this.props.sportsmen;
+        const sportsmen = JSON.parse(JSON.stringify(this.props.sportsmen));
         return (
             <div className="sportsmen-list">
                 {sportsmen.map((s: ISportsmenListItem, i: number) => (
                     <ListItem
                         sportsman={s.sportsman}
+                        competition={this.props.competition}
                         passport={s.pass}
-                        birhSertificate={s.birthSertificate}
+                        birthSertificate={s.birthSertificate}
                         index={i}
                         key={i}
-                        deleteItem={this.props.deleteSportsman} 
+                        deleteItem={this.props.deleteSportsman}
                         nameChangeHangler={this.props.nameChangeHangler}
                         surnameChangeHangler={this.props.surnameChangeHangler}
                         patronymicChangeHangler={this.props.patronymicChangeHangler}
@@ -54,7 +58,9 @@ class SportsmenList extends Component<Props> {
                         birthSertSeriesChangeHangler={this.props.birthSertSeriesChangeHangler}
                         birthSertNumberChangeHangler={this.props.birthSertNumberChangeHangler}
                         birthSertPlaceChangeHangler={this.props.birthSertPlaceChangeHangler}
-                        birthSertDateChangeHangler={this.props.birthSertDateChangeHangler}/>
+                        birthSertDateChangeHangler={this.props.birthSertDateChangeHangler}
+                        validationStatusChangeHandler={this.props.validationStatusChangeHandler}
+                        docTypeChangeHandler={this.props.docTypeChangeHandler} />
                 ))}
             </div>
         )
