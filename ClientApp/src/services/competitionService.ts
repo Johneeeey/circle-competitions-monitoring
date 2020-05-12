@@ -7,9 +7,8 @@ class CompetitionService {
      * @returns {Promise<ICompetition>}
      */
     public SaveCompetition(competition: ICompetition): Promise<ICompetition> {
-        const token = localStorage.getItem("access_token")
+        const token = localStorage.getItem("access_token");
         return new Promise((result, error) => {
-            console.log(competition)
             fetch(`/Competition/SaveCompetition`, {
                 method: "POST",
                 headers: {

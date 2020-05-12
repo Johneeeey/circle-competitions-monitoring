@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { IUser, ISportsman, Sportsman, IPassport, IBirthSertificate, ISportsmenListItem, Passport, BirthSertificate, ICompetition, Competition } from '../../../@Types/types';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
+import SportsmanService from '../../../services/sportsmanService';
 
 import SportsmenList from './SportsmenList';
 
@@ -18,6 +19,7 @@ interface IState {
     sportsmen: ISportsmenListItem[];
     competition: ICompetition;
     areFromsValid: boolean;
+    redirect: boolean;
 }
 
 class SportsmanRegistration extends Component<IProps, IState> {
@@ -33,7 +35,8 @@ class SportsmanRegistration extends Component<IProps, IState> {
                         birthSertificate: null
                     }
                 ],
-            areFromsValid: false
+            areFromsValid: false,
+            redirect: false
         }
         this.addSportsman = this.addSportsman.bind(this);
         this.deleteSportsman = this.deleteSportsman.bind(this);
@@ -55,6 +58,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         this.birthSertDateChangeHangler = this.birthSertDateChangeHangler.bind(this);
         this.validationStatusChangeHandler = this.validationStatusChangeHandler.bind(this);
         this.docTypeChangeHandler = this.docTypeChangeHandler.bind(this);
+        this.save = this.save.bind(this);
     }
     componentDidMount() {
         const id = Number(this.props.match.params.id);
@@ -251,12 +255,58 @@ class SportsmanRegistration extends Component<IProps, IState> {
         this.setState({ areFromsValid: val })
     }
 
+    save() {
+        const sportsmen = this.state.sportsmen;
+        const competition = this.state.competition;
+        sportsmen.forEach((s: ISportsmenListItem) => {
+            if (s.pass) {
+                SportsmanService.SavePassport(s.pass)
+                    .then((pass: IPassport) => {
+                        s.sportsman.pass = pass.id;
+                        SportsmanService.SaveSportsman(s.sportsman)
+                            .then((sportsman: ISportsman) => {
+                                SportsmanService.SaveParticipant({
+                                    id: 0,
+                                    sportsman: sportsman.id,
+                                    competition: competition.id,
+                                    payment_amount: 0,
+                                    payment_date: new Date(),
+                                    payment_type: ""
+                                })
+                                    .then(() => {
+                                        this.setState({ redirect: true });
+                                    });
+                            });
+                    });
+            } else if (s.birthSertificate) {
+                SportsmanService.SaveBirthSertificate(s.birthSertificate)
+                    .then((bSert: IBirthSertificate) => {
+                        s.sportsman.birth_sertificate = bSert.id;
+                        SportsmanService.SaveSportsman(s.sportsman)
+                            .then((sportsman: ISportsman) => {
+                                SportsmanService.SaveParticipant({
+                                    id: 0,
+                                    sportsman: sportsman.id,
+                                    competition: competition.id,
+                                    payment_amount: 0,
+                                    payment_date: new Date(),
+                                    payment_type: ""
+                                })
+                                    .then(() => {
+                                        this.setState({ redirect: true });
+                                    });
+                            });
+                    });
+            }
+        });
+    }
+
     render() {
         const user = this.props.user;
         const sportsmen = this.state.sportsmen;
-        // if (!user || user.role !== 2) {
-        //     return <Redirect to="/" />
-        // }
+        if (this.state.redirect || (!user || user.role !== 2)) {
+            return <Redirect to="/" />
+        }
         return (
             <div className="sportsman-registration-container container-fluid">
                 <div className="reg-body">
@@ -293,6 +343,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
                     <button
                         className={this.state.areFromsValid ? "btn btn-primary" : "btn btn-secondary"}
                         disabled={!this.state.areFromsValid}
+                        onClick={() => this.save()}
                     >
                         Сохранить
                     </button>

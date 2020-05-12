@@ -12,6 +12,7 @@ interface PickerProps {
     changeDate: (date: Date) => void;
     changeSecondDate?: (date: Date) => void;
     readOnly?: boolean;
+    className?: string;
 }
 interface PickerState {
     defaultValue: Date
@@ -43,7 +44,7 @@ class DateTimePicker extends Component<PickerProps, PickerState> {
                 /> :
                     <DatePicker
                         dateFormat="dd/MM/yyyy"
-                        className="form-control picker"
+                        className={`form-control picker ${this.props.className}`}
                         selected={new Date(this.props.value)}
                         onChange={date => {
                             if (!date) {

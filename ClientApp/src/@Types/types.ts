@@ -143,8 +143,8 @@ export interface ISportsman {
     surname: string;
     patronymic: string;
     birthday: Date;
-    pass: number;
-    birth_sertificate: number;
+    pass: number | null;
+    birth_sertificate: number | null;
     rank: string;
     team: string;
     SI_chip: string;
@@ -156,8 +156,8 @@ export class Sportsman implements ISportsman {
     surname = "";
     patronymic = "";
     birthday = new Date();
-    pass = 0;
-    birth_sertificate = 0;
+    pass = null;
+    birth_sertificate = null;
     rank = "";
     team = "";
     SI_chip = "";

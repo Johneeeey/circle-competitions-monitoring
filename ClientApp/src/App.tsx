@@ -87,7 +87,7 @@ class App extends Component<appComponentProps, appComponentState> {
                 component={CompetitionInfo}
               />
               <Route
-                path="/registrate-sportsman"
+                path="/registrate-sportsman/:id"
                 component={SportsmanRegistration}
               />
               <Route
