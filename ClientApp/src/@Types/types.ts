@@ -34,6 +34,8 @@ export interface ICompetition {
     office_flat: string;
     summary_addr: string;
     organizer: string;
+    organizer_email: string;
+    organizer_bank_account: string;
     entry_fee: number;
     age_limit: number;
 }
@@ -53,6 +55,8 @@ export class Competition implements ICompetition {
     office_flat = "";
     summary_addr = "";
     organizer = "";
+    organizer_email = "";
+    organizer_bank_account = "";
     entry_fee = 0;
     age_limit = 0;
 }
@@ -114,13 +118,17 @@ export class Passport implements IPassport {
     date_of_issue = new Date();
 }
 
+export interface Request_Status {
+    id: number;
+    name: string;
+}
+
 export interface IPaymentParticipant {
     id: number;
     sportsman: number;
     competition: number;
-    payment_amount: number;
-    payment_date: Date;
-    payment_type: string;
+    receipt: number[];
+    status: number;
 }
 
 export interface IRegisteredSportsman {
@@ -177,6 +185,14 @@ export interface IStage {
     sportsman: number;
     points: number;
     place: number;
+}
+
+export interface IStage_Info {
+    id: number;
+    competition: number;
+    stage: number;
+    circle_count: number;
+    comment: string;
 }
 
 export interface IFilterState {

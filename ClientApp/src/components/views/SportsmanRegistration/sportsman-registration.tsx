@@ -269,9 +269,8 @@ class SportsmanRegistration extends Component<IProps, IState> {
                                     id: 0,
                                     sportsman: sportsman.id,
                                     competition: competition.id,
-                                    payment_amount: 0,
-                                    payment_date: new Date(),
-                                    payment_type: ""
+                                    receipt: [],
+                                    status: 1
                                 })
                                     .then(() => {
                                         this.setState({ redirect: true });
@@ -288,9 +287,8 @@ class SportsmanRegistration extends Component<IProps, IState> {
                                     id: 0,
                                     sportsman: sportsman.id,
                                     competition: competition.id,
-                                    payment_amount: 0,
-                                    payment_date: new Date(),
-                                    payment_type: ""
+                                    receipt: [],
+                                    status: 1
                                 })
                                     .then(() => {
                                         this.setState({ redirect: true });

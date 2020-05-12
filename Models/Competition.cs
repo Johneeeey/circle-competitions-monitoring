@@ -1,6 +1,8 @@
 using System;
-namespace circle_competitions_monitoring.Models {
-    public class Competition {
+namespace circle_competitions_monitoring.Models
+{
+    public class Competition
+    {
         public int id { get; set; }
         public string title { get; set; }
         public DateTime date_of_start { get; set; }
@@ -15,6 +17,8 @@ namespace circle_competitions_monitoring.Models {
         public string office_of_flat { get; set; }
         public string summary_addr { get; set; }
         public string organizer { get; set; }
+        public string organizer_email { get; set; }
+        public string organizer_bank_account { get; set; }
         public decimal entry_fee { get; set; }
         public byte age_limit { get; set; }
     }
