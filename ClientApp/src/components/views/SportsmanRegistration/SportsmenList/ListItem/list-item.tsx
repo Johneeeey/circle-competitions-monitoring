@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ISportsman, IPassport, IBirthSertificate, ICompetition, Passport, BirthSertificate } from '../../../../../@Types/types';
+import { ISportsman, IPassport, IBirthSertificate, ICompetition } from '../../../../../@Types/types';
 import DateTimePicker from '../../../../widgets/DateTimePicker';
 
 import './ListItem.scss';
@@ -161,7 +161,7 @@ class ListItem extends Component<Props, State> {
         } else if (sportsman.team.length === 0) {
             formStatus = false;
         }
-        if (this.calculateAge(sportsman.birthday) < competition.age_limit) {
+        if (this.calculateAge(new Date(sportsman.birthday)) < competition.age_limit) {
             birthdayError = true;
             formStatus = false;
         }
@@ -255,7 +255,8 @@ class ListItem extends Component<Props, State> {
             return 0;
         let ageDifMs = Date.now() - birthday.getTime();
         let ageDate = new Date(ageDifMs); // miliseconds from epoch
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
+        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+        return age;
     }
 
     changeDocTypeHandler(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -310,6 +311,7 @@ class ListItem extends Component<Props, State> {
                         readOnly={false}
                         value={sportsman.birthday}
                         secondField={false}
+                        className={this.state.birthdayError ? "border border-danger" : ""}
                         changeDate={(date: Date) => this.props.birthdayChangeHangler(index, date)}
                     />
                 </div>
@@ -377,6 +379,7 @@ class ListItem extends Component<Props, State> {
                                 value={pass?.date_of_issue || new Date()}
                                 secondField={false}
                                 changeDate={(date: Date) => this.props.passDateChangeHangler(index, date)}
+                                className={this.state.passDateError ? "border border-danger" : ""}
                             />
                             <div className="orgCode">
                                 <label htmlFor="orgCode">Код организации</label>
@@ -430,6 +433,7 @@ class ListItem extends Component<Props, State> {
                                 value={birthSert?.date_of_issue || new Date()}
                                 secondField={false}
                                 changeDate={(date: Date) => this.props.birthSertDateChangeHangler(index, date)}
+                                className={this.state.birthSertDateError ? "border border-danger" : ""}
                             />
                         </div>
                     }

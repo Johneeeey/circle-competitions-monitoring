@@ -88,7 +88,7 @@ class CompetitionDetail extends Component<DetailProps> {
                 </table>
                 {user ?
                     <Link
-                        to="/registrate-sportsman">
+                        to={`/registrate-sportsman/${competition.id}`}>
                         <button className="btn btn-light">Зарегистрировать участника</button>
                     </Link>
                     : null

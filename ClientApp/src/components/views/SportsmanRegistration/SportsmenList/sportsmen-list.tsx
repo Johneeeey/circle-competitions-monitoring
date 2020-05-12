@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ISportsman, ISportsmenListItem, ICompetition } from '../../../../@Types/types';
+import { ISportsmenListItem, ICompetition } from '../../../../@Types/types';
 
 import ListItem from './ListItem';
 
