@@ -8,6 +8,7 @@ namespace circle_competitions_monitoring.Models
         public DateTime date_of_start { get; set; }
         public DateTime date_of_end { get; set; }
         public byte type { get; set; }
+        public byte stage_count { get; set; }
         public decimal lng { get; set; }
         public decimal lat { get; set; }
         public string city { get; set; }

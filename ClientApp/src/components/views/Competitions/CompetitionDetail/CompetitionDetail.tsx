@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { ICompetition, ICompetitionType, IUser } from '../../../../@Types/types';
+import { ICompetition, ICompetitionType, IUser, IStage_Info } from '../../../../@Types/types';
 import { connect } from 'react-redux';
 import DateService from '../../../../helpers/dateService';
 import './CompetitionDetail.scss';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Link } from "react-router-dom";
+import competitionService from '../../../../services/competitionService';
 
 
 interface DetailProps {
@@ -12,9 +13,52 @@ interface DetailProps {
     competition: ICompetition;
     types: ICompetitionType[];
 }
+interface DetailState {
+    stages: IStage_Info[];
+}
 
-class CompetitionDetail extends Component<DetailProps> {
+class CompetitionDetail extends Component<DetailProps, DetailState> {
+    constructor(props: DetailProps) {
+        super(props);
+        this.state = {
+            stages: []
+        }
+        this.renStages = this.renStages.bind(this);
+    }
+    componentDidMount() {
+        competitionService.GetCompetitionStagesInfo(this.props.competition.id)
+            .then((stages: IStage_Info[]) => {
+                this.setState({ stages });
+            });
+    }
+    componentDidUpdate(prevProps: DetailProps, prevState: DetailState) {
+        if (prevProps.competition !== this.props.competition) {
+            competitionService.GetCompetitionStagesInfo(this.props.competition.id)
+                .then((stages: IStage_Info[]) => {
+                    this.setState({ stages });
+                });
+        }
+    }
+
+
+    renStages(): JSX.Element[] {
+        const stages = [...this.state.stages];
+        let response: JSX.Element[] = [];
+        stages.forEach((stage: IStage_Info, i: number) => {
+            response.push(
+                <tr
+                    key={i}
+                    title={stage.comment}>
+                    <td>Стадия №{stage.stage_number}</td>
+                    <td>Кругов: {stage.circle_count}</td>
+                </tr>
+            )
+        })
+        return response;
+    }
+
     render() {
+        console.log(this.state.stages)
         const user = this.props.user;
         const start = DateService.GetShortDate(this.props.competition.date_of_start);
         const end = DateService.GetShortDate(this.props.competition.date_of_end);
@@ -83,7 +127,7 @@ class CompetitionDetail extends Component<DetailProps> {
                             <td>Квартира</td>
                             <td>{competition.office_flat}</td>
                         </tr>
-
+                        {this.renStages()}
                     </tbody>
                 </table>
                 {user ?

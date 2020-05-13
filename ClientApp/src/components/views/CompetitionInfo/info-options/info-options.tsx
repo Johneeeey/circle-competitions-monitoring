@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ICompetition, ICompetitionType } from '../../../../@Types/types';
+import { ICompetition, ICompetitionType, IStage_Info } from '../../../../@Types/types';
 import DateTimePicker from '../../../widgets/DateTimePicker';
 import { Redirect } from 'react-router';
 
@@ -8,11 +8,13 @@ import './InfoOptions.scss';
 interface OptionsProps {
     readonly: boolean;
     competition: ICompetition;
+    stages: IStage_Info[];
     types: ICompetitionType[];
     selectedType: string;
     handleChangeTitle: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeType: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     handleChangeCity: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChangeStageCount: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeStreet: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeHouse: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeBuilding: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -20,6 +22,8 @@ interface OptionsProps {
     handleChangeOrganizer: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeEntryFee: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeAgeLimit: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChangeStageCircleCount: (idx: number, value: number) => void;
+    handleChangeStageComment: (idx: number, value: string) => void;
     handleChangeStartDate: (date: Date) => void;
     handleChangeEndDate: (date: Date) => void;
     handleChangeReadOnly: () => void;
@@ -45,6 +49,49 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
         this.props.types.forEach((t: ICompetitionType, i: number) => ren.push(<option key={i}>{t.name}</option>));
         return ren;
     }
+
+    renStageListItem(): JSX.Element[] {
+        const response: JSX.Element[] = [];
+        const stages = this.props.stages;
+        stages.forEach((s: IStage_Info, i: number) => {
+            response.push(
+                <div
+                    key={i}
+                    className="list_item">
+                    <h6>Стадия №{i + 1}</h6>
+                    <div className="list_item__circle_count">
+                        <label htmlFor="circle_count">Количество кругов</label>
+                        <input
+                            type="number"
+                            min={1}
+                            id="circle_count"
+                            className="form-control"
+                            readOnly={this.props.readonly}
+                            value={s.circle_count || ""}
+                            placeholder="#"
+                            onChange={event =>
+                                this.props.handleChangeStageCircleCount(i, Number(event.target.value))}
+                        />
+                    </div>
+                    <div className="list_item__stage_comment">
+                        <label htmlFor="comment">Комментарий</label>
+                        <input
+                            type="text"
+                            maxLength={100}
+                            id="comment"
+                            className="form-control"
+                            readOnly={this.props.readonly}
+                            value={s.comment || ""}
+                            placeholder="Комментарий к стадии"
+                            onChange={event => this.props.handleChangeStageComment(i, event.target.value)}
+                        />
+                    </div>
+                </div>
+            )
+        })
+        return response;
+    }
+
     render() {
         const competition = this.props.competition;
         const readOnly = this.props.readonly;
@@ -98,11 +145,28 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
                     changeDate={this.props.handleChangeStartDate}
                     changeSecondDate={this.props.handleChangeEndDate}
                 />
+                <div className="stages-info">
+                    <label htmlFor="stage_count">Количество стадий</label>
+                    <input
+                        type="number"
+                        min={1}
+                        onKeyDown={() => { return false; }}
+                        className="form-control stages-info__stage_count"
+                        id="stage_count"
+                        readOnly={readOnly}
+                        value={competition.stage_count || ""}
+                        placeholder="#"
+                        onChange={this.props.handleChangeStageCount}
+                    />
+                    <div className="stages-info__stage_list">
+                        {this.renStageListItem()}
+                    </div>
+                </div>
                 <div className="city">
                     <label htmlFor="city">Город</label>
                     <input
                         type="text"
-                        className="form-control city-i"
+                        className="form-control city"
                         id="city"
                         readOnly={readOnly}
                         value={competition.city || ""}

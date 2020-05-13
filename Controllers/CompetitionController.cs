@@ -33,7 +33,7 @@ namespace circle_competitions_monitoring.Controllers
         }
         [HttpPost]
         [Authorize]
-        public Competition SaveCompetition([FromBody]Competition competition)
+        public Competition SaveCompetition([FromBody] Competition competition)
         {
             if (competition.id == 0)
             {
@@ -45,6 +45,29 @@ namespace circle_competitions_monitoring.Controllers
             }
             db.SaveChanges();
             return competition;
+        }
+        [HttpGet]
+        public List<Stage_Info> GetCompetitionStagesInfo(int id)
+        {
+            return db.Stage_Info.Where(s => s.competition == id).ToList();
+        }
+        [HttpPost]
+        [Authorize]
+        public List<Stage_Info> SaveStagesInfo([FromBody] List<Stage_Info> info)
+        {
+            foreach (Stage_Info stage in info)
+            {
+                if (stage.id == 0)
+                {
+                    db.Stage_Info.Add(stage);
+                }
+                else
+                {
+                    db.Update(stage);
+                }
+            }
+            db.SaveChanges();
+            return info;
         }
     }
 }

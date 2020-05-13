@@ -25,6 +25,7 @@ export interface ICompetition {
     date_of_start: Date;
     date_of_end: Date;
     type: number;
+    stage_count: number;
     lng: number;
     lat: number;
     city: string;
@@ -46,6 +47,7 @@ export class Competition implements ICompetition {
     date_of_start = new Date();
     date_of_end = new Date();
     type = 0;
+    stage_count = 1;
     lng = 0;
     lat = 0;
     city = "";
@@ -190,9 +192,17 @@ export interface IStage {
 export interface IStage_Info {
     id: number;
     competition: number;
-    stage: number;
+    stage_number: number;
     circle_count: number;
     comment: string;
+}
+
+export class Stage_Info implements IStage_Info {
+    id = 0;
+    competition = 0;
+    stage_number = 0;
+    circle_count = 1;
+    comment = "";
 }
 
 export interface IFilterState {
