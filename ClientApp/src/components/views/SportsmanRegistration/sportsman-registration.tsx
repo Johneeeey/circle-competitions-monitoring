@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { IUser, ISportsman, Sportsman, IPassport, IBirthSertificate, ISportsmenListItem, Passport, BirthSertificate, ICompetition, Competition } from '../../../@Types/types';
+import { IUser, ISportsman, Sportsman, IPassport, IBirthSertificate, ISportsmenListItem, Passport, BirthSertificate, ICompetition, Competition, IPaymentParticipant } from '../../../@Types/types';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import SportsmanService from '../../../services/sportsmanService';
+import { Dispatch } from 'redux';
+import { response, request } from '../../../actions/UserActions';
 
 import SportsmenList from './SportsmenList';
 
 import './SportsmanRegistration.scss';
+import '../../../styles/_buttons.scss';
 
 interface MatchParams {
     id?: string
@@ -14,8 +17,11 @@ interface MatchParams {
 interface IProps extends RouteComponentProps<MatchParams> {
     user: IUser;
     competitions: ICompetition[];
+    request: () => void;
+    response: () => void;
 }
 interface IState {
+    showAlert: boolean;
     sportsmen: ISportsmenListItem[];
     competition: ICompetition;
     areFromsValid: boolean;
@@ -26,13 +32,15 @@ class SportsmanRegistration extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
+            showAlert: true,
             competition: new Competition(),
             sportsmen:
                 [
                     {
                         sportsman: new Sportsman(),
                         pass: new Passport(),
-                        birthSertificate: null
+                        birthSertificate: null,
+                        receipt: ""
                     }
                 ],
             areFromsValid: false,
@@ -58,18 +66,25 @@ class SportsmanRegistration extends Component<IProps, IState> {
         this.birthSertDateChangeHangler = this.birthSertDateChangeHangler.bind(this);
         this.validationStatusChangeHandler = this.validationStatusChangeHandler.bind(this);
         this.docTypeChangeHandler = this.docTypeChangeHandler.bind(this);
+        this.receiptChangeHandler = this.receiptChangeHandler.bind(this);
         this.save = this.save.bind(this);
     }
     componentDidMount() {
         const id = Number(this.props.match.params.id);
         const competition = this.props.competitions.find(c => c.id === id) || new Competition();
-        this.setState({ competition: JSON.parse(JSON.stringify(competition)) });
+        this.setState({
+            competition: JSON.parse(JSON.stringify(competition)),
+            showAlert: competition.entry_fee > 0 ? true : false
+        });
     }
     componentDidUpdate(prevProps: IProps, prevState: IState) {
         const id = Number(this.props.match.params.id);
         const comp = this.props.competitions.find(c => c.id === id) || new Competition();
         if (prevProps.competitions.length !== this.props.competitions.length) {
-            this.setState({ competition: JSON.parse(JSON.stringify(comp)) });
+            this.setState({
+                competition: JSON.parse(JSON.stringify(comp)),
+                showAlert: comp.entry_fee > 0 ? true : false
+            });
         }
     }
 
@@ -79,7 +94,8 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen.push({
             sportsman: new Sportsman(),
             pass: null,
-            birthSertificate: null
+            birthSertificate: null,
+            receipt: ""
         })
         this.setState({ sportsmen })
     }
@@ -250,6 +266,11 @@ class SportsmanRegistration extends Component<IProps, IState> {
         }
         this.setState({ sportsmen });
     }
+    receiptChangeHandler(id: number, value: string) {
+        const sportsmen = this.state.sportsmen;
+        sportsmen[id].receipt = value;
+        this.setState({ sportsmen });
+    }
 
     validationStatusChangeHandler(val: boolean) {
         this.setState({ areFromsValid: val })
@@ -259,6 +280,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         const sportsmen = this.state.sportsmen;
         const competition = this.state.competition;
         sportsmen.forEach((s: ISportsmenListItem) => {
+            this.props.request();
             if (s.pass) {
                 SportsmanService.SavePassport(s.pass)
                     .then((pass: IPassport) => {
@@ -272,8 +294,22 @@ class SportsmanRegistration extends Component<IProps, IState> {
                                     receipt: [],
                                     status: 1
                                 })
-                                    .then(() => {
-                                        this.setState({ redirect: true });
+                                    .then((participant: IPaymentParticipant) => {
+                                        if (s.receipt) {
+                                            SportsmanService.getBlobFromImage(s.receipt)
+                                                .then(img => {
+                                                    const formData = new FormData();
+                                                    formData.append("File", img);
+                                                    SportsmanService.AddReceptToParticipant(formData, participant.id);
+                                                })
+                                                .then(() => {
+                                                    this.props.response();
+                                                    this.setState({ redirect: true });
+                                                });
+                                        } else {
+                                            this.props.response();
+                                            this.setState({ redirect: true });
+                                        }
                                     });
                             });
                     });
@@ -290,8 +326,22 @@ class SportsmanRegistration extends Component<IProps, IState> {
                                     receipt: [],
                                     status: 1
                                 })
-                                    .then(() => {
-                                        this.setState({ redirect: true });
+                                    .then((participant: IPaymentParticipant) => {
+                                        if (s.receipt) {
+                                            SportsmanService.getBlobFromImage(s.receipt)
+                                                .then(img => {
+                                                    const formData = new FormData();
+                                                    formData.append("File", img);
+                                                    SportsmanService.AddReceptToParticipant(formData, participant.id);
+                                                })
+                                                .then(() => {
+                                                    this.props.response();
+                                                    this.setState({ redirect: true });
+                                                })
+                                        } else {
+                                            this.props.response();
+                                            this.setState({ redirect: true });
+                                        }
                                     });
                             });
                     });
@@ -302,12 +352,20 @@ class SportsmanRegistration extends Component<IProps, IState> {
     render() {
         const user = this.props.user;
         const sportsmen = this.state.sportsmen;
-        if (this.state.redirect || (!user || user.role !== 2)) {
+        if (this.state.redirect || !user) {
             return <Redirect to="/" />
         }
         return (
             <div className="sportsman-registration-container container-fluid">
                 <div className="reg-body">
+                    {this.state.showAlert &&
+                        <div className="payment-alert">
+                            <p>Для регистрации необходимо заранее оплатить первичный взнос и сохранить чек</p>
+                            <button
+                                onClick={() => this.setState({ showAlert: false })}
+                                className="btn btn-close" />
+                        </div>
+                    }
                     <div className="body-header">
                         <h4>Заполните форму</h4>
                     </div>
@@ -333,6 +391,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
                         birthSertDateChangeHangler={this.birthSertDateChangeHangler}
                         validationStatusChangeHandler={this.validationStatusChangeHandler}
                         docTypeChangeHandler={this.docTypeChangeHandler}
+                        receiptChangeHandler={this.receiptChangeHandler}
                     />
                     <div className="add-sportsman"
                         onClick={this.addSportsman}>
@@ -356,4 +415,9 @@ const mapStateToProps = (state: any) => ({
     competitions: state.competition.competitions
 })
 
-export default connect(mapStateToProps)(SportsmanRegistration);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    request: () => dispatch(request()),
+    response: () => dispatch(response())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SportsmanRegistration);

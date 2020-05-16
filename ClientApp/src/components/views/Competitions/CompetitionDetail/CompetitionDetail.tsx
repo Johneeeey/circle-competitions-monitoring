@@ -58,7 +58,6 @@ class CompetitionDetail extends Component<DetailProps, DetailState> {
     }
 
     render() {
-        console.log(this.state.stages)
         const user = this.props.user;
         const start = DateService.GetShortDate(this.props.competition.date_of_start);
         const end = DateService.GetShortDate(this.props.competition.date_of_end);
@@ -106,6 +105,10 @@ class CompetitionDetail extends Component<DetailProps, DetailState> {
                         <tr>
                             <td>Первичный взнос</td>
                             <td>{competition.entry_fee}</td>
+                        </tr>
+                        <tr>
+                            <td>Номер счета</td>
+                            <td>{competition.organizer_bank_account}</td>
                         </tr>
                         <tr>
                             <td>Город</td>

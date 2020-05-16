@@ -1,7 +1,7 @@
 @import "../../../styles/variables";
 
 .sportsman-registration-container {
-    .form-control{
+    .form-control {
         outline: none !important;
         box-shadow: none !important;
     }
@@ -12,6 +12,23 @@
         border-radius: 5px;
         padding: 0 2%;
         overflow-y: auto;
+        .payment-alert {
+            height: 22px;
+            font-size: 14px;
+            color: $white;
+            position: fixed;
+            z-index: 9999;
+            margin-left: 20%;
+            background-color: $alert;
+            border-radius: 8px;
+            padding: 0 15px 0 30px;
+            display: flex;
+            flex-direction: row;
+            .btn-close{
+                margin: 4px 0 0 15px;
+                background-image: url('../../../content/img//close_white.svg');
+            }
+        }
         .body-header {
             width: 98%;
             height: 25px;
@@ -45,7 +62,7 @@
                 padding-left: 40px;
             }
         }
-        .btn{
+        .btn {
             float: right;
             margin-right: 2%;
             margin-top: 10px;

@@ -175,7 +175,8 @@ export class Sportsman implements ISportsman {
 export interface ISportsmenListItem {
     sportsman: ISportsman,
     pass: IPassport | null,
-    birthSertificate: IBirthSertificate | null
+    birthSertificate: IBirthSertificate | null,
+    receipt: string | null
 }
 
 export interface IStage {

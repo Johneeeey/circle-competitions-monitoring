@@ -1,17 +1,55 @@
+using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
 using circle_competitions_monitoring.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Drawing;
+using Microsoft.AspNetCore.Http;
 
 namespace circle_competitions_monitoring.Controllers
 {
+    public class FileInputModel
+    {
+        public IFormFile File { get; set; }
+        public string Param { get; set; }
+    }
     public class SportsmanController : Controller
     {
         private DataContext db;
         public SportsmanController(DataContext context)
         {
             this.db = context;
+        }
+        [HttpPost]
+        [Authorize]
+        [Consumes("multipart/form-data")]
+        public IActionResult AddReceiptToParticipant([FromForm] FileInputModel receipt, int participant_id)
+        {
+            Payment_Participant participant = db.Payment_Participant.FirstOrDefault(p => p.id == participant_id);
+            if (receipt.File == null || receipt.File.Length == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    receipt.File.CopyToAsync(memoryStream);
+                    using (var img = Image.FromStream(memoryStream))
+                    {
+                        using (var imgStream = new MemoryStream())
+                        {
+                            img.Save(imgStream, img.RawFormat);
+                            participant.receipt = imgStream.ToArray();
+                            db.Update(participant);
+                            db.SaveChanges();
+                            return Ok(participant);
+                        }
+                    }
+                }
+            }
         }
         [HttpPost]
         [Authorize]
@@ -27,6 +65,8 @@ namespace circle_competitions_monitoring.Controllers
             }
             else
             {
+                db.Update(payment);
+                db.SaveChanges();
                 return payment;
             }
         }
@@ -38,7 +78,7 @@ namespace circle_competitions_monitoring.Controllers
               && s.name == sportsman.name
               && s.patronymic == sportsman.patronymic
               && (s.pass == sportsman.pass || s.birth_sertificate == sportsman.birth_sertificate)
-              && s.birthday == sportsman.birthday);
+              && s.birthday.ToShortDateString() == sportsman.birthday.ToShortDateString());
             if (sp == null)
             {
                 db.Sportsman.Add(sportsman);
@@ -54,6 +94,8 @@ namespace circle_competitions_monitoring.Controllers
             }
             else
             {
+                db.Update(sp);
+                db.SaveChanges();
                 Registered_Sportsman registered = db.Registered_Sportsman.FirstOrDefault(rS =>
                     rS.user == int.Parse(User.Identity.Name) && rS.sportsman == sp.id);
                 if (registered == null)
@@ -84,6 +126,8 @@ namespace circle_competitions_monitoring.Controllers
             }
             else
             {
+                db.Update(pass);
+                db.SaveChanges();
                 return pass;
             }
         }
@@ -102,6 +146,8 @@ namespace circle_competitions_monitoring.Controllers
             }
             else
             {
+                db.Update(sert);
+                db.SaveChanges();
                 return sert;
             }
         }

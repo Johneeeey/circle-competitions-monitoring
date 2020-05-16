@@ -1,5 +1,6 @@
 import {
-    REQUEST_LOGIN,
+    REQUEST,
+    RESPONSE,
     SET_ERROR_LOGIN,
     RESPONSE_LOGIN,
     CANT_GET_USER,
@@ -8,8 +9,12 @@ import {
 import { IUser } from '../@Types/types';
 import { Dispatch } from 'redux';
 
-const requestLogin = () => ({
-    type: REQUEST_LOGIN
+export const request = () => ({
+    type: REQUEST
+})
+
+export const response = () => ({
+    type: RESPONSE
 })
 
 const responseLogin = (user: IUser) => ({
@@ -34,7 +39,7 @@ export const logout = () => {
 
 export function getUserByToken() {
     return function (dispatch: Dispatch) {
-        dispatch(requestLogin());
+        dispatch(request());
         const token = localStorage.getItem('access_token');
         return fetch('/Account/GetUser', {
             method: 'POST',
@@ -58,7 +63,7 @@ export function getUserByToken() {
 
 export function loginUser(login: string, password: string) {
     return function (dispatch: Dispatch) {
-        dispatch(requestLogin());
+        dispatch(request());
         return fetch(`/Account/Authorize?login=${login}&password=${password}`, {
             method: 'POST',
             headers: {
@@ -80,7 +85,7 @@ export function loginUser(login: string, password: string) {
 
 export function registrateUser(user: IUser) {
     return function (dispatch: Dispatch) {
-        dispatch(requestLogin());
+        dispatch(request());
         return fetch('/Account/Registrate', {
             method: 'POST',
             headers: {

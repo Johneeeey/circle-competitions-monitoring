@@ -2,6 +2,46 @@ import { IBirthSertificate, IPassport, ISportsman, IPaymentParticipant } from ".
 
 class SportsmanService {
     /**
+     * Конвертирование картинки в массив Blob
+     * @param {string | null} ethalone - путь к картинке
+     * @return {Promise<Blob>}
+     */
+    public getBlobFromImage(ethalone: string): Promise<Blob> {
+        return new Promise((result, error) => {
+            fetch(`${ethalone}`)
+                .then(res => res.blob())
+                .then((response: Blob) => result(response))
+                .catch(err => error(err));
+        });
+    }
+    /**
+     * добавление чека к записи о регистрации спортсмена
+     * @param {FormData} receipt - чек
+     * @param {number} id - идентификационный номер записи о регистрации участника
+     * @return {Promise<IPaymentParticipant>}
+     */
+    public AddReceptToParticipant(receipt: FormData, id: number): Promise<IPaymentParticipant> {
+        const token = localStorage.getItem("access_token");
+        return new Promise((result, error) => {
+            fetch(`/Sportsman/AddReceiptToParticipant?participant_id=${id}`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: receipt
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error(response.statusText);
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
+    /**
      * Сохранение записи о регистрации спортсмена
      * @param {IPaymentParticipant} participant - запись о регистрации спортсмена
      * @return {Promise<IPaymentParticipant>}

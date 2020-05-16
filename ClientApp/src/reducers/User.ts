@@ -1,7 +1,8 @@
 import {
     UserActionTypes,
     RESPONSE_LOGIN,
-    REQUEST_LOGIN,
+    REQUEST,
+    RESPONSE,
     LOGOUT,
     SET_ERROR_LOGIN,
     CANT_GET_USER
@@ -16,17 +17,21 @@ export const UserState: IUserState = {
 
 export function UserReducer(state = UserState, action: UserActionTypes): IUserState {
     switch (action.type) {
-        case REQUEST_LOGIN:
+        case REQUEST:
             return Object.assign({}, state, {
                 isFetching: true
             });
+        case RESPONSE:
+            return Object.assign({}, state, {
+                isFetching: false
+            })
         case SET_ERROR_LOGIN:
             return Object.assign({}, state, {
                 loginError: true,
                 isFetching: false
             });
         case CANT_GET_USER:
-            return Object.assign({}, state,{
+            return Object.assign({}, state, {
                 loginError: false,
                 isFetching: false
             });

@@ -9,6 +9,7 @@ interface Props {
     sportsman: ISportsman;
     passport: IPassport | null;
     birthSertificate: IBirthSertificate | null;
+    receipt: string | null;
     index: number;
     deleteItem: (index: number) => void;
     nameChangeHangler: (id: number, value: string) => void;
@@ -29,31 +30,35 @@ interface Props {
     birthSertDateChangeHangler: (id: number, value: Date) => void;
     validationStatusChangeHandler: (val: boolean) => void;
     docTypeChangeHandler: (id: number, value: number) => void;
+    receiptChangeHandler: (id: number, value: string) => void;
 }
 interface State {
     docType: number;
     sportsman: ISportsman;
     passport: IPassport | null;
     birthSertificate: IBirthSertificate | null;
-    nameError: boolean
-    surnameError: boolean
-    patronymicError: boolean
-    birthdayError: boolean
-    rankError: boolean
-    teamError: boolean
-    passSeriesError: boolean
-    passNumError: boolean
-    passPlaceError: boolean
-    passOrgError: boolean
-    passOrgCodeError: boolean
-    passDateError: boolean
-    birthSertSeriesError: boolean
-    birthSertNumError: boolean
-    birthSertPlaceError: boolean
-    birthSertDateError: boolean
+    receipt: string | null;
+    nameError: boolean;
+    surnameError: boolean;
+    patronymicError: boolean;
+    birthdayError: boolean;
+    rankError: boolean;
+    teamError: boolean;
+    passSeriesError: boolean;
+    passNumError: boolean;
+    passPlaceError: boolean;
+    passOrgError: boolean;
+    passOrgCodeError: boolean;
+    passDateError: boolean;
+    birthSertSeriesError: boolean;
+    birthSertNumError: boolean;
+    birthSertPlaceError: boolean;
+    birthSertDateError: boolean;
+    receiptError: boolean;
 }
 
 class ListItem extends Component<Props, State> {
+    private receiptRef = React.createRef<HTMLInputElement>();
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -61,6 +66,7 @@ class ListItem extends Component<Props, State> {
             sportsman: JSON.parse(JSON.stringify(props.sportsman)),
             passport: JSON.parse(JSON.stringify(props.passport)),
             birthSertificate: JSON.parse(JSON.stringify(props.birthSertificate)),
+            receipt: JSON.parse(JSON.stringify(props.receipt)),
             nameError: false,
             surnameError: false,
             patronymicError: false,
@@ -76,7 +82,8 @@ class ListItem extends Component<Props, State> {
             birthSertDateError: false,
             birthSertNumError: false,
             birthSertPlaceError: false,
-            birthSertSeriesError: false
+            birthSertSeriesError: false,
+            receiptError: false
         }
         this.changeDocTypeHandler = this.changeDocTypeHandler.bind(this);
         this.validation = this.validation.bind(this);
@@ -85,17 +92,20 @@ class ListItem extends Component<Props, State> {
         this.setState({
             sportsman: JSON.parse(JSON.stringify(this.props.sportsman)),
             passport: JSON.parse(JSON.stringify(this.props.passport)),
-            birthSertificate: JSON.parse(JSON.stringify(this.props.birthSertificate))
+            birthSertificate: JSON.parse(JSON.stringify(this.props.birthSertificate)),
+            receipt: JSON.parse(JSON.stringify(this.props.receipt))
         }, () => this.validation());
     }
     componentDidUpdate(prevProps: Props, prevState: State) {
         if (JSON.stringify(prevProps.sportsman) !== JSON.stringify(this.props.sportsman)
             || JSON.stringify(prevProps.passport) !== JSON.stringify(this.props.passport)
-            || JSON.stringify(prevProps.birthSertificate) !== JSON.stringify(this.props.birthSertificate)) {
+            || JSON.stringify(prevProps.birthSertificate) !== JSON.stringify(this.props.birthSertificate)
+            || JSON.stringify(prevProps.receipt) !== JSON.stringify(this.props.receipt)) {
             this.setState({
                 sportsman: JSON.parse(JSON.stringify(this.props.sportsman)),
                 passport: JSON.parse(JSON.stringify(this.props.passport)),
-                birthSertificate: JSON.parse(JSON.stringify(this.props.birthSertificate))
+                birthSertificate: JSON.parse(JSON.stringify(this.props.birthSertificate)),
+                receipt: JSON.parse(JSON.stringify(this.props.receipt))
             }, () => this.validation());
         }
     }
@@ -117,10 +127,12 @@ class ListItem extends Component<Props, State> {
         let birthSertNumError: boolean = false;
         let birthSertPlaceError: boolean = false;
         let birthSertSeriesError: boolean = false;
+        let receiptError: boolean = false;
         let formStatus: boolean = true;
         const sportsman = this.state.sportsman;
         const pass = this.state.passport;
         const birthSert = this.state.birthSertificate;
+        const receipt = this.state.receipt;
         const competition = this.props.competition;
         const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
         const formatWithSpace = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
@@ -230,6 +242,10 @@ class ListItem extends Component<Props, State> {
                 formStatus = false;
             }
         }
+        if (competition.entry_fee > 0 && (!receipt || receipt.length === 0)) {
+            receiptError = true;
+            formStatus = false;
+        }
         this.setState({
             nameError,
             surnameError,
@@ -246,7 +262,8 @@ class ListItem extends Component<Props, State> {
             birthSertDateError,
             birthSertNumError,
             birthSertPlaceError,
-            birthSertSeriesError
+            birthSertSeriesError,
+            receiptError
         }, () => this.props.validationStatusChangeHandler(formStatus));
     }
 
@@ -263,6 +280,23 @@ class ListItem extends Component<Props, State> {
         this.setState({ docType: Number(event.target.value) }, () => {
             this.props.docTypeChangeHandler(this.props.index, this.state.docType)
         })
+    }
+
+    uploadFile() {
+        if (this.receiptRef) {
+            const func = this.props.receiptChangeHandler;
+            const id = this.props.index;
+            let file: any = this.receiptRef.current?.files
+            let files = file[0];
+            var reader = new FileReader();
+            reader.onload = function (e: any) {
+                // let img = new Image();
+                // img.src = e.target.result;
+                // console.log(img)
+                func(id, e.target.result);
+            }
+            reader.readAsDataURL(files);
+        }
     }
 
     render() {
@@ -462,6 +496,18 @@ class ListItem extends Component<Props, State> {
                             onChange={e => this.props.teamChangeHangler(index, e.target.value)} />
                     </div>
                 </div>
+                {this.props.competition.entry_fee > 0 ?
+                    <div className="upload-receipt">
+                        <label htmlFor="file">Загрузите чек</label>
+                        <input
+                            onChange={() => this.uploadFile()}
+                            className={this.state.receiptError ? "border border-danger" : ""}
+                            type="file"
+                            id="file"
+                            ref={this.receiptRef} />
+                        <img src="" id="img" />
+                    </div>
+                    : null}
                 <button
                     onClick={() => this.props.deleteItem(this.props.index)}
                     className="btn btn-link">

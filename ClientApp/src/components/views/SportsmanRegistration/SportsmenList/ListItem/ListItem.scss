@@ -179,4 +179,13 @@
             }
         }
     }
+    .upload-receipt {
+        width: 400px;
+        margin-top: 20px;
+        float: left;
+        label,
+        input {
+            margin: 0;
+        }
+    }
 }

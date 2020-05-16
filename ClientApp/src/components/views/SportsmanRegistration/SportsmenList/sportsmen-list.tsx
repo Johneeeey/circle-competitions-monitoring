@@ -27,6 +27,7 @@ interface Props {
     birthSertDateChangeHangler: (id: number, value: Date) => void;
     validationStatusChangeHandler: (val: boolean) => void;
     docTypeChangeHandler: (id: number, value: number) => void;
+    receiptChangeHandler: (id: number, value: string) => void;
 }
 
 class SportsmenList extends Component<Props> {
@@ -40,6 +41,7 @@ class SportsmenList extends Component<Props> {
                         competition={this.props.competition}
                         passport={s.pass}
                         birthSertificate={s.birthSertificate}
+                        receipt={s.receipt}
                         index={i}
                         key={i}
                         deleteItem={this.props.deleteSportsman}
@@ -60,7 +62,8 @@ class SportsmenList extends Component<Props> {
                         birthSertPlaceChangeHangler={this.props.birthSertPlaceChangeHangler}
                         birthSertDateChangeHangler={this.props.birthSertDateChangeHangler}
                         validationStatusChangeHandler={this.props.validationStatusChangeHandler}
-                        docTypeChangeHandler={this.props.docTypeChangeHandler} />
+                        docTypeChangeHandler={this.props.docTypeChangeHandler}
+                        receiptChangeHandler={this.props.receiptChangeHandler} />
                 ))}
             </div>
         )
