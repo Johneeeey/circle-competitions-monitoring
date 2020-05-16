@@ -7,6 +7,7 @@ import { getUserByToken } from './actions/user.action';
 import { GetCompetitionTypes } from './actions/filter.action';
 import { fetchCompetitions } from './actions/competition.action';
 import { GetResults, GetStages, GetCircles } from './actions/result.action';
+import { GetSportsmen } from './actions/sportsman.action';
 
 import Loader from './components/widgets/Loader';
 import Competitions from './components/views/Competitions';
@@ -36,6 +37,7 @@ interface appComponentProps {
   getResults: () => void;
   getStages: () => void;
   getCircles: () => void;
+  getSportsmen: () => void;
 }
 
 class App extends Component<appComponentProps, appComponentState> {
@@ -52,6 +54,7 @@ class App extends Component<appComponentProps, appComponentState> {
     this.props.getResults();
     this.props.getStages();
     this.props.getCircles();
+    this.props.getSportsmen();
     if (localStorage.getItem('access_token')) {
       this.props.getUserByToken();
     }
@@ -124,7 +127,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   getCompetitions: () => dispatch(fetchCompetitions() as any),
   getResults: () => dispatch(GetResults() as any),
   getStages: () => dispatch(GetStages() as any),
-  getCircles: () => dispatch(GetCircles() as any)
+  getCircles: () => dispatch(GetCircles() as any),
+  getSportsmen: () => dispatch(GetSportsmen() as any)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

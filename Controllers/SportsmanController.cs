@@ -22,6 +22,11 @@ namespace circle_competitions_monitoring.Controllers
         {
             this.db = context;
         }
+        [HttpGet]
+        public List<Sportsman> GetSportsmen()
+        {
+            return this.db.Sportsman.ToList();
+        }
         [HttpPost]
         [Authorize]
         [Consumes("multipart/form-data")]

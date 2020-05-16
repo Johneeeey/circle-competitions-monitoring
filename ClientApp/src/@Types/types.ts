@@ -249,3 +249,8 @@ export interface IResultState {
     stages: IStage[];
     circles: ICircle[];
 }
+
+export interface ISportsmanState {
+    isFetching: boolean;
+    sportsmen: ISportsman[];
+}

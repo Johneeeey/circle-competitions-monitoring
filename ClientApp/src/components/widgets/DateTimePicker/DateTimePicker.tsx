@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DateService from '../../../helpers/dateService';
+import DateService from '../../../helpers/date.helper';
 import DatePicker from 'react-datepicker';
 
 import "./DateTimePicker.scss";

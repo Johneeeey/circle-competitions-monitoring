@@ -1,4 +1,4 @@
-import { ICompetition, IUser, ICompetitionType, IResult, IStage, ICircle } from "./types";
+import { ICompetition, IUser, ICompetitionType, IResult, IStage, ICircle, ISportsman } from "./types";
 
 /* COMPETITIONS */
 // export const GET_COMPETITION = 'GET_COMPETITION';
@@ -166,3 +166,18 @@ export type ResultActionTypes = RequestResults
     | SaveResult
     | SaveStage
     | SaveCircle;
+
+/** SPORTSMAN **/
+export const REQUEST_SPORTSMEN = 'REQUEST_SPORTSMEN';
+export const RECEIVE_SPORTSMEN = 'RECEIVE_SPORTSMEN';
+
+interface RequestSportsmen {
+    type: typeof REQUEST_SPORTSMEN
+}
+
+interface ReceiveSportsmen {
+    type: typeof RECEIVE_SPORTSMEN,
+    sportsmen: ISportsman[]
+}
+
+export type SportsmanActionTypes = RequestSportsmen | ReceiveSportsmen;

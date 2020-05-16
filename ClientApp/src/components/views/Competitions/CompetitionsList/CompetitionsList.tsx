@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ICompetition, ICompetitionType } from '../../../../@Types/types';
-import DateService from '../../../../helpers/dateService';
+import DateService from '../../../../helpers/date.helper';
 
 import './CompetitionsList.scss';
 

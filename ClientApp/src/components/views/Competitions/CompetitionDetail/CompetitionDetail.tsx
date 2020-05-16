@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ICompetition, ICompetitionType, IUser, IStage_Info } from '../../../../@Types/types';
 import { connect } from 'react-redux';
-import DateService from '../../../../helpers/dateService';
+import DateService from '../../../../helpers/date.helper';
 import './CompetitionDetail.scss';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Link } from "react-router-dom";
