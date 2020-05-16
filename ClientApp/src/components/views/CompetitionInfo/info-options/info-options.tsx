@@ -27,6 +27,8 @@ interface OptionsProps {
     handleChangeStartDate: (date: Date) => void;
     handleChangeEndDate: (date: Date) => void;
     handleChangeReadOnly: () => void;
+    handleChangeOrgEmail: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChangeOrgBankAccount: (event: React.ChangeEvent<HTMLInputElement>) => void;
     save: () => void;
     backup: () => void;
     errorMsg: string;
@@ -46,7 +48,12 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
 
     renOptions(): JSX.Element[] {
         let ren: JSX.Element[] = [];
-        this.props.types.forEach((t: ICompetitionType, i: number) => ren.push(<option key={i}>{t.name}</option>));
+        const types = [...this.props.types];
+        const idx = types.indexOf(types.find(t => t.name === "Все") as ICompetitionType);
+        if (idx !== -1) {
+            types.splice(idx, 1);
+        }
+        types.forEach((t: ICompetitionType, i: number) => ren.push(<option key={i}>{t.name}</option>));
         return ren;
     }
 
@@ -229,6 +236,28 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
                         placeholder="Организатор мероприятия"
                         onChange={this.props.handleChangeOrganizer} />
                 </div>
+                <div className="organizer-email">
+                    <label htmlFor="organizer-email">Электронная почта организатора</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="organizer-email"
+                        readOnly={readOnly}
+                        value={competition.organizer_email || ""}
+                        placeholder="e-mail"
+                        onChange={this.props.handleChangeOrgEmail} />
+                </div>
+                <div className="organizer-bank-acc">
+                    <label htmlFor="organizer-bank-acc">Номер лицевого счета организатора</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="organizer-bank-acc"
+                        readOnly={readOnly}
+                        value={competition.organizer_bank_account || ""}
+                        placeholder="№ счета"
+                        onChange={this.props.handleChangeOrgBankAccount} />
+                </div>
                 <div className="fee">
                     <label htmlFor="fee">Взнос</label>
                     <input
@@ -271,6 +300,9 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
                         >
                             Отмена
                         </button>
+                        {!this.props.isValid &&
+                            <span className="error-msg">{this.props.errorMsg}</span>
+                        }
                     </div>
                 }
             </div>

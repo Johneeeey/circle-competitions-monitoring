@@ -46,7 +46,7 @@ export class Competition implements ICompetition {
     title = "";
     date_of_start = new Date();
     date_of_end = new Date();
-    type = 0;
+    type = 1;
     stage_count = 1;
     lng = 0;
     lat = 0;

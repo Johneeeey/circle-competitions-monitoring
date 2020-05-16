@@ -134,6 +134,16 @@
         float: left;
         width: 100%;
     }
+    .organizer-email {
+        display: block;
+        float: left;
+        width: 100%;
+    }
+    .organizer-bank-acc {
+        display: block;
+        float: left;
+        width: 100%;
+    }
     .fee {
         display: block;
         float: left;
@@ -152,6 +162,13 @@
         float: left;
         .btn-warning {
             margin-left: 6px;
+        }
+        .error-msg {
+            width: 100%;
+            display: block;
+            float: left;
+            font-size: 16px;
+            color: $alert;
         }
     }
 }

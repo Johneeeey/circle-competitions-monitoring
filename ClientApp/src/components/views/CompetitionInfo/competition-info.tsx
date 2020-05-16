@@ -61,6 +61,8 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         this.handleChangeReadOnly = this.handleChangeReadOnly.bind(this);
         this.handleChangeStageCircleCount = this.handleChangeStageCircleCount.bind(this);
         this.handleChangeStageComment = this.handleChangeStageComment.bind(this);
+        this.handleChangeOrgEmail = this.handleChangeOrgEmail.bind(this);
+        this.handleChangeOrgBankAccount = this.handleChangeOrgBankAccount.bind(this);
         this.save = this.save.bind(this);
         this.backup = this.backup.bind(this);
         this.validation = this.validation.bind(this);
@@ -116,7 +118,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                                 56.12909762217289 : comp.lat,
                             comp.lng === 0 ?
                                 40.40531158447266 : comp.lng]
-                    })
+                    }, () => this.validation(comp))
                 })
         }
     }
@@ -125,7 +127,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
     handleChangeTitle(event: React.ChangeEvent<HTMLInputElement>) {
         const competition = this.state.competition;
         competition.title = event.target.value;
-        this.setState({ competition });
+        this.setState({ competition }, () => this.validation(competition));
     }
     handleChangeType(event: React.ChangeEvent<HTMLSelectElement>) {
         const competition = this.state.competition;
@@ -216,7 +218,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                 this.backup();
             }
         } else {
-            this.setState({ readOnly: !this.state.readOnly })
+            this.setState({ readOnly: !this.state.readOnly }, () => this.validation(this.state.competition))
         }
     }
     handleChangeStageCircleCount(idx: number, value: number) {
@@ -232,8 +234,19 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         stages[idx].comment = value;
         this.setState({ stages });
     }
+    handleChangeOrgEmail(event: React.ChangeEvent<HTMLInputElement>) {
+        const competition = this.state.competition;
+        competition.organizer_email = event.target.value;
+        this.setState({ competition }, () => this.validation(competition));
+    }
+    handleChangeOrgBankAccount(event: React.ChangeEvent<HTMLInputElement>) {
+        const competition = this.state.competition;
+        competition.organizer_bank_account = event.target.value;
+        this.setState({ competition }, () => this.validation(competition));
+    }
 
     validation(competition: ICompetition) {
+        const nums = /^\d+$/;
         if (competition.title.length === 0) {
             this.setState({
                 isValid: false,
@@ -263,6 +276,16 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
             this.setState({
                 isValid: false,
                 errorMessage: "Возрастное ограничение не может быть отрицательным"
+            });
+        } else if (competition.organizer_email.length === 0) {
+            this.setState({
+                isValid: false,
+                errorMessage: "Заполните поле 'E-mail'"
+            });
+        } else if (competition.organizer_bank_account.length < 20 || !nums.test(competition.organizer_bank_account)) {
+            this.setState({
+                isValid: false,
+                errorMessage: "Неверный формат поля 'номер лицевого счета' (20 цифр)"
             });
         } else {
             this.setState({
@@ -296,8 +319,6 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
     render() {
         const competition = this.state.competition;
         const stages = [...this.state.stages];
-        console.log(stages);
-
         const readOnly = this.state.readOnly;
         const user = this.props.user;
         let selectedType = this.props.types.find(t => t.id === competition.type)?.name;
@@ -329,6 +350,8 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                         handleChangeReadOnly={this.handleChangeReadOnly}
                         handleChangeStageCircleCount={this.handleChangeStageCircleCount}
                         handleChangeStageComment={this.handleChangeStageComment}
+                        handleChangeOrgBankAccount={this.handleChangeOrgBankAccount}
+                        handleChangeOrgEmail={this.handleChangeOrgEmail}
                         save={this.save}
                         backup={this.backup}
                         isValid={this.state.isValid}
