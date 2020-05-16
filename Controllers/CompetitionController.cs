@@ -20,7 +20,17 @@ namespace circle_competitions_monitoring.Controllers
         {
             this.db = context;
         }
-
+        [HttpGet]
+        public List<Payment_Participant> GetParticipants(int id)
+        {
+            var participants = this.db.Payment_Participant.ToList();
+            return participants.Where(p => p.competition == id).ToList();
+        }
+        [HttpGet]
+        public List<Stage_Info> GetStagesInfo(int id)
+        {
+            return this.db.Stage_Info.Where(sI => sI.competition == id).ToList();
+        }
         [HttpGet]
         public List<Competition_type> GetCompetitionTypes()
         {

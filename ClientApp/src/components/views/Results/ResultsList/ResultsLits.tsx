@@ -9,6 +9,7 @@ interface ResultsListProps {
     results: IResult[];
     types: ICompetitionType[];
     sportsmen: ISportsman[];
+    changeCompetitionHandler: (competition: ICompetition | null) => void;
 }
 
 class ResultsList extends Component<ResultsListProps> {
@@ -24,7 +25,8 @@ class ResultsList extends Component<ResultsListProps> {
             const type = this.props.types.find(t => t.id === c.type)?.name;
             if (firstPlace && secondPlace && thirdPlace) {
                 response.push(
-                    <tr key={i}>
+                    <tr key={i}
+                        onClick={() => this.props.changeCompetitionHandler(c)}>
                         <td>{c.title}</td>
                         <td>{type}</td>
                         <td>{DateHelper.GetShortDate(c.date_of_start)} - {DateHelper.GetShortDate(c.date_of_end)}</td>

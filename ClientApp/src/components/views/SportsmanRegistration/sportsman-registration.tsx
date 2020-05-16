@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { IUser, ISportsman, Sportsman, IPassport, IBirthSertificate, ISportsmenListItem, Passport, BirthSertificate, ICompetition, Competition, IPaymentParticipant } from '../../../@Types/types';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
-import SportsmanService from '../../../services/sportsmanService';
+import SportsmanService from '../../../services/sportsman.service';
 import { Dispatch } from 'redux';
 import { response, request } from '../../../actions/user.action';
 

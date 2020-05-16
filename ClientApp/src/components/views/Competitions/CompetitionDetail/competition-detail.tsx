@@ -5,7 +5,7 @@ import DateService from '../../../../helpers/date.helper';
 import './CompetitionDetail.scss';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Link } from "react-router-dom";
-import competitionService from '../../../../services/competitionService';
+import competitionService from '../../../../services/competition.service';
 
 
 interface DetailProps {

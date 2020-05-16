@@ -1,6 +1,56 @@
-import { ICompetition, IStage_Info } from '../@Types/types';
+import { ICompetition, IStage_Info, IPaymentParticipant } from '../@Types/types';
 
 class CompetitionService {
+    /**
+     * Вытягивание данных об участниках соревнования
+     * @param id - иденификационный номер соревнования
+     * @returns {Promise<IPaymentParticipant[]>}
+     */
+    public GetParticipants(id: number): Promise<IPaymentParticipant[]> {
+        return new Promise((result, error) => {
+            fetch(`/Competition/GetParticipants?id=${id}`, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error();
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
+    /**
+     * Вытигивание данных о стадиях соревнования из БД
+     * @param {number} id - идентификационный номер соревнования
+     * @returns {Promise<IStage_Info[]>}
+     */
+    public GetStagesInfo(id: number): Promise<IStage_Info[]> {
+        return new Promise((result, error) => {
+            fetch(`/Competition/GetStagesInfo?id=${id}`, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error();
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
     /**
      * Сохранение задания
      * @param {ICompetition} competition - соревнования

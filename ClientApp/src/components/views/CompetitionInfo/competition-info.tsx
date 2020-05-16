@@ -6,7 +6,7 @@ import InfoOptions from './info-options';
 import InfoMap from './info-map';
 import { Dispatch } from 'redux';
 import { SaveCompetition } from '../../../actions/competition.action';
-import competitionService from '../../../services/competitionService';
+import competitionService from '../../../services/competition.service';
 
 import './CompetitionInfo.scss';
 

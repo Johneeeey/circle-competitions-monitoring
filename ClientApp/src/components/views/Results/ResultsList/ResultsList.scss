@@ -5,4 +5,11 @@
     height: 500px;
     float: left;
     margin-top: 10px;
+    table{
+        tbody{
+            tr{
+                cursor: pointer;
+            }
+        }
+    }
 }

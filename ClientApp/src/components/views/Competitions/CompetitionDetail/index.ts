@@ -1,3 +1,3 @@
-import CompetitionDetail from './CompetitionDetail';
+import CompetitionDetail from './competition-detail';
 
 export default CompetitionDetail;

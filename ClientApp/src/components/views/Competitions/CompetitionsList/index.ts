@@ -1,3 +1,3 @@
-import CompetitionsList from './CompetitionsList';
+import CompetitionsList from './competitions-list';
 
 export default CompetitionsList;

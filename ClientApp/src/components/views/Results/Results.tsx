@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Filter from '../Filter';
 import ResultsList from './ResultsList';
+import ResultDetail from './ResultDetail';
 
 import './Results.scss';
 
@@ -18,11 +19,28 @@ interface ResultsProps {
     searchString: string;
     selectedType: number | null;
 }
+interface ResultsState {
+    selectedCompetition: ICompetition | null;
+}
 
-class Results extends Component<ResultsProps> {
+class Results extends Component<ResultsProps, ResultsState> {
+    constructor(props: ResultsProps) {
+        super(props);
+        this.state = {
+            selectedCompetition: null
+        }
+        this.changeSelectedCompetition = this.changeSelectedCompetition.bind(this);
+    }
+    changeSelectedCompetition(competition: ICompetition | null) {
+        this.setState({
+            selectedCompetition: competition
+        })
+    }
     render() {
         let competitions = [...this.props.competitions];
         const results = [...this.props.results];
+        const stages = [...this.props.stages];
+        const circles = [...this.props.circles];
         const sportsmen = [...this.props.sportsmen];
         const types = [...this.props.competitionTypes];
         const type = this.props.selectedType;
@@ -38,11 +56,23 @@ class Results extends Component<ResultsProps> {
         return (
             <div className="results">
                 <Filter />
+                {this.state.selectedCompetition ?
+                    <ResultDetail
+                        competition={this.state.selectedCompetition}
+                        sportsmen={sportsmen}
+                        results={results}
+                        stages={stages}
+                        circles={circles}
+                        changeCompetitionHandler={this.changeSelectedCompetition}
+                    />
+                    : null
+                }
                 <ResultsList
                     competitions={competitions}
                     results={results}
                     types={types}
                     sportsmen={sportsmen}
+                    changeCompetitionHandler={this.changeSelectedCompetition}
                 />
             </div>
         )
