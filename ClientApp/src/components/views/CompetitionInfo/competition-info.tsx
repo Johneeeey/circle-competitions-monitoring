@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
-import { ICompetition, ICompetitionType, Competition, IUser, IStage_Info, Stage_Info } from '../../../@Types/types';
+import { ICompetition, ICompetitionType, Competition, IUser, IStage_Info } from '../../../@Types/types';
 import { connect } from 'react-redux';
 import InfoOptions from './info-options';
 import InfoMap from './info-map';
 import { Dispatch } from 'redux';
-import { SaveCompetition } from '../../../actions/CompetitionsActions';
+import { SaveCompetition } from '../../../actions/competition.action';
 import competitionService from '../../../services/competitionService';
 
 import './CompetitionInfo.scss';
@@ -301,7 +301,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         competitionService.SaveCompetition(competition)
             .then((newCompetition: ICompetition) => {
                 this.props.saveCompetition(newCompetition)
-                stages.map((s: IStage_Info) => {
+                stages.forEach((s: IStage_Info) => {
                     s.competition = newCompetition.id;
                 })
                 competitionService.SaveStagesInfo(stages);

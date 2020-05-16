@@ -36,7 +36,6 @@ export function CompetitionReducer(state = CompetitionState, action: Competition
                 let item = competitions[id];
                 item = action.payload;
                 competitions[id] = item;
-                console.log(competitions)
                 return Object.assign({}, state, {
                     isFetching: false,
                     competitions: competitions

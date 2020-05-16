@@ -3,9 +3,10 @@ import { Dispatch } from 'redux';
 import './App.css';
 import { connect } from 'react-redux';
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import { getUserByToken } from './actions/UserActions';
-import { GetCompetitionTypes } from './actions/FilterActions';
-import { fetchCompetitions } from './actions/CompetitionsActions';
+import { getUserByToken } from './actions/user.action';
+import { GetCompetitionTypes } from './actions/filter.action';
+import { fetchCompetitions } from './actions/competition.action';
+import { GetResults, GetStages, GetCircles } from './actions/result.action';
 
 import Loader from './components/widgets/Loader';
 import Competitions from './components/views/Competitions';
@@ -27,10 +28,14 @@ interface appComponentProps {
   isUserFetching: boolean;
   selectedType: number;
   isCompetitionFetching: boolean;
+  isResultFetching: boolean;
   areTypesFetching: boolean;
   getUserByToken: () => void;
   getCompetitionTypes: () => void;
   getCompetitions: () => void;
+  getResults: () => void;
+  getStages: () => void;
+  getCircles: () => void;
 }
 
 class App extends Component<appComponentProps, appComponentState> {
@@ -44,6 +49,9 @@ class App extends Component<appComponentProps, appComponentState> {
   componentDidMount() {
     this.props.getCompetitionTypes();
     this.props.getCompetitions();
+    this.props.getResults();
+    this.props.getStages();
+    this.props.getCircles();
     if (localStorage.getItem('access_token')) {
       this.props.getUserByToken();
     }
@@ -106,13 +114,17 @@ const mapStateToProps = (state: any) => ({
   isUserFetching: state.user.isFetching,
   selectedType: state.filter.selectedType,
   isCompetitionFetching: state.competition.isFetching,
+  isResultFetching: state.result.isFetching,
   areTypesFetching: state.filter.isFetching
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   getUserByToken: () => dispatch(getUserByToken() as any),
   getCompetitionTypes: () => dispatch(GetCompetitionTypes() as any),
-  getCompetitions: () => dispatch(fetchCompetitions() as any)
+  getCompetitions: () => dispatch(fetchCompetitions() as any),
+  getResults: () => dispatch(GetResults() as any),
+  getStages: () => dispatch(GetStages() as any),
+  getCircles: () => dispatch(GetCircles() as any)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

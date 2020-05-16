@@ -505,7 +505,6 @@ class ListItem extends Component<Props, State> {
                             type="file"
                             id="file"
                             ref={this.receiptRef} />
-                        <img src="" id="img" />
                     </div>
                     : null}
                 <button

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { IUser } from '../../../@Types/types';
-import { registrateUser } from '../../../actions/UserActions';
+import { registrateUser } from '../../../actions/user.action';
 
 import './Registrate.scss';
 

@@ -74,7 +74,6 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
                     </Link>
                     : null}
                 <CompetitionsList
-                    user={this.props.user}
                     competitions={competitions}
                     competitionTypes={this.props.competitionTypes}
                     selectedCompetitionId={selectedCompetition ? selectedCompetition.id : 0}

@@ -3,7 +3,7 @@ import { ICompetitionType, IUser } from '../../../@Types/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { ChangeFilterSearch, ChangeFilterType } from '../../../actions/FilterActions'
+import { ChangeFilterSearch, ChangeFilterType } from '../../../actions/filter.action'
 
 import './Filter.scss';
 

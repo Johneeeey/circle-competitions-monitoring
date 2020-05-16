@@ -100,6 +100,17 @@ export interface ICircle {
     place: number;
 }
 
+export class Circle implements ICircle {
+    id = 0;
+    stage = 0;
+    circle_num = 0;
+    circle_name = "";
+    sportsman = 0;
+    time_of_finish = new Date();
+    points = 0;
+    place = 0;
+}
+
 export interface IPassport {
     id: number;
     series: string;
@@ -147,6 +158,14 @@ export interface IResult {
     place: number;
 }
 
+export class Result implements IResult {
+    id = 0;
+    sportsman = 0;
+    competition = 0;
+    points = 0;
+    place = 0;
+}
+
 export interface ISportsman {
     id: number;
     name: string;
@@ -190,6 +209,17 @@ export interface IStage {
     place: number;
 }
 
+export class Stage implements IStage {
+    id = 0;
+    result = 0;
+    stage_num = 0;
+    stage_name = "";
+    distance = 0;
+    sportsman = 0;
+    points = 0;
+    place = 0;
+}
+
 export interface IStage_Info {
     id: number;
     competition: number;
@@ -211,4 +241,11 @@ export interface IFilterState {
     types: ICompetitionType[];
     search: string;
     selectedType: number | null;
+}
+
+export interface IResultState {
+    isFetching: boolean;
+    results: IResult[];
+    stages: IStage[];
+    circles: ICircle[];
 }

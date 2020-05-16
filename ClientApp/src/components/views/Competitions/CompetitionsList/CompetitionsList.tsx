@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { ICompetition, IUser, ICompetitionType } from '../../../../@Types/types';
+import { ICompetition, ICompetitionType } from '../../../../@Types/types';
 import DateService from '../../../../helpers/dateService';
 
 import './CompetitionsList.scss';
 
 interface ListProps {
-    user: IUser;
     competitions: ICompetition[];
     competitionTypes: ICompetitionType[];
     selectedCompetitionId: number;

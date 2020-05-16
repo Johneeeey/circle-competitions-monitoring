@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { IUser } from '../../../@Types/types';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { logout } from '../../../actions/UserActions';
+import { logout } from '../../../actions/user.action';
 import { Link } from "react-router-dom";
 import { Navbar, Nav } from 'react-bootstrap';
 

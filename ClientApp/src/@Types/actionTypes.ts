@@ -1,15 +1,15 @@
-import { ICompetition, IUser, ICompetitionType } from "./types";
+import { ICompetition, IUser, ICompetitionType, IResult, IStage, ICircle } from "./types";
 
 /* COMPETITIONS */
-export const GET_COMPETITION = 'GET_COMPETITION';
+// export const GET_COMPETITION = 'GET_COMPETITION';
 export const SAVE_COMPETITION = 'SAVE_COMPETITION';
 export const REQUEST_COMPETITIONS = 'REQUEST_COMPETITIONS';
 export const RECEIVE_COMPETITIONS = 'RECEIVE_COMPETITIONS';
 
-interface GetCompetitionsAction {
-    type: typeof GET_COMPETITION,
-    payload: number
-};
+// interface GetCompetitionsAction {
+//     type: typeof GET_COMPETITION,
+//     payload: number
+// };
 
 interface SaveCompetitionAction {
     type: typeof SAVE_COMPETITION,
@@ -25,8 +25,8 @@ interface ReceiveCompetitionsAction {
     competitions: ICompetition
 }
 
-export type CompetitionsActionTypes = GetCompetitionsAction
-    | RequestCompetitionsAction
+export type CompetitionsActionTypes = //GetCompetitionsAction
+    RequestCompetitionsAction
     | ReceiveCompetitionsAction
     | SaveCompetitionAction;
 
@@ -103,3 +103,66 @@ export type FilterActionTypes =
     ReceiveTypes |
     ChangeType |
     ChangeSearch;
+
+/** RESULTS **/
+export const REQUEST_RESULTS = 'REQUEST_RESULTS;';
+export const REQUEST_STAGES = 'REQUEST_STAGES';
+export const REQUEST_CIRCLES = 'REQUEST_CIRCLES';
+export const RECEIVE_RESULTS = 'RECEIVE_RESULTS';
+export const RECEIVE_STAGES = 'RECEIVE_STAGES';
+export const RECEIVE_CIRCLES = 'RECEIVE_CIRCLES';
+export const SAVE_RESULT = 'SAVE_RESULT';
+export const SAVE_STAGE = 'SAVE_STAGE';
+export const SAVE_CIRCLE = 'SAVE_CIRCLE';
+
+interface RequestResults {
+    type: typeof REQUEST_RESULTS
+}
+
+interface RequestStages {
+    type: typeof REQUEST_STAGES
+}
+
+interface RequestCircles {
+    type: typeof REQUEST_CIRCLES
+}
+
+interface ReceiveResults {
+    type: typeof RECEIVE_RESULTS,
+    results: IResult[]
+}
+
+interface ReceiveStages {
+    type: typeof RECEIVE_STAGES,
+    stages: IStage[]
+}
+
+interface ReceiveCircles {
+    type: typeof RECEIVE_CIRCLES,
+    circles: ICircle[]
+}
+
+interface SaveResult {
+    type: typeof SAVE_RESULT,
+    result: IResult
+}
+
+interface SaveStage {
+    type: typeof SAVE_STAGE,
+    stage: IStage
+}
+
+interface SaveCircle {
+    type: typeof SAVE_CIRCLE,
+    circle: ICircle
+}
+
+export type ResultActionTypes = RequestResults
+    | RequestStages
+    | RequestCircles
+    | ReceiveResults
+    | ReceiveStages
+    | ReceiveCircles
+    | SaveResult
+    | SaveStage
+    | SaveCircle;

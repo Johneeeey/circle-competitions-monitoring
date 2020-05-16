@@ -1,6 +1,7 @@
 import { CompetitionReducer } from '../reducers/Competition';
 import { UserReducer } from '../reducers/User';
 import { FilterReducer } from '../reducers/Filter';
+import { ResultReducer } from '../reducers/Result';
 import { combineReducers } from 'redux';
 
 // export const initialState = {
@@ -16,5 +17,6 @@ import { combineReducers } from 'redux';
 export default combineReducers({
     user: UserReducer,
     competition: CompetitionReducer,
-    filter: FilterReducer
+    filter: FilterReducer,
+    result: ResultReducer
 })

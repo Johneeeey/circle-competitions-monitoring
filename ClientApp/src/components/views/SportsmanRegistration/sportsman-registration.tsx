@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import SportsmanService from '../../../services/sportsmanService';
 import { Dispatch } from 'redux';
-import { response, request } from '../../../actions/UserActions';
+import { response, request } from '../../../actions/user.action';
 
 import SportsmenList from './SportsmenList';
 

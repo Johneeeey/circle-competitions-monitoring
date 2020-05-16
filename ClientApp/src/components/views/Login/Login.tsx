@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { loginUser } from '../../../actions/UserActions';
+import { loginUser } from '../../../actions/user.action';
 import { Dispatch } from 'redux';
 
 import './Login.scss';
