@@ -21,17 +21,17 @@ namespace circle_competitions_monitoring.Controllers
         [HttpGet]
         public List<Result> GetResults()
         {
-            return this.db.Result.ToList();
+            return this.db.Result.OrderBy(r => r.place).ToList();
         }
         [HttpGet]
         public List<Stage> GetStages()
         {
-            return this.db.Stage.ToList();
+            return this.db.Stage.OrderBy(s => s.place).ToList();
         }
         [HttpGet]
         public List<Circle> GetCircles()
         {
-            return this.db.Circle.ToList();
+            return this.db.Circle.OrderBy(c => c.place).ToList();
         }
     }
 }

@@ -24,6 +24,7 @@ interface OptionsProps {
     handleChangeAgeLimit: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeStageCircleCount: (idx: number, value: number) => void;
     handleChangeStageComment: (idx: number, value: string) => void;
+    handleChangeStageCircleDistance: (idx: number, value: number) => void;
     handleChangeStartDate: (date: Date) => void;
     handleChangeEndDate: (date: Date) => void;
     handleChangeReadOnly: () => void;
@@ -78,6 +79,20 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
                             placeholder="#"
                             onChange={event =>
                                 this.props.handleChangeStageCircleCount(i, Number(event.target.value))}
+                        />
+                    </div>
+                    <div className="list_item__circle_distance">
+                        <label htmlFor="circle_distance">Дистанция каждого круга (метры)</label>
+                        <input
+                            type="number"
+                            min={1}
+                            id="circle_distance"
+                            className="form-control"
+                            readOnly={this.props.readonly}
+                            value={s.one_circle_distance || ""}
+                            placeholder="#"
+                            onChange={event =>
+                                this.props.handleChangeStageCircleDistance(i, Number(event.target.value))}
                         />
                     </div>
                     <div className="list_item__stage_comment">

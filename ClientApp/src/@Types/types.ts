@@ -93,6 +93,7 @@ export interface ICircle {
     id: number;
     stage: number;
     circle_num: number;
+    distance: number;
     circle_name: string;
     sportsman: number;
     time_of_finish: Date;
@@ -104,6 +105,7 @@ export class Circle implements ICircle {
     id = 0;
     stage = 0;
     circle_num = 0;
+    distance = 0;
     circle_name = "";
     sportsman = 0;
     time_of_finish = new Date();
@@ -203,7 +205,6 @@ export interface IStage {
     result: number;
     stage_num: number;
     stage_name: string;
-    distance: number;
     sportsman: number;
     points: number;
     place: number;
@@ -225,6 +226,7 @@ export interface IStage_Info {
     competition: number;
     stage_number: number;
     circle_count: number;
+    one_circle_distance: number;
     comment: string;
 }
 
@@ -233,6 +235,7 @@ export class Stage_Info implements IStage_Info {
     competition = 0;
     stage_number = 0;
     circle_count = 1;
+    one_circle_distance = 0;
     comment = "";
 }
 

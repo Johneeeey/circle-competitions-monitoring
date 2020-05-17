@@ -81,16 +81,25 @@
                 float: left;
                 border-bottom: 1px solid $border-grey;
                 padding-bottom: 5px;
+                    font-size: 12px;
                 h6 {
                     margin: 0;
                     font-weight: 700;
                 }
                 &__circle_count {
-                    width: 150px;
+                    width: 115px;
                     float: left;
                     display: block;
                     .form-control {
                         width: 60px;
+                    }
+                }
+                &__circle_distance{                    
+                    width: 200px;
+                    float: left;
+                    display: block;
+                    .form-control {
+                        width: 80px;
                     }
                 }
                 &__stage_comment {

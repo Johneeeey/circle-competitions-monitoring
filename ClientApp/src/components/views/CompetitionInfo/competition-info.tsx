@@ -24,6 +24,7 @@ interface InfoState {
     competition: ICompetition;
     stages: IStage_Info[];
     prevStateCompetition: ICompetition;
+    prevStateStages: IStage_Info[];
     readOnly: boolean;
     redirect: boolean;
     mapCenter: [number, number];
@@ -38,6 +39,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
             competition: new Competition(),
             stages: [],
             prevStateCompetition: new Competition(),
+            prevStateStages: [],
             redirect: false,
             readOnly: true,
             mapCenter: [56.12909762217289, 40.40531158447266],
@@ -63,6 +65,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         this.handleChangeStageComment = this.handleChangeStageComment.bind(this);
         this.handleChangeOrgEmail = this.handleChangeOrgEmail.bind(this);
         this.handleChangeOrgBankAccount = this.handleChangeOrgBankAccount.bind(this);
+        this.handleChangeStageCircleDistance = this.handleChangeStageCircleDistance.bind(this);
         this.save = this.save.bind(this);
         this.backup = this.backup.bind(this);
         this.validation = this.validation.bind(this);
@@ -77,11 +80,20 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                     competition: JSON.parse(
                         JSON.stringify(competition)
                     ),
-                    stages: stages.length > 0 ? stages : [{
+                    stages: stages.length > 0 ? JSON.parse(JSON.stringify(stages)) : [{
                         id: 0,
                         stage_number: 1,
                         competition: competition.id,
                         circle_count: 1,
+                        one_circle_distance: 0,
+                        comment: ""
+                    }],
+                    prevStateStages: stages.length > 0 ? JSON.parse(JSON.stringify(stages)) : [{
+                        id: 0,
+                        stage_number: 1,
+                        competition: competition.id,
+                        circle_count: 1,
+                        one_circle_distance: 0,
                         comment: ""
                     }],
                     prevStateCompetition: JSON.parse(
@@ -106,11 +118,20 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                         readOnly: comp.id === 0 ? false : true,
                         competition: JSON.parse(JSON.stringify(comp)),
                         prevStateCompetition: JSON.parse(JSON.stringify(comp)),
-                        stages: stages.length > 0 ? stages : [{
+                        stages: stages.length > 0 ? JSON.parse(JSON.stringify(stages)) : [{
                             id: 0,
                             stage_number: 1,
                             competition: comp.id,
                             circle_count: 1,
+                            one_circle_distance: 0,
+                            comment: ""
+                        }],
+                        prevStateStages: stages.length > 0 ? JSON.parse(JSON.stringify(stages)) : [{
+                            id: 0,
+                            stage_number: 1,
+                            competition: comp.id,
+                            circle_count: 1,
+                            one_circle_distance: 0,
                             comment: ""
                         }],
                         mapCenter: [
@@ -146,6 +167,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                     stage_number: Number(event.target.value),
                     competition: competition.id,
                     circle_count: 1,
+                    one_circle_distance: 0,
                     comment: ""
                 });
             } else if (Number(event.target.value) < competition.stage_count) {
@@ -211,21 +233,20 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         competition.lng = latlng[1];
         this.setState({ competition }, () => this.validation(competition));
     }
-    handleChangeReadOnly() {
-        if (!this.state.readOnly) {
-            if (window.confirm("Все изменения будут утеряны. Продолжить?")) {
-                this.setState({ readOnly: !this.state.readOnly })
-                this.backup();
+    handleChangeStageCircleCount(idx: number, value: number) {
+        if (value > 0) {
+            const stages = [...this.state.stages];
+            if (value === stages[idx].circle_count + 1
+                || value === stages[idx].circle_count - 1) {
+                stages[idx].circle_count = value;
+                this.setState({ stages });
             }
-        } else {
-            this.setState({ readOnly: !this.state.readOnly }, () => this.validation(this.state.competition))
         }
     }
-    handleChangeStageCircleCount(idx: number, value: number) {
-        const stages = [...this.state.stages];
-        if (value === stages[idx].circle_count + 1
-            || value === stages[idx].circle_count - 1) {
-            stages[idx].circle_count = value;
+    handleChangeStageCircleDistance(idx: number, value: number) {
+        if (value > 0) {
+            const stages = [...this.state.stages];
+            stages[idx].one_circle_distance = value;
             this.setState({ stages });
         }
     }
@@ -243,6 +264,18 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         const competition = this.state.competition;
         competition.organizer_bank_account = event.target.value;
         this.setState({ competition }, () => this.validation(competition));
+    }
+
+
+    handleChangeReadOnly() {
+        if (!this.state.readOnly) {
+            if (window.confirm("Все изменения будут утеряны. Продолжить?")) {
+                this.setState({ readOnly: !this.state.readOnly })
+                this.backup();
+            }
+        } else {
+            this.setState({ readOnly: !this.state.readOnly }, () => this.validation(this.state.competition))
+        }
     }
 
     validation(competition: ICompetition) {
@@ -312,7 +345,8 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
     }
     backup() {
         this.setState({
-            competition: this.state.prevStateCompetition
+            competition: this.state.prevStateCompetition,
+            stages: this.state.prevStateStages
         })
     }
 
@@ -350,6 +384,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                         handleChangeReadOnly={this.handleChangeReadOnly}
                         handleChangeStageCircleCount={this.handleChangeStageCircleCount}
                         handleChangeStageComment={this.handleChangeStageComment}
+                        handleChangeStageCircleDistance={this.handleChangeStageCircleDistance}
                         handleChangeOrgBankAccount={this.handleChangeOrgBankAccount}
                         handleChangeOrgEmail={this.handleChangeOrgEmail}
                         save={this.save}
