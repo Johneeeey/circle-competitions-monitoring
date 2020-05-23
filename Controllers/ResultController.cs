@@ -146,7 +146,9 @@ namespace circle_competitions_monitoring.Controllers
             List<Stage> stages = new List<Stage>();
             foreach (Result res in results)
             {
-                stages.Add(db.Stage.FirstOrDefault(s => s.result == res.id && s.stage_num == stage.stage_num));
+                Stage st = db.Stage.FirstOrDefault(s => s.result == res.id && s.stage_num == stage.stage_num);
+                if (st != null)
+                    stages.Add(st);
             }
             return stages;
         }
@@ -157,7 +159,9 @@ namespace circle_competitions_monitoring.Controllers
             List<Circle> circles = new List<Circle>();
             foreach (Stage st in stages)
             {
-                circles.Add(db.Circle.FirstOrDefault(c => c.stage == st.id && c.circle_num == circle.circle_num));
+                Circle circ = db.Circle.FirstOrDefault(c => c.stage == st.id && c.circle_num == circle.circle_num);
+                if (circ != null)
+                    circles.Add(circ);
             }
             return circles;
         }

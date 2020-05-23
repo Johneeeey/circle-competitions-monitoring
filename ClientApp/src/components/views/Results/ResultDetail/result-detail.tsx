@@ -71,6 +71,7 @@ class ResultDetail extends Component<DetailProps, DetailState> {
 
     renResultRows(): JSX.Element[] {
         const response: JSX.Element[] = [];
+        const stagesInfo = this.state.stagesInfo;
         const participantsResults = this.props.results.filter(r => r.competition === this.props.competition.id).sort(r => r.place);
         participantsResults.forEach((pR: IResult, i: number) => {
             const sportsman = this.props.sportsmen.find(s => s.id === pR.sportsman);
@@ -79,12 +80,16 @@ class ResultDetail extends Component<DetailProps, DetailState> {
                 <tr key={i}>
                     <td>{pR.place}</td>
                     <td>{`${sportsman?.surname} ${sportsman?.name[0]}. ${sportsman?.patronymic ? sportsman.patronymic[0] + "." : ""}`}</td>
-                    {participantStages.map((stage: IStage) => {
-                        const res: JSX.Element[] = [];
-                        res.push(<td>{stage.points}</td>)
-                        res.push(<td>{stage.place}</td>)
-                        return res;
-                    })}
+                    {participantStages && participantStages.length > 0 ?
+                        participantStages.map((stage: IStage) => {
+                            const res: JSX.Element[] = [];
+                            res.push(<td>{stage.points}</td>)
+                            res.push(<td>{stage.place}</td>)
+                            return res;
+                        }) : null}
+                    {participantStages.length < stagesInfo.length ?
+                        this.renEmptyStageRow(stagesInfo.length, participantStages.length)
+                        : null}
                     <td>{pR.points}</td>
                 </tr>
             )
@@ -112,6 +117,7 @@ class ResultDetail extends Component<DetailProps, DetailState> {
     }
     renStageRows(stageNum: number): JSX.Element[] {
         const response: JSX.Element[] = [];
+        const stageInfo = this.state.stagesInfo.find(s => s.stage_number === stageNum) as IStage_Info
         const participants = this.sortParticipantsByPlaceInStage(stageNum, [...this.state.participants]);
         participants.forEach((p: IPaymentParticipant, i: number) => {
             const sportsman = this.props.sportsmen.find(s => s.id === p.sportsman);
@@ -124,20 +130,45 @@ class ResultDetail extends Component<DetailProps, DetailState> {
                 && c.sportsman === sportsman?.id).sort(c => c.circle_num);
             response.push(
                 <tr key={i}>
-                    <td>{participantStage?.place}</td>
-                    <td>{`${sportsman?.surname} ${sportsman?.name[0]}. ${sportsman?.patronymic ? sportsman.patronymic[0] + "." : ""}`}</td>
-                    {participantCircles.map((circle: ICircle, j: number) => {
-                        const res: JSX.Element[] = [];
-                        res.push(<td key={i + 100}>{circle.time_of_finish}</td>)
-                        res.push(<td key={i + 75}>{circle.points}</td>)
-                        res.push(<td key={i + 50}>{circle.place}</td>)
-                        return res;
-                    })}
-                    <td>{participantStage?.points}</td>
+                    <td>{participantStage ? participantStage.place : " "}</td>
+                    <td>{sportsman ?
+                        `${sportsman?.surname} 
+                        ${sportsman?.name[0]}. 
+                        ${sportsman?.patronymic ? sportsman.patronymic[0] + "." : ""}`
+                        : " "}
+                    </td>
+                    {participantCircles && participantCircles.length > 0 ?
+                        participantCircles.map((circle: ICircle, j: number) => {
+                            const res: JSX.Element[] = [];
+                            res.push(<td key={i + 100}>{circle.time_of_finish}</td>)
+                            res.push(<td key={i + 75}>{circle.points}</td>)
+                            res.push(<td key={i + 50}>{circle.place}</td>)
+                            return res;
+                        }) : null}
+                    {participantCircles && participantCircles.length < stageInfo.circle_count ?
+                        this.renEmptyCircleRow(stageInfo, participantCircles.length) : null}
+                    <td>{participantStage ? participantStage.points : " "}</td>
                 </tr>
             )
         })
         return response;
+    }
+    renEmptyStageRow(stagesInfoLength: number, stagesLength: number): JSX.Element[] {
+        const res: JSX.Element[] = [];
+        for (let i = 0; i < (stagesInfoLength - stagesLength); i++) {
+            res.push(<td key={i + 100}></td>)
+            res.push(<td key={i + 75}></td>)
+        }
+        return res;
+    }
+    renEmptyCircleRow(stageInfo: IStage_Info, circleLength: number): JSX.Element[] {
+        const res: JSX.Element[] = [];
+        for (let i = 0; i < (stageInfo.circle_count - circleLength); i++) {
+            res.push(<td key={i + 100}></td>)
+            res.push(<td key={i + 75}></td>)
+            res.push(<td key={i + 50}></td>)
+        }
+        return res;
     }
 
     render() {

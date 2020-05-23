@@ -455,7 +455,7 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                 ResultService.SaveStage(stage)
                     .then((st: IStage) => {
                         circles.forEach(c => c.stage = st.id);
-                        ResultService.SaveCircles(circles)
+                        ResultService.SaveCircles(circles.filter(c => c.points > 0))
                             .then((circs: ICircle[]) => {
                                 this.setState({
                                     result: res,
