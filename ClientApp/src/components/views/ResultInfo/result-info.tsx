@@ -481,9 +481,9 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
         const selectedCompetition = this.state.selectedCompetition;
         const selectedParticipant = this.state.selectedParticipant;
         const selectedStageNumber = this.state.selectedStageNumber;
-        // if (!user || user.role !== 2) {
-        //     return <Redirect to='/results' />
-        // }
+        if (!user || user.role !== 2) {
+            return <Redirect to='/results' />
+        }
         return (
             <div className="result-info-container container-fluid">
                 <div className="info-body container">
