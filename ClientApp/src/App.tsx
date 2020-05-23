@@ -14,6 +14,7 @@ import Competitions from './components/views/Competitions';
 import CompetitionInfo from './components/views/CompetitionInfo';
 import SportsmanRegistration from './components/views/SportsmanRegistration';
 import Results from './components/views/Results';
+import ResultInfo from './components/views/ResultInfo';
 import Header from './components/views/Header';
 import Login from './components/views/Login';
 import Registrate from './components/views/Registrate';
@@ -104,6 +105,10 @@ class App extends Component<appComponentProps, appComponentState> {
                 exact
                 path="/results"
                 component={Results}
+              />
+              <Route
+                path="/results/:id"
+                component={ResultInfo}
               />
             </Switch>
           </main>

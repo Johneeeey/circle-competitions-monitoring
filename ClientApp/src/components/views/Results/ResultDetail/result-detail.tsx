@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { ICompetition, IStage_Info, ISportsman, IPaymentParticipant, IResult, IStage, ICircle } from '../../../../@Types/types';
+import { ICompetition, IStage_Info, ISportsman, IPaymentParticipant, IResult, IStage, ICircle, IUser } from '../../../../@Types/types';
 import CompetitionService from '../../../../services/competition.service';
 
 import './ResultDetail.scss'
 import '../../../../styles/_buttons.scss';
+import { Link } from 'react-router-dom';
 
 interface DetailProps {
+    user: IUser;
     competition: ICompetition;
     sportsmen: ISportsman[];
     results: IResult[];
@@ -69,11 +71,10 @@ class ResultDetail extends Component<DetailProps, DetailState> {
 
     renResultRows(): JSX.Element[] {
         const response: JSX.Element[] = [];
-        const participants = [...this.state.participants];
         const participantsResults = this.props.results.filter(r => r.competition === this.props.competition.id).sort(r => r.place);
         participantsResults.forEach((pR: IResult, i: number) => {
             const sportsman = this.props.sportsmen.find(s => s.id === pR.sportsman);
-            const participantStages = this.props.stages.filter(s => s.result == pR.id && s.sportsman == pR.sportsman).sort(s => s.stage_num);
+            const participantStages = this.props.stages.filter(s => s.result === pR.id && s.sportsman === pR.sportsman).sort(s => s.stage_num);
             response.push(
                 <tr key={i}>
                     <td>{pR.place}</td>
@@ -146,6 +147,9 @@ class ResultDetail extends Component<DetailProps, DetailState> {
             <div className="result-detail-container">
                 <div className="result-detail">
                     <h5 className="result-detail__title">Результаты соревнования: {competition.title}</h5>
+                    {this.props.user && this.props.user.role === 2 &&
+                        <Link to={`/results/${competition.id}`}>Редактировать</Link>
+                    }
                     <button className="btn-close" onClick={() => this.props.changeCompetitionHandler(null)} />
                     <div className="result-detail__main-result">
                         <table className="table table-bordered table-hovered">

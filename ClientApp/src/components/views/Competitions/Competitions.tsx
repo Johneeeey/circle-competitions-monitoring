@@ -69,8 +69,8 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
                     <Link
                         className="link"
                         to={`/competitions/${0}`}
-                        title="Изменить информацию">
-                        <button className="btn btn-success">Добавить соревнование</button>
+                        title="Добавить соревнование">
+                        <button className="btn btn-secondary">Добавить соревнование</button>
                     </Link>
                     : null}
                 <CompetitionsList

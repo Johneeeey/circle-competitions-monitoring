@@ -1,7 +1,6 @@
 import {
     REQUEST_SPORTSMEN,
-    RECEIVE_SPORTSMEN,
-    SportsmanActionTypes
+    RECEIVE_SPORTSMEN
 } from '../@Types/actionTypes';
 import { Dispatch } from 'redux';
 import { ISportsman } from '../@Types/types';

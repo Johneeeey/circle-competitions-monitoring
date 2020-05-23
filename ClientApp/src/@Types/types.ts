@@ -96,7 +96,7 @@ export interface ICircle {
     distance: number;
     circle_name: string;
     sportsman: number;
-    time_of_finish: Date;
+    time_of_finish: string;
     points: number;
     place: number;
 }
@@ -108,7 +108,7 @@ export class Circle implements ICircle {
     distance = 0;
     circle_name = "";
     sportsman = 0;
-    time_of_finish = new Date();
+    time_of_finish = "00:00";
     points = 0;
     place = 0;
 }

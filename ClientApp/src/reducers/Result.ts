@@ -49,16 +49,19 @@ export function ResultReducer(state = ResultState, action: ResultActionTypes): I
                 circles: action.circles
             });
         case SAVE_RESULT:
-            if (state.results.find(r => r.id === action.result.id) === undefined) {
+            const result = action.result;
+            if (state.results.find(r => r.sportsman === result.sportsman
+                && r.competition === result.competition) === undefined) {
                 return Object.assign({}, state, {
                     isFetching: false,
-                    results: [...state.results, action.result]
+                    results: [...state.results, result]
                 });
             } else {
                 const results = [...state.results];
-                const id = results.indexOf(results.find(c => c.id === action.result.id) as Result);
+                const id = results.indexOf(results.find(r => r.sportsman === result.sportsman
+                    && r.competition === result.competition) as Result);
                 let item = results[id];
-                item = action.result;
+                item = result;
                 results[id] = item;
                 return Object.assign({}, state, {
                     isFetching: false,
@@ -66,16 +69,21 @@ export function ResultReducer(state = ResultState, action: ResultActionTypes): I
                 });
             }
         case SAVE_STAGE:
-            if (state.stages.find(s => s.id === action.stage.id) === undefined) {
+            const stage = action.stage;
+            if (state.stages.find(s => s.result === stage.result
+                && s.sportsman === stage.sportsman
+                && s.stage_num === stage.stage_num) === undefined) {
                 return Object.assign({}, state, {
                     isFetching: false,
-                    stages: [...state.stages, action.stage]
+                    stages: [...state.stages, stage]
                 });
             } else {
                 const stages = [...state.stages];
-                const id = stages.indexOf(stages.find(s => s.id === action.stage.id) as Stage);
+                const id = stages.indexOf(stages.find(s => s.result === stage.result
+                    && s.sportsman === stage.sportsman
+                    && s.stage_num === stage.stage_num) as Stage);
                 let item = stages[id];
-                item = action.stage;
+                item = stage;
                 stages[id] = item;
                 return Object.assign({}, state, {
                     isFetching: false,
@@ -83,16 +91,21 @@ export function ResultReducer(state = ResultState, action: ResultActionTypes): I
                 });
             }
         case SAVE_CIRCLE:
-            if (state.circles.find(s => s.id === action.circle.id) === undefined) {
+            const circle = action.circle;
+            if (state.circles.find(c => c.stage === circle.stage
+                && c.sportsman === circle.sportsman
+                && c.circle_num === circle.circle_num) === undefined) {
                 return Object.assign({}, state, {
                     isFetching: false,
-                    circles: [...state.circles, action.circle]
+                    circles: [...state.circles, circle]
                 });
             } else {
                 const circles = [...state.circles];
-                const id = circles.indexOf(circles.find(c => c.id === action.circle.id) as Circle);
+                const id = circles.indexOf(circles.find(c => c.stage === circle.stage
+                    && c.sportsman === circle.sportsman
+                    && c.circle_num === circle.circle_num) as Circle);
                 let item = circles[id];
-                item = action.circle;
+                item = circle;
                 circles[id] = item;
                 return Object.assign({}, state, {
                     isFetching: false,

@@ -1,5 +1,14 @@
 @import "../../../styles/variables";
 
 .results {
-    width: 100%;
+    width: 100%;    
+    .link{
+        height: 30px;
+        margin-top: 20px;
+        float: left;
+        .btn{
+            height: 100%;
+            padding-top: 1%;
+        }
+    }
 }

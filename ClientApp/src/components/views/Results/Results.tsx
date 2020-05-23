@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { IUser, ICompetition, ICompetitionType, IResult, IStage, ICircle, ISportsman } from '../../../@Types/types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Filter from '../Filter';
 import ResultsList from './ResultsList';
@@ -38,6 +39,7 @@ class Results extends Component<ResultsProps, ResultsState> {
     }
     render() {
         let competitions = [...this.props.competitions];
+        const user = this.props.user;
         const results = [...this.props.results];
         const stages = [...this.props.stages];
         const circles = [...this.props.circles];
@@ -56,8 +58,17 @@ class Results extends Component<ResultsProps, ResultsState> {
         return (
             <div className="results">
                 <Filter />
+                {user && user.role === 2 ?
+                    <Link
+                        className="link"
+                        to={`/results/${0}`}
+                        title="Добавить результат">
+                        <button className="btn btn-secondary">Добавить результат</button>
+                    </Link>
+                    : null}
                 {this.state.selectedCompetition ?
                     <ResultDetail
+                        user={user}
                         competition={this.state.selectedCompetition}
                         sportsmen={sportsmen}
                         results={results}
