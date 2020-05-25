@@ -54,6 +54,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
         this.handleChangeHouse = this.handleChangeHouse.bind(this);
         this.handleChangeBuilding = this.handleChangeBuilding.bind(this);
         this.handleChangeFlat = this.handleChangeFlat.bind(this);
+        this.handleChangeSummaryAddr = this.handleChangeSummaryAddr.bind(this);
         this.handleChangeOrganizer = this.handleChangeOrganizer.bind(this);
         this.handleChangeEntryFee = this.handleChangeEntryFee.bind(this);
         this.handleChangeAgeLimit = this.handleChangeAgeLimit.bind(this);
@@ -200,6 +201,11 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
     handleChangeFlat(event: React.ChangeEvent<HTMLInputElement>) {
         const competition = this.state.competition;
         competition.office_flat = event.target.value;
+        this.setState({ competition }, () => this.validation(competition));
+    }
+    handleChangeSummaryAddr(event: React.ChangeEvent<HTMLInputElement>) {
+        const competition = this.state.competition;
+        competition.summary_addr = event.target.value;
         this.setState({ competition }, () => this.validation(competition));
     }
     handleChangeOrganizer(event: React.ChangeEvent<HTMLInputElement>) {
@@ -375,6 +381,7 @@ class CompetitionInfo extends Component<InfoProps, InfoState> {
                         handleChangeEntryFee={this.handleChangeEntryFee}
                         handleChangeFlat={this.handleChangeFlat}
                         handleChangeHouse={this.handleChangeHouse}
+                        handleChangeSummaryAddr={this.handleChangeSummaryAddr}
                         handleChangeOrganizer={this.handleChangeOrganizer}
                         handleChangeStartDate={this.handleChangeStartDate}
                         handleChangeStreet={this.handleChangeStreet}

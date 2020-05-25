@@ -19,6 +19,7 @@ interface OptionsProps {
     handleChangeHouse: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeBuilding: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeFlat: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleChangeSummaryAddr: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeOrganizer: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeEntryFee: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleChangeAgeLimit: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -239,6 +240,17 @@ class InfoOptions extends Component<OptionsProps, OptionsState>{
                         value={competition.office_flat || ""}
                         placeholder="№"
                         onChange={this.props.handleChangeFlat} />
+                </div>
+                <div className="addr-comment">
+                    <label htmlFor="addr-comment">Комментарий к адресу</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="addr-comment"
+                        readOnly={readOnly}
+                        value={competition.summary_addr || ""}
+                        placeholder="Комментарий к адресу"
+                        onChange={this.props.handleChangeSummaryAddr} />
                 </div>
                 <div className="organizer">
                     <label htmlFor="organizer">Организатор</label>
