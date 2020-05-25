@@ -94,7 +94,6 @@ export interface ICircle {
     stage: number;
     circle_num: number;
     distance: number;
-    circle_name: string;
     sportsman: number;
     time_of_finish: string;
     points: number;
@@ -178,7 +177,6 @@ export interface ISportsman {
     birth_sertificate: number | null;
     rank: string;
     team: string;
-    SI_chip: string;
 }
 
 export class Sportsman implements ISportsman {

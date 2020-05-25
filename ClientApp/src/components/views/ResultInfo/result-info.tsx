@@ -190,7 +190,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                             circles.push({
                                 id: 0,
                                 circle_num: i,
-                                circle_name: "",
                                 stage: stage.id,
                                 distance: selectedStageInfo?.one_circle_distance,
                                 sportsman: sportsman.id,
@@ -221,7 +220,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                     circles.push({
                         id: 0,
                         circle_num: i,
-                        circle_name: "",
                         stage: 0,
                         distance: selectedStageInfo?.one_circle_distance,
                         sportsman: sportsman.id,
@@ -258,7 +256,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                 circles.push({
                     id: 0,
                     circle_num: i,
-                    circle_name: "",
                     stage: 0,
                     distance: selectedStageInfo?.one_circle_distance,
                     sportsman: sportsman.id,

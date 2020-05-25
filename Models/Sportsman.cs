@@ -12,6 +12,5 @@ namespace circle_competitions_monitoring.Models
         public int? birth_sertificate { get; set; }
         public string rank { get; set; }
         public string team { get; set; }
-        public string SI_chip { get; set; }
     }
 }

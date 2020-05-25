@@ -10,11 +10,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace circle_competitions_monitoring.Controllers
 {
-    public class FileInputModel
-    {
-        public IFormFile File { get; set; }
-        public string Param { get; set; }
-    }
     public class SportsmanController : Controller
     {
         private DataContext db;
