@@ -24,6 +24,18 @@ namespace circle_competitions_monitoring.Controllers
         }
         [HttpPost]
         [Authorize]
+        public Passport GetPassport(int passId)
+        {
+            return db.Passport.FirstOrDefault(p => p.id == passId);
+        }
+        [HttpPost]
+        [Authorize]
+        public Birth_sertificate GetBirthSertificate(int sertId)
+        {
+            return db.Birth_Sertificate.FirstOrDefault(b => b.id == sertId);
+        }
+        [HttpPost]
+        [Authorize]
         [Consumes("multipart/form-data")]
         public IActionResult AddReceiptToParticipant([FromForm] FileInputModel receipt, int participant_id)
         {
@@ -42,7 +54,10 @@ namespace circle_competitions_monitoring.Controllers
                         using (var imgStream = new MemoryStream())
                         {
                             img.Save(imgStream, img.RawFormat);
-                            participant.receipt = imgStream.ToArray();
+                            if (imgStream.ToArray().Length > 0)
+                                participant.receipt = imgStream.ToArray();
+                            else
+                                participant.receipt = null;
                             db.Update(participant);
                             db.SaveChanges();
                             return Ok(participant);
@@ -69,6 +84,17 @@ namespace circle_competitions_monitoring.Controllers
                 db.SaveChanges();
                 return payment;
             }
+        }
+        [HttpPost]
+        [Authorize]
+        public List<Payment_Participant> UpdatePaymentParticipantStatus([FromBody] List<Payment_Participant> payments)
+        {
+            foreach (Payment_Participant payment in payments)
+            {
+                db.Update(payment);
+            }
+            db.SaveChanges();
+            return payments;
         }
         [HttpPost]
         [Authorize]

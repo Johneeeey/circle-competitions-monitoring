@@ -291,7 +291,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
                                     id: 0,
                                     sportsman: sportsman.id,
                                     competition: competition.id,
-                                    receipt: [],
+                                    receipt: null,
                                     status: 1
                                 })
                                     .then((participant: IPaymentParticipant) => {
@@ -323,7 +323,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
                                     id: 0,
                                     sportsman: sportsman.id,
                                     competition: competition.id,
-                                    receipt: [],
+                                    receipt: null,
                                     status: 1
                                 })
                                     .then((participant: IPaymentParticipant) => {

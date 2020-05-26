@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Filter from '../Filter';
 import CompetitionsList from './CompetitionsList';
 import CompetitionDetail from './CompetitionDetail';
+import RequestParticipation from './RequestParticipation';
 
 import './Competitions.scss';
 
@@ -18,15 +19,18 @@ interface CompetitionsProps {
 }
 interface CompetitionsState {
     selectedCompetition: ICompetition | null;
+    checkRequests: boolean;
 }
 
 class Competitions extends Component<CompetitionsProps, CompetitionsState>{
     constructor(props: CompetitionsProps) {
         super(props);
         this.state = {
-            selectedCompetition: null
+            selectedCompetition: null,
+            checkRequests: false
         }
         this.handleChangeCompetition = this.handleChangeCompetition.bind(this);
+        this.handleChangeCheckStatus = this.handleChangeCheckStatus.bind(this);
     }
 
     componentDidMount() {
@@ -46,6 +50,11 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
     handleChangeCompetition(id: number) {
         const competition = this.props.competitions.find(c => c.id === id) as Competition;
         this.setState({ selectedCompetition: competition });
+    }
+    handleChangeCheckStatus() {
+        this.setState({
+            checkRequests: !this.state.checkRequests
+        })
     }
 
     render() {
@@ -80,7 +89,14 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
                     changeCompetition={this.handleChangeCompetition} />
                 <CompetitionDetail
                     competition={selectedCompetition ? selectedCompetition : new Competition()}
+                    handleChangeCheckStatus={this.handleChangeCheckStatus}
                 />
+                {this.state.checkRequests && selectedCompetition ?
+                    <RequestParticipation
+                        competiton={selectedCompetition}
+                        handleChangeCheckStatus={this.handleChangeCheckStatus}
+                    />
+                    : null}
             </div>
         )
     }

@@ -70,6 +70,34 @@ class SportsmanService {
         })
     }
     /**
+     * Обновление статусов записи о регистрации на соревнование
+     * @param {IPaymentParticipant[]} payments - список заявок
+     * @returns {Promise<IPaymentParticipant[]>}
+     */
+    public UpdatePaymentParticipantStatus(payments: IPaymentParticipant[]): Promise<IPaymentParticipant[]> {
+        const token = localStorage.getItem("access_token");
+        return new Promise((result, error) => {
+            fetch(`/Sportsman/UpdatePaymentParticipantStatus`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(payments)
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error(response.statusText);
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
+    /**
      * Сохранение спортсмена
      * @param {ISportsman} sportsman - спортсмен
      * @return {Promise<ISportsman>}
@@ -141,6 +169,60 @@ class SportsmanService {
                     "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(birth_sertificate)
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error(response.statusText);
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
+    /**
+     * Вытягивание паспорта
+     * @param {number} passId - идентификационный номер паспорта
+     * @returns {Promise<IPassport>}
+     */
+    public GetPassport(passId: number): Promise<IPassport> {
+        const token = localStorage.getItem("access_token");
+        return new Promise((result, error) => {
+            fetch(`/Sportsman/GetPassport?passId=${passId}`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error(response.statusText);
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
+    /**
+     * Вытягивание свидетельства о рождении
+     * @param {number} sertId - идентификационный номер свидетельства о рождении
+     * @returns {Promise<IBirthSertificate>}
+     */
+    public GetBirthSertificate(sertId: number): Promise<IBirthSertificate> {
+        const token = localStorage.getItem("access_token");
+        return new Promise((result, error) => {
+            fetch(`/Sportsman/GetBirthSertificate?sertId=${sertId}`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
             })
                 .then(response => {
                     if (response.status !== 200) {

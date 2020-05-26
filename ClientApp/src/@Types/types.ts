@@ -132,7 +132,7 @@ export class Passport implements IPassport {
     date_of_issue = new Date();
 }
 
-export interface Request_Status {
+export interface IRequest_Status {
     id: number;
     name: string;
 }
@@ -141,7 +141,7 @@ export interface IPaymentParticipant {
     id: number;
     sportsman: number;
     competition: number;
-    receipt: number[];
+    receipt: Blob | null;
     status: number;
 }
 

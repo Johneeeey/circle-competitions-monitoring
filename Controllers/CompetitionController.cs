@@ -37,6 +37,11 @@ namespace circle_competitions_monitoring.Controllers
             return db.Competition_Type.ToList();
         }
         [HttpGet]
+        public List<Request_Status> GetStatuses()
+        {
+            return db.Request_Status.ToList();
+        }
+        [HttpGet]
         public List<Competition> GetCompetitions()
         {
             return db.Competition.ToList();

@@ -12,6 +12,7 @@ interface DetailProps {
     user: IUser;
     competition: ICompetition;
     types: ICompetitionType[];
+    handleChangeCheckStatus: () => void;
 }
 interface DetailState {
     stages: IStage_Info[];
@@ -140,6 +141,14 @@ class CompetitionDetail extends Component<DetailProps, DetailState> {
                     </Link>
                     : null
                 }
+                {user ?
+                    <button
+                        onClick={()=>this.props.handleChangeCheckStatus()}
+                        className="btn btn-light"
+                    >
+                        Проверить заявки
+                    </button>
+                    : null}
             </div>
         )
     }

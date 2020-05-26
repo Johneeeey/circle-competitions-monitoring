@@ -1,6 +1,30 @@
-import { ICompetition, IStage_Info, IPaymentParticipant } from '../@Types/types';
+import { ICompetition, IStage_Info, IPaymentParticipant, IRequest_Status } from '../@Types/types';
 
 class CompetitionService {
+    /**
+     * Вытягиевание статусов запросов на участие
+     * @returns {Promise<IRequest_Status[]>}
+     */
+    public GetStatuses(): Promise<IRequest_Status[]> {
+        return new Promise((result, error) => {
+            fetch(`/Competition/GetStatuses`, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error();
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
     /**
      * Вытягивание данных об участниках соревнования
      * @param id - иденификационный номер соревнования
