@@ -24,7 +24,7 @@ namespace circle_competitions_monitoring.Controllers
         public List<Payment_Participant> GetParticipants(int id)
         {
             var participants = this.db.Payment_Participant.ToList();
-            return participants.Where(p => p.competition == id && p.status == 4).ToList();
+            return participants.Where(p => p.competition == id).ToList();
         }
         [HttpGet]
         public List<Stage_Info> GetStagesInfo(int id)
