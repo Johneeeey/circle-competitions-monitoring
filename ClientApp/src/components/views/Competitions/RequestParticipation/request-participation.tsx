@@ -4,17 +4,20 @@ import CompetitionService from '../../../../services/competition.service';
 import SportsmanService from '../../../../services/sportsman.service';
 import DateService from '../../../../helpers/date.helper';
 import { connect } from 'react-redux';
-import Lightbox from 'react-image-lightbox';
-import { ImageGroup, Image } from 'react-fullscreen-image'
+// import Lightbox from 'react-image-lightbox';
+// import { ImageGroup, Image } from 'react-fullscreen-image'
+import { Dispatch } from 'redux';
+import { request, response } from '../../../../actions/user.action';
 
 import './RequestParticipation.scss';
 import '../../../../styles/_buttons.scss';
-import { request } from '../../../../actions/user.action';
 
 interface Props {
     competiton: ICompetition;
     sportsmen: ISportsman[];
     handleChangeCheckStatus: () => void;
+    request: () => void;
+    response: () => void;
 }
 interface IRequestsStruct {
     sp: ISportsman;
@@ -40,6 +43,7 @@ class RequestParticipation extends Component<Props, State> {
         this.save = this.save.bind(this);
     }
     componentDidMount() {
+        this.props.request();
         CompetitionService.GetStatuses()
             .then((statuses: IRequest_Status[]) => {
                 CompetitionService.GetParticipants(this.props.competiton.id)
@@ -57,7 +61,7 @@ class RequestParticipation extends Component<Props, State> {
                                                     req: r,
                                                     pass
                                                 }]
-                                            })
+                                            }, () => this.props.response())
                                         })
                                 } else if (sportsman.birth_sertificate) {
                                     SportsmanService.GetBirthSertificate(sportsman.birth_sertificate)
@@ -69,7 +73,7 @@ class RequestParticipation extends Component<Props, State> {
                                                     req: r,
                                                     sert
                                                 }]
-                                            })
+                                            }, () => this.props.response())
                                         })
                                 }
                             }
@@ -204,6 +208,7 @@ class RequestParticipation extends Component<Props, State> {
 
     save() {
         const payments = this.state.requests.map(r => r.req)
+        this.props.request();
         SportsmanService.UpdatePaymentParticipantStatus(payments)
             .then((updatedPayments: IPaymentParticipant[]) => {
                 const requests = this.state.requests;
@@ -212,12 +217,11 @@ class RequestParticipation extends Component<Props, State> {
                     const reqId = requests.indexOf(req);
                     requests[reqId].req = p;
                 })
-                this.setState({ requests })
+                this.setState({ requests }, () => this.props.response())
             })
     }
 
     render() {
-        console.log(this.state.requests)
         return (
             <div className="request-participants-container">
                 <div className="request-participants-body container">
@@ -244,4 +248,8 @@ const mapStateToProps = (state: any) => ({
     sportsmen: state.sportsman.sportsmen
 })
 
-export default connect(mapStateToProps)(RequestParticipation);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    request: () => dispatch(request()),
+    response: () => dispatch(response())
+})
+export default connect(mapStateToProps, mapDispatchToProps)(RequestParticipation);
