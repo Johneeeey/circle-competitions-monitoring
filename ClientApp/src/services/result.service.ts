@@ -41,7 +41,7 @@ class ResultService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Ошибка при сохранении результата");
                     } else {
                         return response.json();
                     }
@@ -69,7 +69,7 @@ class ResultService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Ошибка при сохранении стадии");
                     } else {
                         return response.json();
                     }
@@ -97,7 +97,7 @@ class ResultService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Ошибка при сохранении кругов");
                     } else {
                         return response.json();
                     }

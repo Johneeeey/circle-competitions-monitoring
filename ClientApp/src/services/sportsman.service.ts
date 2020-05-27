@@ -32,7 +32,7 @@ class SportsmanService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(response.statusText);
+                        throw Error("Ошибка при сохранении чека");
                     } else {
                         return response.json();
                     }
@@ -60,7 +60,7 @@ class SportsmanService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(response.statusText);
+                        throw Error("Ошибка при сохранении запроса на участие");
                     } else {
                         return response.json();
                     }
@@ -88,7 +88,7 @@ class SportsmanService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(response.statusText);
+                        throw Error("Ошибка при обновлении статусов запросов на участие");
                     } else {
                         return response.json();
                     }
@@ -116,7 +116,7 @@ class SportsmanService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(response.statusText);
+                        throw Error("Ошибка при сохранении спортсмена");
                     } else {
                         return response.json();
                     }
@@ -144,7 +144,7 @@ class SportsmanService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(response.statusText);
+                        throw Error("Ошбика при сохранении паспорта");
                     } else {
                         return response.json();
                     }
@@ -172,7 +172,7 @@ class SportsmanService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(response.statusText);
+                        throw Error("Ошибка при сохарении свидетельства о рождении");
                     } else {
                         return response.json();
                     }
@@ -199,7 +199,7 @@ class SportsmanService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(response.statusText);
+                        throw Error("Ошибка при получении паспортных данных");
                     } else {
                         return response.json();
                     }
@@ -226,7 +226,7 @@ class SportsmanService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error(response.statusText);
+                        throw Error("Ошибка при получении данных свидетельства о рождении");
                     } else {
                         return response.json();
                     }

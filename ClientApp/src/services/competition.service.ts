@@ -16,7 +16,7 @@ class CompetitionService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Не удалось получить список статусов запросов");
                     } else {
                         return response.json();
                     }
@@ -41,7 +41,7 @@ class CompetitionService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Не удалось получить список запросов");
                     } else {
                         return response.json();
                     }
@@ -68,7 +68,7 @@ class CompetitionService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Не удалось получить список запросов");
                     } else {
                         return response.json();
                     }
@@ -97,7 +97,7 @@ class CompetitionService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Произошла ошибка при удалении запроса");
                     } else {
                         return response.json();
                     }
@@ -122,7 +122,7 @@ class CompetitionService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Не удалось получить список информации стадиях");
                     } else {
                         return response.json();
                     }
@@ -150,7 +150,7 @@ class CompetitionService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Ошибка при сохранении задания");
                     } else {
                         return response.json();
                     }
@@ -160,7 +160,7 @@ class CompetitionService {
         })
     }
     /**
-     * Получение данных о стадиях соревнования
+     * Получение стадий соревнования
      * @param {number} id - Идентификационный номер соревнования
      * @return {Promise<IStage_Info[]}
      */
@@ -175,7 +175,7 @@ class CompetitionService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Не удалось получить список стадий соревнования");
                     } else {
                         return response.json();
                     }
@@ -203,7 +203,7 @@ class CompetitionService {
             })
                 .then(response => {
                     if (response.status !== 200) {
-                        throw new Error();
+                        throw Error("Ошибка при сохранении информации о стадиях");
                     } else {
                         return response.json();
                     }
