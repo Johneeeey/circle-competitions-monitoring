@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { ICompetition, IPaymentParticipant, ISportsman, IPassport, IRequest_Status, IBirthSertificate } from '../../../../@Types/types';
+import {
+    ICompetition,
+    IPaymentParticipant,
+    ISportsman,
+    IPassport,
+    IRequest_Status,
+    IBirthSertificate,
+    IRequestsStruct
+} from '../../../../@Types/types';
 import CompetitionService from '../../../../services/competition.service';
 import SportsmanService from '../../../../services/sportsman.service';
 import DateService from '../../../../helpers/date.helper';
@@ -11,6 +19,7 @@ import { request, response } from '../../../../actions/user.action';
 
 import './RequestParticipation.scss';
 import '../../../../styles/_buttons.scss';
+import error from '../../../../content/img/error.png';
 
 interface Props {
     competiton: ICompetition;
@@ -19,12 +28,7 @@ interface Props {
     request: () => void;
     response: () => void;
 }
-interface IRequestsStruct {
-    sp: ISportsman;
-    req: IPaymentParticipant;
-    pass?: IPassport;
-    sert?: IBirthSertificate;
-}
+
 interface State {
     requests: IRequestsStruct[];
     statuses: IRequest_Status[];
@@ -46,7 +50,7 @@ class RequestParticipation extends Component<Props, State> {
         this.props.request();
         CompetitionService.GetStatuses()
             .then((statuses: IRequest_Status[]) => {
-                CompetitionService.GetParticipants(this.props.competiton.id)
+                CompetitionService.GetParticipantsByCompetition(this.props.competiton.id)
                     .then((requests: IPaymentParticipant[]) => {
                         requests.forEach((r: IPaymentParticipant) => {
                             const sportsman = this.props.sportsmen.find(s => s.id === r.sportsman);
@@ -197,7 +201,11 @@ class RequestParticipation extends Component<Props, State> {
 
     genSrc(receipt: Blob | null): string {
         let src = "data:image/png;base64,";
-        return src + receipt;
+        if (receipt) {
+            return src + receipt;
+        } else {
+            return error;
+        }
     }
 
     handleChangeRequestStatus(id: number, value: string) {

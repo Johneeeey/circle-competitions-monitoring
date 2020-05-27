@@ -1,5 +1,9 @@
 .competition-info-container {
     width: 100%;
+    * {
+        box-shadow: none !important;
+        outline: 0 !important;
+    }
     .info-body {
         max-height: 650px;
         height: 500px;

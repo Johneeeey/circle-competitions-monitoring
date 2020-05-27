@@ -255,3 +255,10 @@ export interface ISportsmanState {
     isFetching: boolean;
     sportsmen: ISportsman[];
 }
+
+export interface IRequestsStruct {
+    sp: ISportsman;
+    req: IPaymentParticipant;
+    pass?: IPassport;
+    sert?: IBirthSertificate;
+}

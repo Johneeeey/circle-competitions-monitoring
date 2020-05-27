@@ -5,6 +5,10 @@
     height: 100%;
     top: 0;
     background-color: rgba($color: #000000, $alpha: 0.18);
+    * {
+        box-shadow: none !important;
+        outline: 0 !important;
+    }
     .registrate-form {
         box-sizing: border-box;
         background-color: #fff;

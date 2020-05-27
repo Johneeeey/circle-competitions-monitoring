@@ -26,18 +26,74 @@ class CompetitionService {
         })
     }
     /**
-     * Вытягивание данных об участниках соревнования
-     * @param id - иденификационный номер соревнования
+     * Вытягивание данных о заявках на участие в соревновании
+     * @param idCompetition - иденификационный номер соревнования
      * @returns {Promise<IPaymentParticipant[]>}
      */
-    public GetParticipants(id: number): Promise<IPaymentParticipant[]> {
+    public GetParticipantsByCompetition(idCompetition: number): Promise<IPaymentParticipant[]> {
         return new Promise((result, error) => {
-            fetch(`/Competition/GetParticipants?id=${id}`, {
+            fetch(`/Competition/GetParticipantsByCompetition?id=${idCompetition}`, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error();
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
+    /**
+     * Вытягвание данных о заявках на участие в соревнованиях по пользователю
+     * @param idUser - идентификационный номер пользователя
+     * @returns {Promise<IPaymentParticipant[]>}
+     */
+    public GetParticipantsByUser(idUser: number): Promise<IPaymentParticipant[]> {
+        const token = localStorage.getItem("access_token");
+        return new Promise((result, error) => {
+            fetch(`/Competition/GetParticipantsByUser?id=${idUser}`, {
+                method: "GET",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error();
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => result(data))
+                .catch(err => error(err))
+        })
+    }
+    /**
+     * Удаление заявки на участе в соревновании
+     * @param {IPaymentParticipant} participant - заявка на участие, которую необходимо удалить
+     * @param {number} userId - идентификационный номер пользователя, выполняющего действие
+     * @returns {Promise<IPaymentParticipant[]>} 
+     */
+    public RemovePaymentParticipant(participant: IPaymentParticipant, userId: number): Promise<IPaymentParticipant[]> {
+        const token = localStorage.getItem("access_token");
+        return new Promise((result, error) => {
+            fetch(`/Competition/RemovePaymentParticipant?userId=${userId}`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(participant)
             })
                 .then(response => {
                     if (response.status !== 200) {

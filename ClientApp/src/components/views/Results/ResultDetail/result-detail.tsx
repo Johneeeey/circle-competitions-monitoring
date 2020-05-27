@@ -33,7 +33,7 @@ class ResultDetail extends Component<DetailProps, DetailState> {
             .then((stagesInfo: IStage_Info[]) => {
                 this.setState({ stagesInfo });
             })
-        CompetitionService.GetParticipants(this.props.competition.id)
+        CompetitionService.GetParticipantsByCompetition(this.props.competition.id)
             .then((participants: IPaymentParticipant[]) => {
                 this.setState({ participants });
             })

@@ -5,8 +5,10 @@ import { Dispatch } from 'redux';
 import './Login.scss';
 import '../../../styles/_inputs.scss';
 import { connect } from 'react-redux';
+import { IUser } from '../../../@Types/types';
 
 interface loginProps {
+    user: IUser;
     loginError: boolean;
     close: () => void;
     login: (login: string, password: string) => any
@@ -14,10 +16,12 @@ interface loginProps {
 interface loginState {
     login: string;
     password: string;
+    didTry: boolean;
 }
 
 const mapStateToProps = (state: any) => {
     return {
+        user: state.user.user,
         loginError: state.user.loginError
     }
 }
@@ -31,13 +35,20 @@ class Login extends Component<loginProps, loginState>{
         super(props);
         this.state = {
             login: "",
-            password: ""
+            password: "",
+            didTry: false
+        }
+    }
+    componentDidUpdate(prevProps: loginProps, prevState: loginState) {
+        if (!this.props.loginError && this.state.didTry && this.props.user) {
+            this.props.close();
         }
     }
 
+
     login() {
         this.props.login(this.state.login, this.state.password);
-        this.props.close();
+        this.setState({ didTry: true })
     }
 
     render() {

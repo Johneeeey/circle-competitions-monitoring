@@ -21,10 +21,44 @@ namespace circle_competitions_monitoring.Controllers
             this.db = context;
         }
         [HttpGet]
-        public List<Payment_Participant> GetParticipants(int id)
+        public List<Payment_Participant> GetParticipantsByCompetition(int id)
         {
             var participants = this.db.Payment_Participant.ToList();
             return participants.Where(p => p.competition == id).ToList();
+        }
+        [HttpGet]
+        [Authorize]
+        public List<Payment_Participant> GetParticipantsByUser(int id)
+        {
+            List<Registered_Sportsman> registered_sportsmen = db.Registered_Sportsman.Where(rS => rS.user == id).ToList();
+            List<Payment_Participant> participants = new List<Payment_Participant>();
+            foreach (Registered_Sportsman rS in registered_sportsmen)
+            {
+                Sportsman sportsman = db.Sportsman.FirstOrDefault(s => s.id == rS.sportsman);
+                if (sportsman != null)
+                {
+                    participants.AddRange(db.Payment_Participant.Where(p => p.sportsman == sportsman.id));
+                }
+            }
+            return participants;
+        }
+        [HttpPost]
+        [Authorize]
+        public List<Payment_Participant> RemovePaymentParticipant([FromBody] Payment_Participant participant, int userId)
+        {
+            db.Remove(participant);
+            db.SaveChanges();
+            List<Registered_Sportsman> registered_sportsmen = db.Registered_Sportsman.Where(rS => rS.user == userId).ToList();
+            List<Payment_Participant> participants = new List<Payment_Participant>();
+            foreach (Registered_Sportsman rS in registered_sportsmen)
+            {
+                Sportsman sportsman = db.Sportsman.FirstOrDefault(s => s.id == rS.sportsman);
+                if (sportsman != null)
+                {
+                    participants.AddRange(db.Payment_Participant.Where(p => p.sportsman == sportsman.id));
+                }
+            }
+            return participants;
         }
         [HttpGet]
         public List<Stage_Info> GetStagesInfo(int id)

@@ -141,9 +141,9 @@ class CompetitionDetail extends Component<DetailProps, DetailState> {
                     </Link>
                     : null
                 }
-                {user ?
+                {user && user.role === 2 ?
                     <button
-                        onClick={()=>this.props.handleChangeCheckStatus()}
+                        onClick={() => this.props.handleChangeCheckStatus()}
                         className="btn btn-light"
                     >
                         Проверить заявки

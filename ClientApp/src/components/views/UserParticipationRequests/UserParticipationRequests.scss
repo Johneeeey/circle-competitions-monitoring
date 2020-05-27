@@ -1,6 +1,6 @@
-@import "../../../../styles/variables";
+@import "../../../styles/variables";
 
-.request-participants-container {
+.user-requests-container {
     position: absolute;
     z-index: 9999;
     width: 100%;
@@ -9,10 +9,11 @@
     top: 0;
     left: 0;
     background-color: rgba($color: #000000, $alpha: 0.18);
-    .request-participants-body {
+    .user-requests-body {
         margin-top: 40px;
+        margin-left: 5%;
         z-index: 9999;
-        width: 100%;
+        width: 90%;
         height: 550px;
         max-height: 550px;
         background-color: $white;
@@ -56,37 +57,30 @@
                     box-shadow: none;
                 }
                 &_fio {
+                    width: 20%;
                     padding: 1% 1%;
-                    width: 15%;
                     border-right: 1px solid $border-grey;
                 }
                 &_birthday {
-                    padding: 1% 1%;
                     width: 10%;
+                    padding: 1% 1%;
                     border-right: 1px solid $border-grey;
                 }
                 &_team {
-                    padding: 1% 1%;
                     width: 10%;
+                    padding: 1% 1%;
                     border-right: 1px solid $border-grey;
                 }
-                &_pass {
+                &_competition {
+                    width: 15%;
                     padding: 1% 1%;
-                    width: 30%;
-                    display: flex;
-                    flex-direction: column;
-                    border-right: 1px solid $border-grey;
-                }
-                &_sert {
-                    padding: 1% 1%;
-                    width: 30%;
                     display: flex;
                     flex-direction: column;
                     border-right: 1px solid $border-grey;
                 }
                 &_receipt {
-                    padding: 1% 1%;
                     width: 15%;
+                    padding: 1% 1%;
                     border-right: 1px solid $border-grey;
                     img {
                         width: 100%;
@@ -94,17 +88,29 @@
                     }
                 }
                 &_status {
+                    width: 15%;
                     padding: 1% 1%;
+                    border-right: 1px solid $border-grey;
+                    .in-progress {
+                        color: $in-progress;
+                    }
+                    .approved {
+                        color: $success;
+                    }
+                    .rejected {
+                        color: $alert;
+                    }
+                }
+                &_remove {
+                    width: 15%;
                     display: flex;
-                    select {
+                    padding: 1% 1%;
+                    .btn-danger{
+                        width: 100%;
                         margin: auto;
                     }
                 }
             }
-        }
-        .btn-primary {
-            float: right;
-            margin-top: 5px;
         }
     }
 }

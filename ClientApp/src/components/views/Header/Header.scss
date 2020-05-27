@@ -1,4 +1,8 @@
 .navbar-light {
+    * {
+        box-shadow: none !important;
+        outline: 0 !important;
+    }
     .navbar-nav {
         .nav-link {
             cursor: pointer;

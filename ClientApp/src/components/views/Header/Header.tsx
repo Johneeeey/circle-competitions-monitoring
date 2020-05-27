@@ -13,6 +13,7 @@ interface headerProps {
     showLoginForm: boolean;
     changeShowLoginFormStatus: () => void;
     changeShowRegFormStatus: () => void;
+    changeShowUserRequestsFormStatus: () => void;
     logout: () => void;
 }
 
@@ -43,15 +44,22 @@ class Header extends Component<headerProps, {}>{
                                 </button>
                             </div>
                             :
-                            <button
-                                className="btn"
-                                onClick={() => {
-                                    if (window.confirm("Вы уверены?")) {
-                                        this.props.logout()
-                                    }
-                                }}>
-                                Выйти
+                            <div>
+                                <button
+                                    className="btn"
+                                    onClick={() => this.props.changeShowUserRequestsFormStatus()}>
+                                    Мои заявки
+                                </button>
+                                <button
+                                    className="btn"
+                                    onClick={() => {
+                                        if (window.confirm("Вы уверены?")) {
+                                            this.props.logout()
+                                        }
+                                    }}>
+                                    Выйти
                             </button>
+                            </div>
                         }
                     </Nav>
                 </Navbar.Collapse>

@@ -18,6 +18,7 @@ import ResultInfo from './components/views/ResultInfo';
 import Header from './components/views/Header';
 import Login from './components/views/Login';
 import Registrate from './components/views/Registrate';
+import UserRequests from './components/views/UserParticipationRequests';
 
 import './styles/_buttons.scss';
 import './styles/_style.scss';
@@ -25,6 +26,7 @@ import './styles/_style.scss';
 interface appComponentState {
   showLoginForm: boolean;
   showRegForm: boolean;
+  showRequestsOfUser: boolean;
 }
 interface appComponentProps {
   isUserFetching: boolean;
@@ -46,7 +48,8 @@ class App extends Component<appComponentProps, appComponentState> {
     super(props);
     this.state = {
       showLoginForm: false,
-      showRegForm: false
+      showRegForm: false,
+      showRequestsOfUser: false
     }
   }
   componentDidMount() {
@@ -75,7 +78,8 @@ class App extends Component<appComponentProps, appComponentState> {
           <Header
             showLoginForm={this.state.showLoginForm}
             changeShowLoginFormStatus={() => this.setState({ showLoginForm: true })}
-            changeShowRegFormStatus={() => this.setState({ showRegForm: true })} />
+            changeShowRegFormStatus={() => this.setState({ showRegForm: true })}
+            changeShowUserRequestsFormStatus={() => this.setState({ showRequestsOfUser: true })} />
           {this.state.showLoginForm ?
             <Login
               close={() => this.setState({ showLoginForm: false })} />
@@ -84,6 +88,11 @@ class App extends Component<appComponentProps, appComponentState> {
           {this.state.showRegForm ?
             <Registrate
               close={() => this.setState({ showRegForm: false })} />
+            : null
+          }
+          {this.state.showRequestsOfUser ?
+            <UserRequests
+              close={() => this.setState({ showRequestsOfUser: false })} />
             : null
           }
           <main className="container-fluid">

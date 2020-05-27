@@ -102,7 +102,7 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                 })
                 .then(() => {
                     let participants: ISportsman[] = [];
-                    competitionService.GetParticipants(selectedCompetition.id)
+                    competitionService.GetParticipantsByCompetition(selectedCompetition.id)
                         .then(data => {
                             data.forEach(d => {
                                 const sp = this.props.sportsmen.find(s => s.id === d.sportsman);
@@ -142,7 +142,7 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                 })
                 .then(() => {
                     let participants: ISportsman[] = [];
-                    competitionService.GetParticipants(selectedCompetition.id)
+                    competitionService.GetParticipantsByCompetition(selectedCompetition.id)
                         .then(data => {
                             data.forEach(d => {
                                 const sp = this.props.sportsmen.find(s => s.id === d.sportsman);
