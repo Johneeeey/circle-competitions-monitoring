@@ -12,8 +12,6 @@ import CompetitionService from '../../../../services/competition.service';
 import SportsmanService from '../../../../services/sportsman.service';
 import DateService from '../../../../helpers/date.helper';
 import { connect } from 'react-redux';
-// import Lightbox from 'react-image-lightbox';
-// import { ImageGroup, Image } from 'react-fullscreen-image'
 import { Dispatch } from 'redux';
 import { request, response } from '../../../../actions/user.action';
 
@@ -112,40 +110,15 @@ class RequestParticipation extends Component<Props, State> {
                             <span>Команда: {r.sp.team}</span>
                         </div>
                         <div className="request-list__item_pass">
-                            <span>Пасспорт</span>
+                            <span>Паспорт</span>
                             <span>Серия: {r.pass.series}</span>
                             <span>Номер: {r.pass.number}</span>
                             <span>Дата выдачи: {DateService.GetShortDate(new Date(r.pass.date_of_issue))}</span>
                             <span>Организация: {r.pass.organization_of_issue} ({r.pass.code_of_organization})</span>
                             <span>Место выдачи: {r.pass.place_of_issue}</span>
                         </div>
-                        {/*this.state.isLightboxOpen &&
-                            <Lightbox
-                                mainSrc='C:\Users\User\Desktop\Учеба\vkr_repo\Avtorizatsia.png'
-                                reactModalStyle={{
-                                    width: '100px',
-                                    height: '100px'
-                                }}
-                                onCloseRequest={() => this.setState({ isLightboxOpen: false })}
-                            />*/}
                         {competition.entry_fee > 0 ?
                             <div className="request-list__item_receipt">
-                                {/* <ImageGroup>
-                                    <Image
-                                        src={this.genSrc(r.req.receipt)}
-                                        alt="receipt"
-                                        style={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            right: 0,
-                                            bottom: 0,
-                                            height: '100px',
-                                            width: '100%',
-                                            objectFit: 'cover',
-                                        }}
-                                    />
-                                </ImageGroup> */}
                                 <img
                                     src={this.genSrc(r.req.receipt)}
                                     alt="receipt"

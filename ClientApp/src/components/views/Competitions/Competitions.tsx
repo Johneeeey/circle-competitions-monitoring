@@ -68,7 +68,7 @@ class Competitions extends Component<CompetitionsProps, CompetitionsState>{
                 competitions = competitions.filter(c => c.type === type);
             }
             if (search.length > 0) {
-                competitions = competitions.filter(c => c.title.search(search) !== -1);
+                competitions = competitions.filter(c => c.title.toLowerCase().search(search.toLowerCase()) !== -1);
             }
         }
         return (
