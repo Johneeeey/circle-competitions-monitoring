@@ -87,6 +87,24 @@ namespace circle_competitions_monitoring.Controllers
         }
         [HttpPost]
         [Authorize]
+        public List<Payment_Participant> RemovePaymentParticipant([FromBody] Payment_Participant participant, int userId)
+        {
+            db.Remove(participant);
+            db.SaveChanges();
+            List<Registered_Sportsman> registered_sportsmen = db.Registered_Sportsman.Where(rS => rS.user == userId).ToList();
+            List<Payment_Participant> participants = new List<Payment_Participant>();
+            foreach (Registered_Sportsman rS in registered_sportsmen)
+            {
+                Sportsman sportsman = db.Sportsman.FirstOrDefault(s => s.id == rS.sportsman);
+                if (sportsman != null)
+                {
+                    participants.AddRange(db.Payment_Participant.Where(p => p.sportsman == sportsman.id));
+                }
+            }
+            return participants;
+        }
+        [HttpPost]
+        [Authorize]
         public List<Payment_Participant> UpdatePaymentParticipantStatus([FromBody] List<Payment_Participant> payments)
         {
             foreach (Payment_Participant payment in payments)

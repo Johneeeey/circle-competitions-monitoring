@@ -126,7 +126,7 @@ namespace circle_competitions_monitoring.Controllers
         {
             var Claims = new List<Claim> {
                 new Claim (ClaimsIdentity.DefaultNameClaimType, user.id.ToString ()),
-                new Claim (ClaimsIdentity.DefaultRoleClaimType, 2. ToString ())
+                new Claim (ClaimsIdentity.DefaultRoleClaimType, 1. ToString ())
             };
             ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(Claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

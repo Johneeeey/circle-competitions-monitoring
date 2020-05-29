@@ -10,6 +10,7 @@ import {
 import { Dispatch } from 'redux';
 import { request, response } from '../../../actions/user.action';
 import CompetitionService from '../../../services/competition.service';
+import SportsmanService from '../../../services/sportsman.service';
 import DateService from '../../../helpers/date.helper';
 import { connect } from 'react-redux';
 
@@ -69,7 +70,7 @@ class UserRequests extends Component<IProps, IState> {
 
     remove(participant: IPaymentParticipant) {
         this.props.request();
-        CompetitionService.RemovePaymentParticipant(participant, this.props.user.id)
+        SportsmanService.RemovePaymentParticipant(participant, this.props.user.id)
             .then((newRequests: IPaymentParticipant[]) => {
                 let requests: IRequestsStruct[] = [];
                 newRequests.forEach((r: IPaymentParticipant) => {
