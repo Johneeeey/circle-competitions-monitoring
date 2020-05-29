@@ -44,11 +44,6 @@ namespace circle_competitions_monitoring.Controllers
         }
         
         [HttpGet]
-        public List<Stage_Info> GetStagesInfo(int id)
-        {
-            return this.db.Stage_Info.Where(sI => sI.competition == id).ToList();
-        }
-        [HttpGet]
         public List<Competition_type> GetCompetitionTypes()
         {
             return db.Competition_Type.ToList();

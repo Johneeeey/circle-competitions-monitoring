@@ -29,7 +29,7 @@ class ResultDetail extends Component<DetailProps, DetailState> {
         }
     }
     componentDidMount() {
-        CompetitionService.GetStagesInfo(this.props.competition.id)
+        CompetitionService.GetCompetitionStagesInfo(this.props.competition.id)
             .then((stagesInfo: IStage_Info[]) => {
                 this.setState({ stagesInfo });
             })

@@ -77,31 +77,6 @@ class CompetitionService {
                 .catch(err => error(err))
         })
     }
-        /**
-     * Вытигивание данных о стадиях соревнования из БД
-     * @param {number} id - идентификационный номер соревнования
-     * @returns {Promise<IStage_Info[]>}
-     */
-    public GetStagesInfo(id: number): Promise<IStage_Info[]> {
-        return new Promise((result, error) => {
-            fetch(`/Competition/GetStagesInfo?id=${id}`, {
-                method: "GET",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => {
-                    if (response.status !== 200) {
-                        throw Error("Не удалось получить список информации стадиях");
-                    } else {
-                        return response.json();
-                    }
-                })
-                .then(data => result(data))
-                .catch(err => error(err))
-        })
-    }
     /**
      * Сохранение задания
      * @param {ICompetition} competition - соревнования
