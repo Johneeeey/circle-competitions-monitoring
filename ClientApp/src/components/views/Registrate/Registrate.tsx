@@ -7,6 +7,8 @@ import { registrateUser } from '../../../actions/user.action';
 import './Registrate.scss';
 
 interface registrateProps {
+    user: IUser;
+    regError: boolean;
     close: () => void;
     registrate: (user: IUser) => void;
 }
@@ -14,6 +16,7 @@ interface registrateState {
     user: IUser,
     isSecondPasswordCorrect: boolean,
     isFormValid: boolean
+    didTry: boolean;
 }
 
 class Registrate extends Component<registrateProps, registrateState>{
@@ -27,13 +30,20 @@ class Registrate extends Component<registrateProps, registrateState>{
                 e_mail: "",
                 login: "",
                 password: "",
-                role: 1
+                role: 1,
             },
+            didTry: false,
             isFormValid: false,
             isSecondPasswordCorrect: true
         }
         this.submitPassword = this.submitPassword.bind(this);
         this.validation = this.validation.bind(this);
+        this.registrateHandler = this.registrateHandler.bind(this);
+    }
+    componentDidUpdate(prevProps: registrateProps, prevState: registrateState) {
+        if (!this.props.regError && this.state.didTry && this.props.user) {
+            this.props.close();
+        }
     }
     submitPassword(event: React.ChangeEvent<HTMLInputElement>) {
         event.persist();
@@ -49,7 +59,7 @@ class Registrate extends Component<registrateProps, registrateState>{
     }
     registrateHandler() {
         this.props.registrate(this.state.user);
-        this.props.close();
+        this.setState({ didTry: true })
     }
     validation() {
         if (this.state.user.name
@@ -155,6 +165,10 @@ class Registrate extends Component<registrateProps, registrateState>{
                                 : 'inp-base form-control error'}
                             onChange={this.submitPassword} />
                     </div>
+                    {this.props.regError ?
+                        <span className="error">Логин уже занят</span>
+                        : null
+                    }
                     <button className="btn registrate"
                         disabled={!this.state.isFormValid}
                         onClick={() => this.registrateHandler()}>
@@ -166,8 +180,13 @@ class Registrate extends Component<registrateProps, registrateState>{
     }
 }
 
+const mapStateToProps = (state: any) => ({
+    regError: state.user.regError,
+    user: state.user.user
+})
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     registrate: (user: IUser) => dispatch(registrateUser(user) as any)
 })
 
-export default connect(null, mapDispatchToProps)(Registrate);
+export default connect(mapStateToProps, mapDispatchToProps)(Registrate);

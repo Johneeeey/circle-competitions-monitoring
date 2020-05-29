@@ -36,6 +36,7 @@ export const REQUEST = 'REQUEST';
 export const RESPONSE = 'RESPONSE';
 export const RESPONSE_LOGIN = 'RESOPONSE_LOGIN';
 export const SET_ERROR_LOGIN = 'SET_ERROR_LOGIN';
+export const SET_ERROR_REG = 'SET_ERROR_REG';
 export const CANT_GET_USER = 'CANT_GET_USER';
 export const LOGOUT = 'LOGOUT';
 
@@ -49,6 +50,10 @@ interface Response {
 
 interface ErrorRequestLogin {
     type: typeof SET_ERROR_LOGIN
+}
+
+interface ErrorRequestRegistrate {
+    type: typeof SET_ERROR_REG
 }
 
 interface CantGetUser {
@@ -69,6 +74,7 @@ export type UserActionTypes =
     Request |
     Response |
     ErrorRequestLogin |
+    ErrorRequestRegistrate |
     ResponseLogin |
     CantGetUser |
     Logout;

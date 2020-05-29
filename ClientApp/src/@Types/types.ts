@@ -12,6 +12,7 @@ export interface IUserState {
     user: IUser | null,
     isFetching: boolean,
     loginError: boolean
+    regError: boolean
 }
 
 export interface IRole {

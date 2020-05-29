@@ -2,6 +2,7 @@ import {
     REQUEST,
     RESPONSE,
     SET_ERROR_LOGIN,
+    SET_ERROR_REG,
     RESPONSE_LOGIN,
     CANT_GET_USER,
     LOGOUT
@@ -24,6 +25,9 @@ const responseLogin = (user: IUser) => ({
 
 const setErrorLogin = () => ({
     type: SET_ERROR_LOGIN
+})
+const setErrorRegistration = () => ({
+    type: SET_ERROR_REG
 })
 
 const cantGetUser = () => ({
@@ -99,6 +103,9 @@ export function registrateUser(user: IUser) {
                 localStorage.setItem('access_token', data.access_token);
                 dispatch(responseLogin(data.user))
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+                dispatch(setErrorRegistration())
+            });
     }
 }

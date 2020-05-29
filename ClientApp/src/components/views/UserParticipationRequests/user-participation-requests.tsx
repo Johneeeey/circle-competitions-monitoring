@@ -46,18 +46,23 @@ class UserRequests extends Component<IProps, IState> {
             .then((statuses: IRequest_Status[]) => {
                 CompetitionService.GetParticipantsByUser(this.props.user.id)
                     .then((requests: IPaymentParticipant[]) => {
-                        requests.forEach((r: IPaymentParticipant) => {
-                            const sportsman = this.props.sportsmen.find(s => s.id === r.sportsman);
-                            if (sportsman) {
-                                this.setState({
-                                    statuses,
-                                    requests: [...this.state.requests, {
-                                        sp: sportsman,
-                                        req: r,
-                                    }]
-                                }, () => this.props.response())
-                            }
-                        })
+                        if (requests.length > 0) {
+                            requests.forEach((r: IPaymentParticipant) => {
+                                const sportsman = this.props.sportsmen.find(s => s.id === r.sportsman);
+                                if (sportsman) {
+                                    this.setState({
+                                        statuses,
+                                        requests: [...this.state.requests, {
+                                            sp: sportsman,
+                                            req: r,
+                                        }]
+                                    }, () => this.props.response())
+                                }
+                            })
+                        } else {
+                            this.props.response()
+                            return;
+                        }
                     })
             })
     }

@@ -1,3 +1,4 @@
+@import "../../../styles/variables";
 .registrate-container {
     position: absolute;
     z-index: 99;
@@ -35,7 +36,7 @@
             .inp-base {
                 width: 90%;
                 margin-left: 5%;
-                height:30px;
+                height: 30px;
             }
             .error {
                 border-color: red;
@@ -43,10 +44,12 @@
             }
         }
     }
+    .error {
+        color: $alert;
+    }
     .registrate {
         width: 90%;
-        margin-left: 5px;
-        margin-top: 30px;
+        margin-top: 10px;
         height: 36px;
         background-color: #00d19d;
         &:hover {
