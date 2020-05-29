@@ -30,12 +30,12 @@ namespace circle_competitions_monitoring.Controllers
         }
 
         [HttpPost]
-        public async Task Authorize(string login, string password)
+        public async Task Authorize([FromBody]LoginForm form)
         {
-            ClaimsIdentity identity = GetIdentity(login, password);
+            ClaimsIdentity identity = GetIdentity(form.login, form.password);
             if (identity == null)
             {
-                Response.StatusCode = 404;
+                Response.StatusCode = 400;
                 return;
             }
             else
@@ -73,7 +73,7 @@ namespace circle_competitions_monitoring.Controllers
             User checkUser = users.FirstOrDefault(u => u.login == user.login);
             if (checkUser != null)
             {
-                Response.StatusCode = 404;
+                Response.StatusCode = 400;
                 return;
             }
             db.User.Add(user);

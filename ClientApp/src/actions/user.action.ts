@@ -68,12 +68,16 @@ export function getUserByToken() {
 export function loginUser(login: string, password: string) {
     return function (dispatch: Dispatch) {
         dispatch(request());
-        return fetch(`/Account/Authorize?login=${login}&password=${password}`, {
+        return fetch(`/Account/Authorize`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-type': 'application/json'
             },
+            body:JSON.stringify({
+                login,
+                password
+            })
         })
             .then(response => response.json())
             .then(data => {
