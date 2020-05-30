@@ -2,27 +2,6 @@ import { ICircle, IResult, IStage } from "../@Types/types";
 
 class ResultService {
     /**
-     * Перерасчет мест в круге
-     * @param {ICircle[]} circles - результаты всех спортсменнов на одном круге
-     * @return {ICircle[]}
-     */
-    public RecalculationCirclePlaces(circles: ICircle[]): ICircle[] {
-        for (let i = 0; i < circles.length; i++) {
-            for (let j = 1; j < circles.length; j++) {
-                if (circles[j].points < circles[j - 1].points) {
-                    const temp = circles[j];
-                    circles[j] = circles[j - 1];
-                    circles[j - 1] = temp;
-                }
-            }
-        }
-        circles = circles.reverse();
-        for (let i = 0; i < circles.length; i++) {
-            circles[i].place = i + 1;
-        }
-        return circles;
-    }
-    /**
      * Сохранение результата в БД
      * @param {IResult} result - результат, который необходимо сохранить
      * @return {Promes<IResult>}
