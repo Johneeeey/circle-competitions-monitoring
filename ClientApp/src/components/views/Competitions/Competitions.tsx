@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { IUser, ICompetition, ICompetitionType, Competition } from '../../../@Types/types';
 import { Link } from 'react-router-dom';
 
-import Filter from '../Filter';
+import Filter from '../../widgets/Filter';
 import CompetitionsList from './CompetitionsList';
 import CompetitionDetail from './CompetitionDetail';
 import RequestParticipation from './RequestParticipation';

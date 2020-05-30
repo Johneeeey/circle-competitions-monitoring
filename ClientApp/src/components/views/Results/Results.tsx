@@ -3,7 +3,7 @@ import { IUser, ICompetition, ICompetitionType, IResult, IStage, ICircle, ISport
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import Filter from '../Filter';
+import Filter from '../../widgets/Filter';
 import ResultsList from './ResultsList';
 import ResultDetail from './ResultDetail';
 
