@@ -30,7 +30,6 @@ interface appComponentState {
 }
 interface appComponentProps {
   isUserFetching: boolean;
-  selectedType: number;
   isCompetitionFetching: boolean;
   isResultFetching: boolean;
   areTypesFetching: boolean;
@@ -129,7 +128,6 @@ class App extends Component<appComponentProps, appComponentState> {
 
 const mapStateToProps = (state: any) => ({
   isUserFetching: state.user.isFetching,
-  selectedType: state.filter.selectedType,
   isCompetitionFetching: state.competition.isFetching,
   isResultFetching: state.result.isFetching,
   areTypesFetching: state.filter.isFetching

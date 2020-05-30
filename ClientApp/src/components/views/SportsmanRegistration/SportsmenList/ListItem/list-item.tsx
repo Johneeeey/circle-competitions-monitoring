@@ -12,22 +12,22 @@ interface Props {
     receipt: string | null;
     index: number;
     deleteItem: (index: number) => void;
-    nameChangeHangler: (id: number, value: string) => void;
-    surnameChangeHangler: (id: number, value: string) => void;
-    patronymicChangeHangler: (id: number, value: string) => void;
-    birthdayChangeHangler: (id: number, value: Date) => void;
-    rankChangeHangler: (id: number, value: string) => void;
-    teamChangeHangler: (id: number, value: string) => void;
-    passNumChangeHangler: (id: number, value: string) => void;
-    passSeriesChangeHangler: (id: number, value: string) => void;
-    passPlaceChangeHangler: (id: number, value: string) => void;
-    passOrgChangeHangler: (id: number, value: string) => void;
-    passOrgCodeChangeHangler: (id: number, value: string) => void;
-    passDateChangeHangler: (id: number, value: Date) => void;
-    birthSertSeriesChangeHangler: (id: number, value: string) => void;
-    birthSertNumberChangeHangler: (id: number, value: string) => void;
-    birthSertPlaceChangeHangler: (id: number, value: string) => void;
-    birthSertDateChangeHangler: (id: number, value: Date) => void;
+    nameChangeHandler: (id: number, value: string) => void;
+    surnameChangeHandler: (id: number, value: string) => void;
+    patronymicChangeHandler: (id: number, value: string) => void;
+    birthdayChangeHandler: (id: number, value: Date) => void;
+    rankChangeHandler: (id: number, value: string) => void;
+    teamChangeHandler: (id: number, value: string) => void;
+    passNumChangeHandler: (id: number, value: string) => void;
+    passSeriesChangeHangder: (id: number, value: string) => void;
+    passPlaceChangeHandler: (id: number, value: string) => void;
+    passOrgChangeHadgler: (id: number, value: string) => void;
+    passOrgCodeChangeHandler: (id: number, value: string) => void;
+    passDateChangeHandler: (id: number, value: Date) => void;
+    birthSertSeriesChangeHandler: (id: number, value: string) => void;
+    birthSertNumberChangeHandler: (id: number, value: string) => void;
+    birthSertPlaceChangeHandler: (id: number, value: string) => void;
+    birthSertDateChangeHandler: (id: number, value: Date) => void;
     validationStatusChangeHandler: (val: boolean) => void;
     docTypeChangeHandler: (id: number, value: number) => void;
     receiptChangeHandler: (id: number, value: string) => void;
@@ -317,7 +317,7 @@ class ListItem extends Component<Props, State> {
                             name="surname"
                             id="surname"
                             maxLength={30}
-                            onChange={e => this.props.surnameChangeHangler(index, e.target.value)} />
+                            onChange={e => this.props.surnameChangeHandler(index, e.target.value)} />
                     </div>
                     <div className="name">
                         <label htmlFor="name">Имя</label>
@@ -328,7 +328,7 @@ class ListItem extends Component<Props, State> {
                             name="name"
                             id="name"
                             maxLength={30}
-                            onChange={e => this.props.nameChangeHangler(index, e.target.value)} />
+                            onChange={e => this.props.nameChangeHandler(index, e.target.value)} />
                     </div>
                     <div className="patronymic">
                         <label htmlFor="patronymic">Отчество</label>
@@ -339,14 +339,14 @@ class ListItem extends Component<Props, State> {
                             name="patronymic"
                             id="patronymic"
                             maxLength={30}
-                            onChange={e => this.props.patronymicChangeHangler(index, e.target.value)} />
+                            onChange={e => this.props.patronymicChangeHandler(index, e.target.value)} />
                     </div>
                     <DateTimePicker
                         readOnly={false}
                         value={sportsman.birthday}
                         secondField={false}
                         className={this.state.birthdayError ? "border border-danger" : ""}
-                        changeDate={(date: Date) => this.props.birthdayChangeHangler(index, date)}
+                        changeDate={(date: Date) => this.props.birthdayChangeHandler(index, date)}
                     />
                 </div>
                 <div className="document-data">
@@ -373,7 +373,7 @@ class ListItem extends Component<Props, State> {
                                     name="series"
                                     id="series"
                                     maxLength={4}
-                                    onChange={e => this.props.passSeriesChangeHangler(index, e.target.value)} />
+                                    onChange={e => this.props.passSeriesChangeHangder(index, e.target.value)} />
                             </div>
                             <div className="number">
                                 <label htmlFor="number">Номер</label>
@@ -384,7 +384,7 @@ class ListItem extends Component<Props, State> {
                                     name="number"
                                     id="number"
                                     maxLength={6}
-                                    onChange={e => this.props.passNumChangeHangler(index, e.target.value)} />
+                                    onChange={e => this.props.passNumChangeHandler(index, e.target.value)} />
                             </div>
                             <div className="issuePlace">
                                 <label htmlFor="issuePlace">Место выдачи</label>
@@ -395,7 +395,7 @@ class ListItem extends Component<Props, State> {
                                     name="issuePlace"
                                     id="issuePlace"
                                     maxLength={100}
-                                    onChange={e => this.props.passPlaceChangeHangler(index, e.target.value)} />
+                                    onChange={e => this.props.passPlaceChangeHandler(index, e.target.value)} />
                             </div>
                             <div className="issueOrg">
                                 <label htmlFor="issueOrg">Организация выдачи</label>
@@ -406,13 +406,13 @@ class ListItem extends Component<Props, State> {
                                     name="issueOrg"
                                     id="issueOrg"
                                     maxLength={70}
-                                    onChange={e => this.props.passOrgChangeHangler(index, e.target.value)} />
+                                    onChange={e => this.props.passOrgChangeHadgler(index, e.target.value)} />
                             </div>
                             <DateTimePicker
                                 readOnly={false}
                                 value={pass?.date_of_issue || new Date()}
                                 secondField={false}
-                                changeDate={(date: Date) => this.props.passDateChangeHangler(index, date)}
+                                changeDate={(date: Date) => this.props.passDateChangeHandler(index, date)}
                                 className={this.state.passDateError ? "border border-danger" : ""}
                             />
                             <div className="orgCode">
@@ -424,7 +424,7 @@ class ListItem extends Component<Props, State> {
                                     name="orgCode"
                                     id="orgCode"
                                     maxLength={7}
-                                    onChange={e => this.props.passOrgCodeChangeHangler(index, e.target.value)} />
+                                    onChange={e => this.props.passOrgCodeChangeHandler(index, e.target.value)} />
                             </div>
                         </div>
                         :
@@ -438,7 +438,7 @@ class ListItem extends Component<Props, State> {
                                     name="series"
                                     id="series"
                                     maxLength={5}
-                                    onChange={e => this.props.birthSertSeriesChangeHangler(index, e.target.value)} />
+                                    onChange={e => this.props.birthSertSeriesChangeHandler(index, e.target.value)} />
                             </div>
                             <div className="number">
                                 <label htmlFor="number">Номер</label>
@@ -449,7 +449,7 @@ class ListItem extends Component<Props, State> {
                                     name="number"
                                     id="number"
                                     maxLength={10}
-                                    onChange={e => this.props.birthSertNumberChangeHangler(index, e.target.value)} />
+                                    onChange={e => this.props.birthSertNumberChangeHandler(index, e.target.value)} />
                             </div>
                             <div className="issuePlace">
                                 <label htmlFor="issuePlace">Место выдачи</label>
@@ -460,13 +460,13 @@ class ListItem extends Component<Props, State> {
                                     name="issuePlace"
                                     id="issuePlace"
                                     maxLength={70}
-                                    onChange={e => this.props.birthSertPlaceChangeHangler(index, e.target.value)} />
+                                    onChange={e => this.props.birthSertPlaceChangeHandler(index, e.target.value)} />
                             </div>
                             <DateTimePicker
                                 readOnly={false}
                                 value={birthSert?.date_of_issue || new Date()}
                                 secondField={false}
-                                changeDate={(date: Date) => this.props.birthSertDateChangeHangler(index, date)}
+                                changeDate={(date: Date) => this.props.birthSertDateChangeHandler(index, date)}
                                 className={this.state.birthSertDateError ? "border border-danger" : ""}
                             />
                         </div>
@@ -482,7 +482,7 @@ class ListItem extends Component<Props, State> {
                             name="rank"
                             id="rank"
                             maxLength={20}
-                            onChange={e => this.props.rankChangeHangler(index, e.target.value)} />
+                            onChange={e => this.props.rankChangeHandler(index, e.target.value)} />
                     </div>
                     <div className="team">
                         <label htmlFor="rank">Команда</label>
@@ -493,7 +493,7 @@ class ListItem extends Component<Props, State> {
                             name="team"
                             id="team"
                             maxLength={30}
-                            onChange={e => this.props.teamChangeHangler(index, e.target.value)} />
+                            onChange={e => this.props.teamChangeHandler(index, e.target.value)} />
                     </div>
                 </div>
                 {this.props.competition.entry_fee > 0 ?

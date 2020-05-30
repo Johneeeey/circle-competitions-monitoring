@@ -24,7 +24,7 @@ interface IState {
     showAlert: boolean;
     sportsmen: ISportsmenListItem[];
     competition: ICompetition;
-    areFromsValid: boolean;
+    areFormsValid: boolean;
     redirect: boolean;
 }
 
@@ -43,27 +43,27 @@ class SportsmanRegistration extends Component<IProps, IState> {
                         receipt: ""
                     }
                 ],
-            areFromsValid: false,
+            areFormsValid: false,
             redirect: false
         }
         this.addSportsman = this.addSportsman.bind(this);
         this.deleteSportsman = this.deleteSportsman.bind(this);
-        this.nameChangeHangler = this.nameChangeHangler.bind(this);
-        this.surnameChangeHangler = this.surnameChangeHangler.bind(this);
-        this.patronymicChangeHangler = this.patronymicChangeHangler.bind(this);
-        this.birthdayChangeHangler = this.birthdayChangeHangler.bind(this);
-        this.rankChangeHangler = this.rankChangeHangler.bind(this);
-        this.teamChangeHangler = this.teamChangeHangler.bind(this);
-        this.passNumChangeHangler = this.passNumChangeHangler.bind(this);
-        this.passSeriesChangeHangler = this.passSeriesChangeHangler.bind(this);
-        this.passPlaceChangeHangler = this.passPlaceChangeHangler.bind(this);
-        this.passOrgChangeHangler = this.passOrgChangeHangler.bind(this);
-        this.passOrgCodeChangeHangler = this.passOrgCodeChangeHangler.bind(this);
-        this.passDateChangeHangler = this.passDateChangeHangler.bind(this);
-        this.birthSertSeriesChangeHangler = this.birthSertSeriesChangeHangler.bind(this);
-        this.birthSertNumberChangeHangler = this.birthSertNumberChangeHangler.bind(this);
-        this.birthSertPlaceChangeHangler = this.birthSertPlaceChangeHangler.bind(this);
-        this.birthSertDateChangeHangler = this.birthSertDateChangeHangler.bind(this);
+        this.nameChangeHandler = this.nameChangeHandler.bind(this);
+        this.surnameChangeHandler = this.surnameChangeHandler.bind(this);
+        this.patronymicChangeHandler = this.patronymicChangeHandler.bind(this);
+        this.birthdayChangeHandler = this.birthdayChangeHandler.bind(this);
+        this.rankChangeHandler = this.rankChangeHandler.bind(this);
+        this.teamChangeHandler = this.teamChangeHandler.bind(this);
+        this.passNumChangeHandler = this.passNumChangeHandler.bind(this);
+        this.passSeriesChangeHangder = this.passSeriesChangeHangder.bind(this);
+        this.passPlaceChangeHandler = this.passPlaceChangeHandler.bind(this);
+        this.passOrgChangeHadgler = this.passOrgChangeHadgler.bind(this);
+        this.passOrgCodeChangeHandler = this.passOrgCodeChangeHandler.bind(this);
+        this.passDateChangeHandler = this.passDateChangeHandler.bind(this);
+        this.birthSertSeriesChangeHandler = this.birthSertSeriesChangeHandler.bind(this);
+        this.birthSertNumberChangeHandler = this.birthSertNumberChangeHandler.bind(this);
+        this.birthSertPlaceChangeHandler = this.birthSertPlaceChangeHandler.bind(this);
+        this.birthSertDateChangeHandler = this.birthSertDateChangeHandler.bind(this);
         this.validationStatusChangeHandler = this.validationStatusChangeHandler.bind(this);
         this.docTypeChangeHandler = this.docTypeChangeHandler.bind(this);
         this.receiptChangeHandler = this.receiptChangeHandler.bind(this);
@@ -105,37 +105,37 @@ class SportsmanRegistration extends Component<IProps, IState> {
         this.setState({ sportsmen });
     }
 
-    nameChangeHangler(id: number, value: string) {
+    nameChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen;
         sportsmen[id].sportsman.name = value;
         this.setState({ sportsmen });
     }
-    surnameChangeHangler(id: number, value: string) {
+    surnameChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen;
         sportsmen[id].sportsman.surname = value;
         this.setState({ sportsmen });
     }
-    patronymicChangeHangler(id: number, value: string) {
+    patronymicChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen;
         sportsmen[id].sportsman.patronymic = value;
         this.setState({ sportsmen });
     }
-    birthdayChangeHangler(id: number, value: Date) {
+    birthdayChangeHandler(id: number, value: Date) {
         const sportsmen = this.state.sportsmen;
         sportsmen[id].sportsman.birthday = value;
         this.setState({ sportsmen });
     }
-    rankChangeHangler(id: number, value: string) {
+    rankChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen;
         sportsmen[id].sportsman.rank = value;
         this.setState({ sportsmen });
     }
-    teamChangeHangler(id: number, value: string) {
+    teamChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen;
         sportsmen[id].sportsman.team = value;
         this.setState({ sportsmen });
     }
-    passNumChangeHangler(id: number, value: string) {
+    passNumChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen
         let pass = sportsmen[id].pass;
         if (pass) {
@@ -147,7 +147,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].pass = pass;
         this.setState({ sportsmen });
     }
-    passSeriesChangeHangler(id: number, value: string) {
+    passSeriesChangeHangder(id: number, value: string) {
         const sportsmen = this.state.sportsmen
         let pass = sportsmen[id].pass;
         if (pass) {
@@ -159,7 +159,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].pass = pass;
         this.setState({ sportsmen });
     }
-    passPlaceChangeHangler(id: number, value: string) {
+    passPlaceChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen
         let pass = sportsmen[id].pass;
         if (pass) {
@@ -171,7 +171,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].pass = pass;
         this.setState({ sportsmen });
     }
-    passOrgChangeHangler(id: number, value: string) {
+    passOrgChangeHadgler(id: number, value: string) {
         const sportsmen = this.state.sportsmen
         let pass = sportsmen[id].pass;
         if (pass) {
@@ -183,7 +183,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].pass = pass;
         this.setState({ sportsmen });
     }
-    passOrgCodeChangeHangler(id: number, value: string) {
+    passOrgCodeChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen
         let pass = sportsmen[id].pass;
         if (pass) {
@@ -195,7 +195,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].pass = pass;
         this.setState({ sportsmen });
     }
-    passDateChangeHangler(id: number, value: Date) {
+    passDateChangeHandler(id: number, value: Date) {
         const sportsmen = this.state.sportsmen
         let pass = sportsmen[id].pass;
         if (pass) {
@@ -207,7 +207,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].pass = pass;
         this.setState({ sportsmen });
     }
-    birthSertSeriesChangeHangler(id: number, value: string) {
+    birthSertSeriesChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen
         let birthSertificate = sportsmen[id].birthSertificate;
         if (birthSertificate) {
@@ -219,7 +219,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].birthSertificate = birthSertificate;
         this.setState({ sportsmen });
     }
-    birthSertNumberChangeHangler(id: number, value: string) {
+    birthSertNumberChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen
         let birthSertificate = sportsmen[id].birthSertificate;
         if (birthSertificate) {
@@ -231,7 +231,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].birthSertificate = birthSertificate;
         this.setState({ sportsmen });
     }
-    birthSertPlaceChangeHangler(id: number, value: string) {
+    birthSertPlaceChangeHandler(id: number, value: string) {
         const sportsmen = this.state.sportsmen
         let birthSertificate = sportsmen[id].birthSertificate;
         if (birthSertificate) {
@@ -243,7 +243,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
         sportsmen[id].birthSertificate = birthSertificate;
         this.setState({ sportsmen });
     }
-    birthSertDateChangeHangler(id: number, value: Date) {
+    birthSertDateChangeHandler(id: number, value: Date) {
         const sportsmen = this.state.sportsmen
         let birthSertificate = sportsmen[id].birthSertificate;
         if (birthSertificate) {
@@ -273,7 +273,7 @@ class SportsmanRegistration extends Component<IProps, IState> {
     }
 
     validationStatusChangeHandler(val: boolean) {
-        this.setState({ areFromsValid: val })
+        this.setState({ areFormsValid: val })
     }
 
     save() {
@@ -373,22 +373,22 @@ class SportsmanRegistration extends Component<IProps, IState> {
                         competition={this.state.competition}
                         sportsmen={sportsmen}
                         deleteSportsman={this.deleteSportsman}
-                        nameChangeHangler={this.nameChangeHangler}
-                        surnameChangeHangler={this.surnameChangeHangler}
-                        patronymicChangeHangler={this.patronymicChangeHangler}
-                        birthdayChangeHangler={this.birthdayChangeHangler}
-                        rankChangeHangler={this.rankChangeHangler}
-                        teamChangeHangler={this.teamChangeHangler}
-                        passNumChangeHangler={this.passNumChangeHangler}
-                        passSeriesChangeHangler={this.passSeriesChangeHangler}
-                        passPlaceChangeHangler={this.passPlaceChangeHangler}
-                        passOrgChangeHangler={this.passOrgChangeHangler}
-                        passOrgCodeChangeHangler={this.passOrgCodeChangeHangler}
-                        passDateChangeHangler={this.passDateChangeHangler}
-                        birthSertSeriesChangeHangler={this.birthSertSeriesChangeHangler}
-                        birthSertNumberChangeHangler={this.birthSertNumberChangeHangler}
-                        birthSertPlaceChangeHangler={this.birthSertPlaceChangeHangler}
-                        birthSertDateChangeHangler={this.birthSertDateChangeHangler}
+                        nameChangeHandler={this.nameChangeHandler}
+                        surnameChangeHandler={this.surnameChangeHandler}
+                        patronymicChangeHandler={this.patronymicChangeHandler}
+                        birthdayChangeHandler={this.birthdayChangeHandler}
+                        rankChangeHandler={this.rankChangeHandler}
+                        teamChangeHandler={this.teamChangeHandler}
+                        passNumChangeHandler={this.passNumChangeHandler}
+                        passSeriesChangeHangder={this.passSeriesChangeHangder}
+                        passPlaceChangeHandler={this.passPlaceChangeHandler}
+                        passOrgChangeHadgler={this.passOrgChangeHadgler}
+                        passOrgCodeChangeHandler={this.passOrgCodeChangeHandler}
+                        passDateChangeHandler={this.passDateChangeHandler}
+                        birthSertSeriesChangeHandler={this.birthSertSeriesChangeHandler}
+                        birthSertNumberChangeHandler={this.birthSertNumberChangeHandler}
+                        birthSertPlaceChangeHandler={this.birthSertPlaceChangeHandler}
+                        birthSertDateChangeHandler={this.birthSertDateChangeHandler}
                         validationStatusChangeHandler={this.validationStatusChangeHandler}
                         docTypeChangeHandler={this.docTypeChangeHandler}
                         receiptChangeHandler={this.receiptChangeHandler}
@@ -398,8 +398,8 @@ class SportsmanRegistration extends Component<IProps, IState> {
                         <span>Добавить спортсмена</span>
                     </div>
                     <button
-                        className={this.state.areFromsValid ? "btn btn-primary" : "btn btn-secondary"}
-                        disabled={!this.state.areFromsValid}
+                        className={this.state.areFormsValid ? "btn btn-primary" : "btn btn-secondary"}
+                        disabled={!this.state.areFormsValid}
                         onClick={() => this.save()}
                     >
                         Сохранить
