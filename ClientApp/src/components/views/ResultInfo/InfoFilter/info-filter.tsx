@@ -4,7 +4,6 @@ import { ICompetition, ISportsman } from '../../../../@Types/types';
 import './InfoFilter.scss';
 
 interface InfoFilterProps {
-    showCompetitionsFilter: boolean;
     competitions: ICompetition[];
     selectedCompetition: ICompetition;
     participants: ISportsman[];
@@ -26,32 +25,33 @@ class InfoFilter extends Component<InfoFilterProps> {
         const stage = this.props.selectedStageNum;
         return (
             <div className="info-filter">
-                {this.props.showCompetitionsFilter &&
-                    <div className="info-filter__competitions">
-                        <label htmlFor="competitions">Соревнования: </label>
-                        <select name="competitions"
-                            value={comp.id}
-                            id="competitions"
-                            onChange={this.props.handleChangeCompetition}
-                            className="form-control">
-                            {competitions && competitions.map((c: ICompetition, i: number) => (
-                                <option value={c.id} key={i}>{c.title}</option>
-                            ))}
-                        </select>
-                    </div>
-                }
-                <div className="info-filter__participants">
-                    <label htmlFor="participants">Участники: </label>
-                    <select name="partitcpants"
-                        value={part.id}
-                        id="participants"
-                        onChange={this.props.handleChangeParticipant}
+                <div className="info-filter__competitions">
+                    <label htmlFor="competitions">Соревнования: </label>
+                    <select name="competitions"
+                        value={comp?.id}
+                        id="competitions"
+                        onChange={this.props.handleChangeCompetition}
                         className="form-control">
-                        {participants && participants.map((p: ISportsman, i: number) => (
-                            <option value={p.id} key={i}>{p.surname + ". " + p.name[0] + ". " + (p.patronymic ? p.patronymic[0] + "." : "")}</option>
+                        {competitions && competitions.map((c: ICompetition, i: number) => (
+                            <option value={c.id} key={i}>{c.title}</option>
                         ))}
                     </select>
                 </div>
+                {participants && part ?
+                    <div className="info-filter__participants">
+                        <label htmlFor="participants">Участники: </label>
+                        <select name="partitcpants"
+                            value={part?.id}
+                            id="participants"
+                            onChange={this.props.handleChangeParticipant}
+                            className="form-control">
+                            {participants && participants.map((p: ISportsman, i: number) => (
+                                <option value={p.id} key={i}>{p.surname + ". " + p.name[0] + ". " + (p.patronymic ? p.patronymic[0] + "." : "")}</option>
+                            ))}
+                        </select>
+                    </div>
+                    : null
+                }
                 <div className="info-filter__stages">
                     <label htmlFor="stages">Стадия: </label>
                     <select name="stages"

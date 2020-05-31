@@ -48,7 +48,6 @@ interface ResultInfoProps extends RouteComponentProps<MatchParams> {
     getCircles: () => void;
 }
 interface ResultInfoState {
-    showCompetitionFilter: boolean;
     competitions: ICompetition[];
     selectedCompetition: ICompetition;
     participants: ISportsman[];
@@ -67,7 +66,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
     constructor(props: ResultInfoProps) {
         super(props);
         this.state = {
-            showCompetitionFilter: true,
             competitions: [],
             selectedCompetition: new Competition(),
             selectedParticipant: new Sportsman(),
@@ -87,12 +85,19 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
         this.handleChangeTimeOfFinish = this.handleChangeTimeOfFinish.bind(this);
         this.handleChangePoints = this.handleChangePoints.bind(this);
         this.updateResultInfo = this.updateResultInfo.bind(this);
-        this.recalculate = this.recalculate.bind(this);
         this.save = this.save.bind(this);
     }
     componentDidMount() {
         const id = Number(this.props.match.params.id);
-        const allCompetitions = this.props.competitions.filter((c: ICompetition) => new Date() >= new Date(c.date_of_start));
+        let allCompetitions = this.props.competitions.filter((c: ICompetition) => new Date() >= new Date(c.date_of_start));
+        allCompetitions.map((c: ICompetition, i: number) => {
+            competitionService.GetParticipantsByCompetition(c.id)
+                .then(data => {
+                    if (data.length === 0) {
+                        allCompetitions.splice(i, 1);
+                    }
+                })
+        })
         const selectedCompetition = allCompetitions.find(c => c.id === id) || allCompetitions[0];
         if (selectedCompetition) {
             let stagesInfo: IStage_Info[] = [];
@@ -131,7 +136,15 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
     }
     componentDidUpdate(prevProps: ResultInfoProps, prevState: ResultInfoState) {
         const id = Number(this.props.match.params.id);
-        const allCompetitions = this.props.competitions.filter((c: ICompetition) => new Date() >= new Date(c.date_of_start));
+        let allCompetitions = this.props.competitions.filter((c: ICompetition) => new Date() >= new Date(c.date_of_start));
+        allCompetitions.map((c: ICompetition, i: number) => {
+            competitionService.GetParticipantsByCompetition(c.id)
+                .then(data => {
+                    if (data.length === 0) {
+                        allCompetitions.splice(i, 1);
+                    }
+                })
+        })
         const selectedCompetition = this.state.selectedCompetition.id !== 0 ? this.state.selectedCompetition
             : allCompetitions.find(c => c.id === id) || allCompetitions[0];
         if (selectedCompetition && selectedCompetition.id !== prevState.selectedCompetition.id) {
@@ -280,15 +293,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
     getStage(resultId: number, stageNum: number): IStage | undefined {
         return this.props.allStages.find(s => s.result === resultId && s.stage_num === stageNum);
     }
-    getStagesWithNum(competitionId: number, stageNum: number): IStage[] {
-        const response: IStage[] = [];
-        const results = this.getParticipantsResults(competitionId);
-        results.forEach(r => {
-            const stages = this.props.allStages.filter(s => s.result === r.id && s.stage_num === stageNum);
-            stages.forEach(s => response.push(s))
-        })
-        return response;
-    }
     getAllStagesOfCompetition(competitionId: number): IStage[] {
         const response: IStage[] = [];
         const results = this.getParticipantsResults(competitionId);
@@ -297,16 +301,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
             stages.forEach(s => response.push(s))
         })
         return response;
-    }
-    getParticipantsStages(results: IResult[], stageNum: number): IStage[] {
-        const stages: IStage[] = [];
-        results.forEach((r: IResult) => {
-            const stage = this.props.allStages.find(s => s.result === r.id && s.stage_num === stageNum);
-            if (stage) {
-                stages.push(stage);
-            }
-        })
-        return stages;
     }
     getCircles(stageId: number): ICircle[] {
         return this.props.allCircles.filter(c => c.stage === stageId);
@@ -319,16 +313,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
             circles.forEach(c => response.push(c));
         })
         return response;
-    }
-    getParticipantsCircles(stages: IStage[], circleNum: number): ICircle[] {
-        const circles: ICircle[] = [];
-        stages.forEach((stage: IStage) => {
-            const circle = this.props.allCircles.find(c => c.stage === stage.id && c.circle_num === circleNum);
-            if (circle) {
-                circles.push(circle);
-            }
-        })
-        return circles;
     }
 
     handleChangeCompetition(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -357,88 +341,7 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
     handleChangePoints(idx: number, value: number) {
         const circles = [...this.state.circles];
         circles[idx].points = value;
-        this.setState({ circles }, () => this.recalculate());
-    }
-
-    recalculate() {
-        const circles = [...this.state.circles];
-        const stage = Object.assign({}, this.state.stage);
-        const stagePrevPoints = stage.points;
-        const result = Object.assign({}, this.state.result);
-        let circlesPointsSum = 0;
-        circles.forEach(c => circlesPointsSum += c.points);
-        stage.points = circlesPointsSum;
-        result.points = (result.points - stagePrevPoints + stage.points);
-        this.setState({
-            stage,
-            result
-        })
-        // const competition = this.state.selectedCompetition;
-        // const stageNum = this.state.selectedStageNumber;
-        // const participants = this.state.participants;
-        // const selectedParticipant = this.state.selectedParticipant;
-        // const stagesInfo = this.state.stagesInfo;
-        // const currentStageInfo = stagesInfo.find(s => s.stage_number === stageNum);
-        // const result = this.state.result;
-        // const stage = this.state.stage;
-        // const circle = this.state.circles.find(c => c.circle_num === circleNum) as ICircle;
-
-        // let results = this.getParticipantsResults(competition.id);
-        // if (results.length < participants.length) {
-        //     participants.forEach((p: ISportsman) => {
-        //         if (!results.find(r => r.sportsman === p.id)) {
-        //             results.push({
-        //                 id: 0,
-        //                 competition: competition.id,
-        //                 sportsman: p.id,
-        //                 points: 0,
-        //                 place: 0
-        //             })
-        //         }
-        //     })
-        // }
-        // let stages = this.getParticipantsStages(results, stageNum);
-        // if (stages.length < participants.length) {
-        //     participants.forEach((p: ISportsman) => {
-        //         if (!stages.find(s => s.sportsman === p.id)) {
-        //             stages.push({
-        //                 id: 0,
-        //                 result: 0,
-        //                 sportsman: p.id,
-        //                 stage_num: stageNum,
-        //                 stage_name: "",
-        //                 points: 0,
-        //                 place: 0
-        //             })
-        //         }
-        //     })
-        // }
-        // let circles = this.getParticipantsCircles(stages, circleNum);
-        // if (circles.length < participants.length) {
-        //     participants.forEach((p: ISportsman) => {
-        //         if (!circles.find(c => c.sportsman === p.id)) {
-        //             circles.push({
-        //                 id: 0,
-        //                 circle_name: "",
-        //                 circle_num: circleNum,
-        //                 stage: 0,
-        //                 distance: currentStageInfo?.one_circle_distance || 100,
-        //                 time_of_finish: "00:00:00",
-        //                 points: 0,
-        //                 place: 0,
-        //                 sportsman: p.id
-        //             })
-        //         }
-        //     })
-        // }
-        // for (let i = 0; i < circles.length; i++) {
-        //     if (circles[i].sportsman === selectedParticipant.id) {
-        //         circles[i] = circle;
-        //     }
-        // }
-        // circles = ResultService.RecalculationCirclePlaces(circles);
-        //записать в состояние новый круг с новыми данными (в общий массив кругов и кругов по стадии) (найти его в circles по participant и circle_num)
-        //после запустить метод перерасчета стадий
+        this.setState({ circles });
     }
 
     save() {
@@ -487,7 +390,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                     <InfoFilter
                         stagesNums={stagesNums}
                         selectedStageNum={selectedStageNumber}
-                        showCompetitionsFilter={this.state.showCompetitionFilter}
                         competitions={competitions}
                         participants={participants}
                         selectedCompetition={selectedCompetition}
