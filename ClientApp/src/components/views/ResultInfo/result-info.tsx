@@ -54,9 +54,6 @@ interface ResultInfoState {
     selectedParticipant: ISportsman;
     selectedStageNumber: number;
     stagesInfo: IStage_Info[];
-    allCompetitionResults: IResult[];
-    allCompetitionStages: IStage[];
-    allCompetitionCircles: ICircle[];
     result: IResult;
     stage: IStage;
     circles: ICircle[];
@@ -72,9 +69,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
             selectedStageNumber: 1,
             participants: [],
             stagesInfo: [],
-            allCompetitionCircles: [],
-            allCompetitionResults: [],
-            allCompetitionStages: [],
             result: new Result(),
             stage: new Stage(),
             circles: []
@@ -85,6 +79,7 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
         this.handleChangeTimeOfFinish = this.handleChangeTimeOfFinish.bind(this);
         this.handleChangePoints = this.handleChangePoints.bind(this);
         this.updateResultInfo = this.updateResultInfo.bind(this);
+        this.recalculate = this.recalculate.bind(this);
         this.save = this.save.bind(this);
     }
     componentDidMount() {
@@ -125,9 +120,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                                     selectedCompetition,
                                     participants,
                                     selectedParticipant,
-                                    allCompetitionResults: this.getParticipantsResults(selectedCompetition.id),
-                                    allCompetitionStages: this.getAllStagesOfCompetition(selectedCompetition.id),
-                                    allCompetitionCircles: this.getAllCirclesOfCompetition(selectedCompetition.id)
                                 }, () => this.updateResultInfo());
                             }
                         })
@@ -175,9 +167,6 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
                                     selectedCompetition,
                                     participants,
                                     selectedParticipant,
-                                    allCompetitionResults: this.getParticipantsResults(selectedCompetition.id),
-                                    allCompetitionStages: this.getAllStagesOfCompetition(selectedCompetition.id),
-                                    allCompetitionCircles: this.getAllCirclesOfCompetition(selectedCompetition.id)
                                 }, () => this.updateResultInfo())
                             }
                         })
@@ -341,7 +330,22 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
     handleChangePoints(idx: number, value: number) {
         const circles = [...this.state.circles];
         circles[idx].points = value;
-        this.setState({ circles });
+        this.setState({ circles }, () => this.recalculate());
+    }
+
+    recalculate() {
+        const circles = [...this.state.circles];
+        const stage = Object.assign({}, this.state.stage);
+        const stagePrevPoints = stage.points;
+        const result = Object.assign({}, this.state.result);
+        let circlesPointsSum = 0;
+        circles.forEach(c => circlesPointsSum += c.points);
+        stage.points = circlesPointsSum;
+        result.points = (result.points - stagePrevPoints + stage.points);
+        this.setState({
+            stage,
+            result
+        })
     }
 
     save() {
