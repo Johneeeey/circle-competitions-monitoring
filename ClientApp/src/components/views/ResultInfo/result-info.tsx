@@ -334,7 +334,7 @@ class ResultInfo extends Component<ResultInfoProps, ResultInfoState> {
     }
 
     recalculate() {
-        const circles = [...this.state.circles];
+        const circles = this.state.circles;
         const stage = Object.assign({}, this.state.stage);
         const stagePrevPoints = stage.points;
         const result = Object.assign({}, this.state.result);

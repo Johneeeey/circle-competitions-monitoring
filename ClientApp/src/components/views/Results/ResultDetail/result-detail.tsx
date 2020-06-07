@@ -75,7 +75,9 @@ class ResultDetail extends Component<DetailProps, DetailState> {
         const participantsResults = this.props.results.filter(r => r.competition === this.props.competition.id).sort(r => r.place);
         participantsResults.forEach((pR: IResult, i: number) => {
             const sportsman = this.props.sportsmen.find(s => s.id === pR.sportsman);
-            const participantStages = this.props.stages.filter(s => s.result === pR.id && s.sportsman === pR.sportsman).sort(s => s.stage_num);
+            const participantStages = this.props.stages.filter(s => s.result === pR.id && s.sportsman === pR.sportsman)
+                .sort((a, b) => a.stage_num < b.stage_num ? -1 : 1);
+            console.log(participantStages)
             response.push(
                 <tr key={i}>
                     <td>{pR.place}</td>
@@ -127,7 +129,7 @@ class ResultDetail extends Component<DetailProps, DetailState> {
                 && s.sportsman === sportsman?.id
                 && s.stage_num === stageNum);
             const participantCircles = this.props.circles.filter(c => c.stage === participantStage?.id
-                && c.sportsman === sportsman?.id).sort(c => c.circle_num);
+                && c.sportsman === sportsman?.id).sort((a, b) => a.circle_num < b.circle_num ? -1 : 1);
             response.push(
                 <tr key={i}>
                     <td>{participantStage ? participantStage.place : " "}</td>
